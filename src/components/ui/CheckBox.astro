@@ -1,0 +1,133 @@
+---
+/**
+ * CheckBox - Windows Forms風のチェックボックス
+ */
+interface Props {
+  /** ラベルテキスト */
+  label?: string;
+  /** チェック状態 */
+  checked?: boolean;
+  /** 不定状態 */
+  indeterminate?: boolean;
+  /** 無効化 */
+  disabled?: boolean;
+  /** name属性 */
+  name?: string;
+  /** id属性 */
+  id?: string;
+  /** value属性 */
+  value?: string;
+}
+
+const {
+  label = '',
+  checked = false,
+  indeterminate = false,
+  disabled = false,
+  name,
+  id,
+  value
+} = Astro.props;
+---
+
+<label class={`checkbox-container ${disabled ? 'checkbox-disabled' : ''}`}>
+  <input
+    type="checkbox"
+    class="checkbox-input"
+    checked={checked}
+    disabled={disabled}
+    name={name}
+    id={id}
+    value={value}
+  />
+  <span class="checkbox-box">
+    {checked && !indeterminate && <span class="checkbox-check">✓</span>}
+    {indeterminate && <span class="checkbox-indeterminate">─</span>}
+  </span>
+  {label && <span class="checkbox-label">{label}</span>}
+  <slot />
+</label>
+
+<style>
+  .checkbox-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    color: #000;
+    cursor: pointer;
+    user-select: none;
+    padding: 2px;
+  }
+
+  .checkbox-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .checkbox-box {
+    width: 13px;
+    height: 13px;
+    border: 1px solid #acacac;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .checkbox-check {
+    color: #000;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: bold;
+  }
+
+  .checkbox-indeterminate {
+    color: #000;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: bold;
+  }
+
+  .checkbox-label {
+    line-height: 1.5;
+  }
+
+  /* ホバー */
+  .checkbox-container:hover:not(.checkbox-disabled) .checkbox-box {
+    border-color: #7eb4ea;
+    background: #e5f3ff;
+  }
+
+  /* フォーカス */
+  .checkbox-input:focus + .checkbox-box {
+    outline: 1px dotted #000;
+    outline-offset: 2px;
+  }
+
+  /* チェック状態 */
+  .checkbox-input:checked + .checkbox-box {
+    background: #fff;
+    border-color: #0078d4;
+  }
+
+  /* 無効化 */
+  .checkbox-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .checkbox-disabled .checkbox-box {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+  }
+
+  .checkbox-disabled .checkbox-label {
+    color: #a0a0a0;
+  }
+</style>

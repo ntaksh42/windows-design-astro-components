@@ -1,0 +1,101 @@
+---
+/**
+ * Label - Windows Forms風のラベル
+ */
+interface Props {
+  /** 表示するテキスト */
+  text?: string;
+  /** テキストの配置 */
+  textAlign?: 'left' | 'center' | 'right';
+  /** ボーダースタイル */
+  borderStyle?: 'none' | 'fixedSingle' | 'fixed3D';
+  /** 自動サイズ調整 */
+  autoSize?: boolean;
+  /** 幅 */
+  width?: string;
+  /** HTMLのfor属性（関連する入力要素のID） */
+  htmlFor?: string;
+}
+
+const {
+  text = '',
+  textAlign = 'left',
+  borderStyle = 'none',
+  autoSize = false,
+  width,
+  htmlFor
+} = Astro.props;
+---
+
+{htmlFor ? (
+  <label
+    for={htmlFor}
+    class={`label label-border-${borderStyle} label-align-${textAlign} ${autoSize ? 'label-autosize' : ''}`}
+    style={width && !autoSize ? `width: ${width};` : undefined}
+  >
+    <slot>{text}</slot>
+  </label>
+) : (
+  <span
+    class={`label label-border-${borderStyle} label-align-${textAlign} ${autoSize ? 'label-autosize' : ''}`}
+    style={width && !autoSize ? `width: ${width};` : undefined}
+  >
+    <slot>{text}</slot>
+  </span>
+)}
+
+<style>
+  .label {
+    display: inline-block;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    color: #000;
+    padding: 2px;
+    line-height: 1.5;
+  }
+
+  /* テキストの配置 */
+  .label-align-left {
+    text-align: left;
+  }
+
+  .label-align-center {
+    text-align: center;
+  }
+
+  .label-align-right {
+    text-align: right;
+  }
+
+  /* ボーダースタイル */
+  .label-border-none {
+    border: none;
+  }
+
+  .label-border-fixedSingle {
+    border: 1px solid #acacac;
+    padding: 3px;
+  }
+
+  .label-border-fixed3D {
+    border: 1px solid #acacac;
+    padding: 3px;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+    background: #f0f0f0;
+  }
+
+  /* 自動サイズ */
+  .label-autosize {
+    width: auto;
+    display: inline-block;
+  }
+
+  /* labelタグの場合、カーソルをポインタに */
+  label.label {
+    cursor: pointer;
+  }
+
+  label.label:hover {
+    color: #0078d4;
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+/**
+ * GroupBox - Windows Forms風のグループボックス
+ */
+interface Props {
+  /** グループボックスのタイトル */
+  title?: string;
+  /** 幅 */
+  width?: string;
+  /** 高さ */
+  height?: string;
+  /** 無効化 */
+  disabled?: boolean;
+}
+
+const {
+  title = '',
+  width = 'auto',
+  height = 'auto',
+  disabled = false
+} = Astro.props;
+---
+
+<fieldset
+  class={`groupbox ${disabled ? 'groupbox-disabled' : ''}`}
+  style={`width: ${width}; height: ${height};`}
+  disabled={disabled}
+>
+  {title && <legend class="groupbox-title">{title}</legend>}
+  <div class="groupbox-content">
+    <slot />
+  </div>
+</fieldset>
+
+<style>
+  .groupbox {
+    border: 1px solid #acacac;
+    border-radius: 4px;
+    padding: 8px;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    color: #000;
+    background: transparent;
+  }
+
+  .groupbox-title {
+    padding: 0 4px;
+    color: #000;
+    font-weight: normal;
+    font-size: 13px;
+  }
+
+  .groupbox-content {
+    padding: 8px 4px 4px 4px;
+  }
+
+  /* 無効化 */
+  .groupbox-disabled {
+    opacity: 0.6;
+  }
+
+  .groupbox-disabled .groupbox-title {
+    color: #a0a0a0;
+  }
+
+  .groupbox-disabled .groupbox-content {
+    color: #a0a0a0;
+  }
+</style>

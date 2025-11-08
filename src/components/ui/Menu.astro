@@ -1,0 +1,64 @@
+---
+/**
+ * Menu - メニュー項目とドロップダウンのセット
+ */
+interface Props {
+  /** メニューのタイトル（例: File, Edit） */
+  title: string;
+  /** アクセスキー（例: F, E） */
+  accessKey?: string;
+  /** ドロップダウンを表示するか */
+  open?: boolean;
+}
+
+const { title, accessKey, open = false } = Astro.props;
+---
+
+<div class="menu">
+  <div class="menu-title">
+    {title}{accessKey && <span class="access-key">({accessKey})</span>}
+  </div>
+
+  {open && (
+    <div class="menu-dropdown">
+      <slot />
+    </div>
+  )}
+</div>
+
+<style>
+  .menu {
+    position: relative;
+  }
+
+  .menu-title {
+    padding: 2px 8px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .menu-title:hover {
+    background: #e5f3ff;
+  }
+
+  .access-key {
+    font-size: 12px;
+    margin-left: 2px;
+  }
+
+  .menu-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #f0f0f0;
+    border: 1px solid #acacac;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    min-width: 180px;
+    max-width: 300px;
+    width: max-content;
+    padding: 2px 0;
+    z-index: 1000;
+  }
+</style>

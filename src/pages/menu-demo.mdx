@@ -1,0 +1,281 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風メニュー
+slug: menu-demo
+---
+import MenuBar from '../components/ui/MenuBar.astro';
+import Menu from '../components/ui/Menu.astro';
+import MenuItem from '../components/ui/MenuItem.astro';
+import ContextMenu from '../components/ui/ContextMenu.astro';
+
+# Windows風メニュー
+
+<div style="margin: 2rem 0; border: 1px solid #ccc; min-height: 250px;">
+  <MenuBar>
+    <Menu title="ファイル" accessKey="F" open={true}>
+      <MenuItem label="新規作成" shortcut="Ctrl+N" />
+      <MenuItem label="開く..." shortcut="Ctrl+O" />
+      <MenuItem separator />
+      <MenuItem label="上書き保存" shortcut="Ctrl+S" />
+      <MenuItem label="名前を付けて保存..." />
+      <MenuItem separator />
+      <MenuItem label="終了" shortcut="Alt+F4" />
+    </Menu>
+
+    <Menu title="編集" accessKey="E">
+      <MenuItem label="元に戻す" shortcut="Ctrl+Z" />
+      <MenuItem label="やり直し" shortcut="Ctrl+Y" />
+      <MenuItem separator />
+      <MenuItem label="切り取り" shortcut="Ctrl+X" />
+      <MenuItem label="コピー" shortcut="Ctrl+C" />
+      <MenuItem label="貼り付け" shortcut="Ctrl+V" hasSubmenu>
+        <MenuItem label="形式を選択して貼り付け" />
+        <MenuItem label="テキストのみ貼り付け" />
+        <MenuItem label="書式のみ貼り付け" />
+      </MenuItem>
+    </Menu>
+
+    <Menu title="表示" accessKey="V">
+      <MenuItem label="拡大" shortcut="Ctrl++" />
+      <MenuItem label="縮小" shortcut="Ctrl+-" />
+    </Menu>
+
+    <Menu title="ヘルプ" accessKey="H">
+      <MenuItem label="バージョン情報" />
+    </Menu>
+  </MenuBar>
+</div>
+
+## 説明
+
+上記のメニューは以下のコンポーネントで構成されています:
+
+### 1. MenuBar
+
+メニュー全体を包むコンテナです。
+
+```astro
+<MenuBar>
+  <Menu title="File">...</Menu>
+  <Menu title="Edit">...</Menu>
+</MenuBar>
+```
+
+### 2. Menu
+
+各メニュー（File、Editなど）を表します。
+
+- `title`: メニューのタイトル
+- `accessKey`: アクセスキー（例: F, E）- タイトルの後に(F)のように表示されます
+- `open`: ドロップダウンを表示するか（デフォルト: false）
+
+### 3. MenuItem
+
+メニュー内の各項目を表します。
+
+- `label`: 項目名
+- `shortcut`: ショートカットキー表示
+- `separator`: 区切り線として表示
+- `disabled`: 無効化表示
+- `hasSubmenu`: サブメニューを持つ（▶が表示され、カーソルを当てるとサブメニューが表示されます）
+
+## バリエーション
+
+### 無効化された項目
+
+<div style="margin: 2rem 0; border: 1px solid #ccc; min-height: 150px;">
+  <MenuBar>
+    <Menu title="File" open={true}>
+      <MenuItem label="New" shortcut="Ctrl+N" />
+      <MenuItem label="Open..." shortcut="Ctrl+O" disabled />
+      <MenuItem label="Save" shortcut="Ctrl+S" disabled />
+    </Menu>
+  </MenuBar>
+</div>
+
+### サブメニュー（ネストしたメニュー）
+
+<div style="margin: 2rem 0; border: 1px solid #ccc; min-height: 250px;">
+  <MenuBar>
+    <Menu title="編集" accessKey="E" open={true}>
+      <MenuItem label="元に戻す" shortcut="Ctrl+Z" />
+      <MenuItem label="やり直し" shortcut="Ctrl+Y" />
+      <MenuItem separator />
+      <MenuItem label="貼り付け" shortcut="Ctrl+V" hasSubmenu>
+        <MenuItem label="形式を選択して貼り付け" />
+        <MenuItem label="テキストのみ貼り付け" />
+        <MenuItem label="書式のみ貼り付け" />
+      </MenuItem>
+      <MenuItem separator />
+      <MenuItem label="検索と置換" hasSubmenu>
+        <MenuItem label="検索..." shortcut="Ctrl+F" />
+        <MenuItem label="次を検索" shortcut="F3" />
+        <MenuItem label="置換..." shortcut="Ctrl+H" />
+      </MenuItem>
+    </Menu>
+  </MenuBar>
+</div>
+
+### 複数のメニューを開いた状態
+
+<div style="margin: 2rem 0; border: 1px solid #ccc; min-height: 200px;">
+  <MenuBar>
+    <Menu title="File" open={true}>
+      <MenuItem label="New" shortcut="Ctrl+N" />
+      <MenuItem label="Open..." shortcut="Ctrl+O" />
+      <MenuItem label="Save" shortcut="Ctrl+S" />
+    </Menu>
+
+    <Menu title="Edit" open={true}>
+      <MenuItem label="Undo" shortcut="Ctrl+Z" />
+      <MenuItem label="Redo" shortcut="Ctrl+Y" />
+    </Menu>
+
+    <Menu title="View" open={true}>
+      <MenuItem label="Zoom In" shortcut="Ctrl++" />
+      <MenuItem label="Zoom Out" shortcut="Ctrl+-" />
+    </Menu>
+  </MenuBar>
+</div>
+
+## コード例（メニューバー）
+
+```astro
+<MenuBar>
+  <Menu title="ファイル" accessKey="F" open={true}>
+    <MenuItem label="新規作成" shortcut="Ctrl+N" />
+    <MenuItem label="開く..." shortcut="Ctrl+O" />
+    <MenuItem separator />
+    <MenuItem label="上書き保存" shortcut="Ctrl+S" />
+    <MenuItem label="終了" shortcut="Alt+F4" />
+  </Menu>
+  <Menu title="編集" accessKey="E">
+    <MenuItem label="元に戻す" shortcut="Ctrl+Z" />
+  </Menu>
+</MenuBar>
+```
+
+### サブメニューの例
+
+```astro
+<MenuItem label="貼り付け" shortcut="Ctrl+V" hasSubmenu>
+  <MenuItem label="形式を選択して貼り付け" />
+  <MenuItem label="テキストのみ貼り付け" />
+  <MenuItem label="書式のみ貼り付け" />
+</MenuItem>
+```
+
+## CSS :hover の仕組み
+
+サブメニューは CSS の `:hover` 疑似クラスを使って実装されています。
+
+### 実装の仕組み
+
+1. **デフォルト状態**: サブメニューは `display: none;` で非表示
+2. **ホバー時**: 親メニュー項目にカーソルを当てると `display: block;` で表示
+
+### MenuItem.astro のCSSコード
+
+```css
+.submenu {
+  /* デフォルトでは非表示 */
+  display: none;
+  position: absolute;
+  /* ... その他のスタイル ... */
+}
+
+/* 親メニュー項目にホバーした時だけサブメニューを表示 */
+.menu-item.has-submenu:hover > .submenu {
+  display: block;
+}
+```
+
+### セレクタの説明
+
+- `.menu-item.has-submenu`: サブメニューを持つメニュー項目
+- `:hover`: カーソルが要素の上にある状態
+- `>`: 直接の子要素を指定（子孫セレクタ）
+- `.submenu`: サブメニュー要素
+
+### なぜこの実装が便利？
+
+- **JavaScriptが不要**: CSSだけで実装できる
+- **パフォーマンス**: ブラウザが自動で処理するため高速
+- **シンプル**: コードが短く、理解しやすい
+
+**試してみましょう**: 上の「編集」メニューの「貼り付け」項目にカーソルを当ててみてください。サブメニューが表示されます！
+
+---
+
+# コンテキストメニュー
+
+右クリックメニューのような単体のポップアップメニューです。MenuItemコンポーネントを再利用します。
+
+## 基本的なコンテキストメニュー
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <ContextMenu>
+    <MenuItem label="Cut" shortcut="Ctrl+X" />
+    <MenuItem label="Copy" shortcut="Ctrl+C" />
+    <MenuItem label="Paste" shortcut="Ctrl+V" />
+    <MenuItem separator />
+    <MenuItem label="Delete" shortcut="Del" />
+  </ContextMenu>
+</div>
+
+## ファイルメニュー
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <ContextMenu width="220px">
+    <MenuItem label="Open" />
+    <MenuItem label="Open with" hasSubmenu>
+      <MenuItem label="Notepad" />
+      <MenuItem label="WordPad" />
+      <MenuItem label="Visual Studio Code" />
+      <MenuItem separator />
+      <MenuItem label="Choose another app..." />
+    </MenuItem>
+    <MenuItem separator />
+    <MenuItem label="Cut" />
+    <MenuItem label="Copy" />
+    <MenuItem label="Create shortcut" />
+    <MenuItem label="Delete" />
+    <MenuItem label="Rename" />
+    <MenuItem separator />
+    <MenuItem label="Properties" />
+  </ContextMenu>
+</div>
+
+## 無効化と組み合わせ
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <ContextMenu>
+    <MenuItem label="Undo" shortcut="Ctrl+Z" disabled />
+    <MenuItem label="Redo" shortcut="Ctrl+Y" disabled />
+    <MenuItem separator />
+    <MenuItem label="Cut" shortcut="Ctrl+X" />
+    <MenuItem label="Copy" shortcut="Ctrl+C" />
+    <MenuItem label="Paste" shortcut="Ctrl+V" />
+    <MenuItem separator />
+    <MenuItem label="Select All" shortcut="Ctrl+A" />
+  </ContextMenu>
+</div>
+
+## コード例（コンテキストメニュー）
+
+```astro
+<ContextMenu>
+  <MenuItem label="Cut" shortcut="Ctrl+X" />
+  <MenuItem label="Copy" shortcut="Ctrl+C" />
+  <MenuItem label="Paste" shortcut="Ctrl+V" />
+  <MenuItem separator />
+  <MenuItem label="Delete" shortcut="Del" />
+</ContextMenu>
+```
+
+## コンポーネント一覧
+
+- **MenuBar**: アプリケーションメニュー全体を包むコンテナ
+- **Menu**: 各メニュー（File、Editなど）とそのドロップダウン
+- **ContextMenu**: 単体で使えるポップアップメニュー
+- **MenuItem**: メニュー内の項目（MenuとContextMenuの両方で使用可能）

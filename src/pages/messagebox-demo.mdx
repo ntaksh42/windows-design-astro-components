@@ -1,0 +1,340 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風メッセージボックス
+---
+import MessageBox from '../components/ui/MessageBox.astro';
+
+# Windows Forms風メッセージボックス
+
+Windows Formsアプリケーションで使用されるようなメッセージボックスコンポーネントです。
+
+## メッセージタイプ
+
+### 情報 (info)
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-info"
+    type="info"
+    title="情報"
+    message="これは情報メッセージです。操作が正常に完了しました。"
+    buttons="ok"
+  />
+</div>
+
+**用途**: 一般的な情報の通知に使用します。
+
+```astro
+<MessageBox
+  type="info"
+  title="情報"
+  message="これは情報メッセージです。"
+  buttons="ok"
+/>
+```
+
+### 警告 (warning)
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-warning"
+    type="warning"
+    title="警告"
+    message="これは警告メッセージです。続行しますか？"
+    buttons="okcancel"
+  />
+</div>
+
+**用途**: 注意が必要な情報や、確認が必要な操作に使用します。
+
+```astro
+<MessageBox
+  type="warning"
+  title="警告"
+  message="この操作を実行しますか？"
+  buttons="okcancel"
+/>
+```
+
+### エラー (error)
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-error"
+    type="error"
+    title="エラー"
+    message="エラーが発生しました。操作を中止してください。"
+    buttons="ok"
+  />
+</div>
+
+**用途**: エラーや失敗の通知に使用します。
+
+```astro
+<MessageBox
+  type="error"
+  title="エラー"
+  message="エラーが発生しました。"
+  buttons="ok"
+/>
+```
+
+### 成功 (success)
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-success"
+    type="success"
+    title="成功"
+    message="操作が正常に完了しました。"
+    buttons="ok"
+  />
+</div>
+
+**用途**: 操作が正常に完了したことを通知します。
+
+```astro
+<MessageBox
+  type="success"
+  title="成功"
+  message="操作が正常に完了しました。"
+  buttons="ok"
+/>
+```
+
+## ボタン構成
+
+### OK のみ
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-ok"
+    type="info"
+    title="通知"
+    message="処理が完了しました。OKボタンをクリックして閉じてください。"
+    buttons="ok"
+  />
+</div>
+
+```astro
+<MessageBox
+  type="info"
+  title="通知"
+  message="処理が完了しました。"
+  buttons="ok"
+/>
+```
+
+### OK / キャンセル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-okcancel"
+    type="warning"
+    title="確認"
+    message="この操作を実行しますか？OKまたはキャンセルを選択してください。"
+    buttons="okcancel"
+  />
+</div>
+
+```astro
+<MessageBox
+  type="warning"
+  title="確認"
+  message="この操作を実行しますか？"
+  buttons="okcancel"
+/>
+```
+
+### はい / いいえ
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-yesno"
+    type="info"
+    title="確認"
+    message="変更を保存しますか？はい、または、いいえを選択してください。"
+    buttons="yesno"
+  />
+</div>
+
+```astro
+<MessageBox
+  type="info"
+  title="確認"
+  message="変更を保存しますか？"
+  buttons="yesno"
+/>
+```
+
+### はい / いいえ / キャンセル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-yesnocancel"
+    type="info"
+    title="確認"
+    message="ファイルを保存しますか？はい、いいえ、またはキャンセルを選択してください。"
+    buttons="yesnocancel"
+    defaultButton={0}
+  />
+</div>
+
+```astro
+<MessageBox
+  type="info"
+  title="確認"
+  message="ファイルを保存しますか？"
+  buttons="yesnocancel"
+  defaultButton={0}
+/>
+```
+
+## デフォルトボタン
+
+デフォルトボタンを指定すると、そのボタンが青色（プライマリ）で表示されます。Enterキーを押したときにそのボタンがクリックされます。
+
+### 1番目がデフォルト（はい）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-default1"
+    type="info"
+    title="確認"
+    message="変更を保存しますか？デフォルトボタンは「はい」です。"
+    buttons="yesnocancel"
+    defaultButton={0}
+  />
+</div>
+
+```astro
+<MessageBox
+  title="確認"
+  message="変更を保存しますか？"
+  buttons="yesnocancel"
+  defaultButton={0}
+/>
+```
+
+### 2番目がデフォルト（いいえ）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-default2"
+    type="warning"
+    title="確認"
+    message="変更を破棄しますか？デフォルトボタンは「いいえ」です。"
+    buttons="yesnocancel"
+    defaultButton={1}
+  />
+</div>
+
+```astro
+<MessageBox
+  type="warning"
+  title="確認"
+  message="変更を破棄しますか？"
+  buttons="yesnocancel"
+  defaultButton={1}
+/>
+```
+
+## 実用例
+
+### 削除の確認
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0; min-height: 300px; position: relative;">
+  <MessageBox
+    id="msgbox-delete"
+    type="warning"
+    title="削除の確認"
+    message="このファイルを削除してもよろしいですか？この操作は取り消せません。"
+    buttons="yesno"
+    defaultButton={1}
+  />
+</div>
+
+```astro
+<MessageBox
+  type="warning"
+  title="削除の確認"
+  message="このファイルを削除してもよろしいですか？この操作は取り消せません。"
+  buttons="yesno"
+  defaultButton={1}
+/>
+```
+
+**デフォルトボタンを「いいえ」に設定**: 誤操作を防ぐため、危険な操作では安全な選択肢をデフォルトにします。
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `id` | string | 'messagebox-1' | メッセージボックスの一意なID |
+| `type` | 'info' \| 'success' \| 'warning' \| 'error' | 'info' | メッセージタイプ |
+| `title` | string | 'メッセージ' | タイトル |
+| `message` | string | (必須) | 表示するメッセージ |
+| `buttons` | 'ok' \| 'okcancel' \| 'yesno' \| 'yesnocancel' | 'ok' | ボタンの構成 |
+| `defaultButton` | number | 0 | デフォルトボタン（0から始まる） |
+| `closeOnBackdrop` | boolean | false | 背景クリックで閉じるか |
+
+## 機能
+
+### アイコン表示
+各メッセージタイプに対応したアイコンが自動的に表示されます：
+- **info**: ℹ️ 情報アイコン
+- **success**: ✓ チェックマーク
+- **warning**: ⚠️ 警告アイコン
+- **error**: ✗ エラーアイコン
+
+### 配色
+メッセージタイプに応じた配色が自動的に適用されます：
+- **info**: 青系
+- **success**: 緑系
+- **warning**: オレンジ系
+- **error**: 赤系
+
+### アニメーション
+メッセージボックスにはフェードインとスライドインのアニメーションが適用されています（動的に表示する場合）。
+
+## 使い方のヒント
+
+### よく使う組み合わせ
+
+**情報通知（OK のみ）:**
+```astro
+<MessageBox type="info" title="情報" message="操作が完了しました。" buttons="ok" />
+```
+
+**確認ダイアログ（はい/いいえ）:**
+```astro
+<MessageBox type="warning" title="確認" message="実行しますか？" buttons="yesno" />
+```
+
+**エラー表示（OK のみ）:**
+```astro
+<MessageBox type="error" title="エラー" message="エラーが発生しました。" buttons="ok" />
+```
+
+**保存確認（はい/いいえ/キャンセル）:**
+```astro
+<MessageBox
+  type="info"
+  title="保存の確認"
+  message="変更を保存しますか？"
+  buttons="yesnocancel"
+  defaultButton={0}
+/>
+```
+
+<style>
+{`
+  /* MessageBoxを静的表示用にスタイル調整 */
+  .messagebox-overlay {
+    position: relative !important;
+    display: flex !important;
+    background: transparent !important;
+    min-height: 250px;
+  }
+`}
+</style>

@@ -1,0 +1,359 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風コンボボックス
+slug: combobox-demo
+---
+import ComboBox from '../components/ui/ComboBox.astro';
+
+# Windows Forms風コンボボックス
+
+Windows Formsアプリケーションで使用されるようなドロップダウンリストコンポーネントです。複数の選択肢から1つを選ぶ際に使用します。
+
+## 基本的なコンボボックス
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <ComboBox options={['オプション1', 'オプション2', 'オプション3']} />
+</div>
+
+```astro
+<ComboBox options={['オプション1', 'オプション2', 'オプション3']} />
+```
+
+## 選択済みの値
+
+`selectedValue`プロパティで初期値を設定できます。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <div>
+    <div style="margin-bottom: 0.5rem;">未選択（プレースホルダー表示）</div>
+    <ComboBox options={['東京', '大阪', '名古屋', '福岡']} />
+  </div>
+  <div>
+    <div style="margin-bottom: 0.5rem;">選択済み</div>
+    <ComboBox options={['東京', '大阪', '名古屋', '福岡']} selectedValue="東京" />
+  </div>
+</div>
+
+```astro
+<ComboBox options={['東京', '大阪', '名古屋', '福岡']} />
+<ComboBox options={['東京', '大阪', '名古屋', '福岡']} selectedValue="東京" />
+```
+
+## プレースホルダーのカスタマイズ
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <ComboBox options={['リンゴ', 'バナナ', 'オレンジ']} placeholder="果物を選択" />
+  <ComboBox options={['赤', '青', '緑', '黄']} placeholder="色を選んでください" />
+  <ComboBox options={['小', '中', '大']} placeholder="サイズを選択してください" />
+</div>
+
+```astro
+<ComboBox options={['リンゴ', 'バナナ', 'オレンジ']} placeholder="果物を選択" />
+<ComboBox options={['赤', '青', '緑', '黄']} placeholder="色を選んでください" />
+```
+
+## 幅の指定
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <ComboBox options={['小', '中', '大']} width="150px" placeholder="幅150px" />
+  <ComboBox options={['日本', 'アメリカ', 'イギリス']} width="250px" placeholder="幅250px" />
+  <ComboBox options={['選択肢1', '選択肢2', '選択肢3']} width="400px" placeholder="幅400px" />
+</div>
+
+```astro
+<ComboBox options={['小', '中', '大']} width="150px" />
+<ComboBox options={['日本', 'アメリカ', 'イギリス']} width="250px" />
+<ComboBox options={['選択肢1', '選択肢2', '選択肢3']} width="400px" />
+```
+
+## 無効化状態
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <div>
+    <div style="margin-bottom: 0.5rem;">通常のコンボボックス</div>
+    <ComboBox options={['オプション1', 'オプション2', 'オプション3']} />
+  </div>
+  <div>
+    <div style="margin-bottom: 0.5rem;">無効化（未選択）</div>
+    <ComboBox options={['オプション1', 'オプション2', 'オプション3']} disabled />
+  </div>
+  <div>
+    <div style="margin-bottom: 0.5rem;">無効化（選択済み）</div>
+    <ComboBox options={['オプション1', 'オプション2', 'オプション3']} selectedValue="オプション2" disabled />
+  </div>
+</div>
+
+```astro
+<ComboBox options={['オプション1', 'オプション2', 'オプション3']} />
+<ComboBox options={['オプション1', 'オプション2', 'オプション3']} disabled />
+<ComboBox options={['オプション1', 'オプション2', 'オプション3']} selectedValue="オプション2" disabled />
+```
+
+## 実用例：国の選択
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad; max-width: 400px;">
+  <h3 style="margin-top: 0;">配送先情報</h3>
+  <div style="margin-bottom: 1rem;">
+    <div style="margin-bottom: 0.5rem; font-weight: bold;">国</div>
+    <ComboBox
+      options={['日本', 'アメリカ', 'イギリス', 'カナダ', 'オーストラリア', 'ドイツ', 'フランス', 'イタリア']}
+      placeholder="国を選択してください"
+      width="100%"
+      selectedValue="日本"
+    />
+  </div>
+  <div style="margin-bottom: 1rem;">
+    <div style="margin-bottom: 0.5rem; font-weight: bold;">都道府県</div>
+    <ComboBox
+      options={['東京都', '大阪府', '愛知県', '福岡県', '北海道', '神奈川県', '京都府', '兵庫県']}
+      placeholder="都道府県を選択してください"
+      width="100%"
+    />
+  </div>
+</div>
+
+```astro
+<ComboBox
+  options={['日本', 'アメリカ', 'イギリス', 'カナダ']}
+  placeholder="国を選択してください"
+  width="100%"
+  selectedValue="日本"
+/>
+```
+
+## 実用例：フォームでの使用
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad; max-width: 500px;">
+  <h3 style="margin-top: 0;">お問い合わせフォーム</h3>
+  <form>
+    <div style="margin-bottom: 1rem;">
+      <div style="margin-bottom: 0.5rem; font-weight: bold;">お問い合わせの種類</div>
+      <ComboBox
+        name="inquiry-type"
+        options={['製品について', 'サポート', '技術的な質問', '請求について', 'その他']}
+        placeholder="種類を選択してください"
+        width="100%"
+      />
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <div style="margin-bottom: 0.5rem; font-weight: bold;">優先度</div>
+      <ComboBox
+        name="priority"
+        options={['低', '中', '高', '緊急']}
+        placeholder="優先度を選択"
+        width="100%"
+      />
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <div style="margin-bottom: 0.5rem; font-weight: bold;">詳細</div>
+      <textarea style="width: 100%; padding: 4px; border: 1px solid #acacac; min-height: 100px;"></textarea>
+    </div>
+    <button type="submit" style="padding: 6px 16px; background: #007acc; color: white; border: none; cursor: pointer; width: 100%;">
+      送信
+    </button>
+  </form>
+</div>
+
+```astro
+<ComboBox
+  name="inquiry-type"
+  options={['製品について', 'サポート', '技術的な質問', '請求について', 'その他']}
+  placeholder="種類を選択してください"
+  width="100%"
+/>
+```
+
+## 実用例：設定パネル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">表示設定</h3>
+  <div style="display: grid; grid-template-columns: 150px 1fr; gap: 1rem; align-items: center;">
+    <div style="font-weight: bold;">テーマ:</div>
+    <ComboBox
+      options={['ライト', 'ダーク', 'システムのデフォルト']}
+      selectedValue="ライト"
+      width="250px"
+    />
+
+    <div style="font-weight: bold;">言語:</div>
+    <ComboBox
+      options={['日本語', 'English', '简体中文', '繁體中文', '한국어']}
+      selectedValue="日本語"
+      width="250px"
+    />
+
+    <div style="font-weight: bold;">フォントサイズ:</div>
+    <ComboBox
+      options={['小', '中', '大', '特大']}
+      selectedValue="中"
+      width="250px"
+    />
+
+    <div style="font-weight: bold;">タイムゾーン:</div>
+    <ComboBox
+      options={['UTC+9 (日本)', 'UTC+0 (UTC)', 'UTC-5 (東部)', 'UTC-8 (太平洋)']}
+      selectedValue="UTC+9 (日本)"
+      width="250px"
+    />
+  </div>
+</div>
+
+```astro
+<ComboBox
+  options={['ライト', 'ダーク', 'システムのデフォルト']}
+  selectedValue="ライト"
+  width="250px"
+/>
+<ComboBox
+  options={['日本語', 'English', '简体中文']}
+  selectedValue="日本語"
+  width="250px"
+/>
+```
+
+## 実用例：フィルター
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">商品フィルター</h3>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+    <div>
+      <div style="margin-bottom: 0.5rem; font-weight: bold;">カテゴリー</div>
+      <ComboBox
+        options={['すべて', '電化製品', '家具', '衣類', '書籍']}
+        placeholder="カテゴリーを選択"
+        width="100%"
+      />
+    </div>
+    <div>
+      <div style="margin-bottom: 0.5rem; font-weight: bold;">価格帯</div>
+      <ComboBox
+        options={['すべて', '〜1,000円', '1,000〜5,000円', '5,000〜10,000円', '10,000円〜']}
+        placeholder="価格帯を選択"
+        width="100%"
+      />
+    </div>
+    <div>
+      <div style="margin-bottom: 0.5rem; font-weight: bold;">並び順</div>
+      <ComboBox
+        options={['人気順', '新着順', '価格が安い順', '価格が高い順']}
+        selectedValue="人気順"
+        width="100%"
+      />
+    </div>
+  </div>
+</div>
+
+```astro
+<ComboBox
+  options={['すべて', '電化製品', '家具', '衣類', '書籍']}
+  placeholder="カテゴリーを選択"
+  width="100%"
+/>
+<ComboBox
+  options={['人気順', '新着順', '価格が安い順', '価格が高い順']}
+  selectedValue="人気順"
+  width="100%"
+/>
+```
+
+## 実用例：日付と時刻の選択
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad; max-width: 400px;">
+  <h3 style="margin-top: 0;">予約日時</h3>
+  <div style="margin-bottom: 1rem;">
+    <div style="margin-bottom: 0.5rem; font-weight: bold;">年</div>
+    <ComboBox
+      options={['2024', '2025', '2026']}
+      selectedValue="2025"
+      width="100%"
+    />
+  </div>
+  <div style="margin-bottom: 1rem;">
+    <div style="margin-bottom: 0.5rem; font-weight: bold;">月</div>
+    <ComboBox
+      options={['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']}
+      placeholder="月を選択"
+      width="100%"
+    />
+  </div>
+  <div style="margin-bottom: 1rem;">
+    <div style="margin-bottom: 0.5rem; font-weight: bold;">時間</div>
+    <ComboBox
+      options={['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00']}
+      placeholder="時間を選択"
+      width="100%"
+    />
+  </div>
+</div>
+
+```astro
+<ComboBox
+  options={['2024', '2025', '2026']}
+  selectedValue="2025"
+  width="100%"
+/>
+<ComboBox
+  options={['1月', '2月', '3月', ...]}
+  placeholder="月を選択"
+  width="100%"
+/>
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `options` | string[] | [] | 選択肢の配列 |
+| `selectedValue` | string | '' | 選択されている値 |
+| `placeholder` | string | '選択してください' | プレースホルダー |
+| `width` | string | '200px' | 幅（CSS形式） |
+| `disabled` | boolean | false | 無効化 |
+| `name` | string | '' | name属性 |
+| `id` | string | '' | id属性 |
+
+## CSS :hover の仕組み
+
+コンボボックスのホバー効果もCSSの `:hover` 疑似クラスで実装されています。
+
+```css
+.combobox:hover .combobox-display {
+  border-color: #0078d4;
+}
+
+.combobox-item:hover {
+  background: #0078d4;
+  color: #fff;
+}
+```
+
+**ポイント:**
+- `:hover` でカーソルを当てた時のスタイルを定義
+- コンボボックス本体のボーダー色を変更
+- ドロップダウンアイテムのホバー時に背景色を青に変更
+
+## 使い方のヒント
+
+**単純なドロップダウン:**
+```astro
+<ComboBox options={['オプション1', 'オプション2', 'オプション3']} />
+```
+
+**初期値を設定:**
+```astro
+<ComboBox options={['東京', '大阪', '名古屋']} selectedValue="東京" />
+```
+
+**フォームで使用:**
+```astro
+<ComboBox
+  name="category"
+  options={['カテゴリー1', 'カテゴリー2']}
+  placeholder="カテゴリーを選択"
+/>
+```
+
+**試してみましょう**: コンボボックスにカーソルを当ててみてください！ドロップダウンが表示され、各アイテムのホバー効果も確認できます。
+
+## 注意事項
+
+このコンポーネントは視覚的なデモンストレーション用です。実際のインタラクティブな動作（クリックで選択を変更するなど）にはJavaScriptが必要です。Astroでインタラクティブな機能を実装する場合は、クライアントサイドのフレームワーク（React、Vue、Svelteなど）を統合するか、`<script>`タグでJavaScriptを追加してください。

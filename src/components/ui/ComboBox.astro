@@ -1,0 +1,173 @@
+---
+/**
+ * ComboBox - Windows Forms風のドロップダウンリスト
+ */
+interface Props {
+  /** 選択肢の配列 */
+  options?: string[];
+  /** 選択されている値 */
+  selectedValue?: string;
+  /** プレースホルダー */
+  placeholder?: string;
+  /** 幅 */
+  width?: string;
+  /** 無効化 */
+  disabled?: boolean;
+  /** name属性 */
+  name?: string;
+  /** id属性 */
+  id?: string;
+}
+
+const {
+  options = [],
+  selectedValue = '',
+  placeholder = '選択してください',
+  width = '200px',
+  disabled = false,
+  name = '',
+  id = ''
+} = Astro.props;
+
+const displayValue = selectedValue || placeholder;
+---
+
+<div
+  class={`combobox ${disabled ? 'combobox-disabled' : ''}`}
+  style={`width: ${width};`}
+>
+  <div class="combobox-display">
+    <span class={`combobox-text ${!selectedValue ? 'combobox-placeholder' : ''}`}>
+      {displayValue}
+    </span>
+    <div class="combobox-arrow">▼</div>
+  </div>
+  <div class="combobox-dropdown">
+    {options.map((option) => (
+      <div
+        class={`combobox-item ${option === selectedValue ? 'combobox-item-selected' : ''}`}
+      >
+        {option}
+      </div>
+    ))}
+  </div>
+  <select
+    class="combobox-select"
+    name={name}
+    id={id}
+    disabled={disabled}
+  >
+    {!selectedValue && <option value="">{placeholder}</option>}
+    {options.map((option) => (
+      <option value={option} selected={option === selectedValue}>
+        {option}
+      </option>
+    ))}
+  </select>
+</div>
+
+<style>
+  .combobox {
+    position: relative;
+    display: inline-block;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+  }
+
+  .combobox-display {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #acacac;
+    height: 23px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .combobox:hover .combobox-display {
+    border-color: #0078d4;
+  }
+
+  .combobox-text {
+    flex: 1;
+    padding: 2px 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #000;
+  }
+
+  .combobox-placeholder {
+    color: #6d6d6d;
+  }
+
+  .combobox-arrow {
+    width: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border-left: 1px solid #acacac;
+    font-size: 8px;
+    color: #000;
+  }
+
+  .combobox-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #acacac;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    margin-top: -1px;
+  }
+
+  .combobox:hover .combobox-dropdown {
+    display: block;
+  }
+
+  .combobox-item {
+    padding: 4px 6px;
+    cursor: pointer;
+    color: #000;
+    background: #fff;
+  }
+
+  .combobox-item:hover {
+    background: #0078d4;
+    color: #fff;
+  }
+
+  .combobox-item-selected {
+    background: #e5f3ff;
+  }
+
+  .combobox-item-selected:hover {
+    background: #0078d4;
+    color: #fff;
+  }
+
+  /* 無効化 */
+  .combobox-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .combobox-disabled .combobox-display {
+    background: #f0f0f0;
+    cursor: not-allowed;
+  }
+
+  /* 実際のselectは隠す（アクセシビリティのために残す） */
+  .combobox-select {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>

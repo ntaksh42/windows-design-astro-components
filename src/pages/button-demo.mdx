@@ -1,0 +1,224 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風ボタン
+slug: button-demo
+---
+import Button from '../components/ui/Button.astro';
+
+# Windows Forms風ボタン
+
+Windows Formsアプリケーションで使用されるようなボタンコンポーネントです。
+
+## 基本的なボタン
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <Button label="OK" />
+  <Button label="キャンセル" />
+  <Button label="適用" />
+  <Button label="閉じる" />
+</div>
+
+```astro
+<Button label="OK" />
+<Button label="キャンセル" />
+```
+
+## バリエーション
+
+### デフォルトボタン
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <Button label="デフォルト" variant="default" />
+  <Button label="プライマリ" variant="primary" />
+  <Button label="フラット" variant="flat" />
+</div>
+
+```astro
+<Button label="デフォルト" variant="default" />
+<Button label="プライマリ" variant="primary" />
+<Button label="フラット" variant="flat" />
+```
+
+**説明:**
+- `default`: 標準ボタン（グレーのグラデーション）
+- `primary`: 重要なアクション用（青色、太字）
+- `flat`: フラットスタイル（背景透明、ホバー時のみ背景表示）
+
+## サイズバリエーション
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+  <Button label="Small" size="small" />
+  <Button label="Medium" size="medium" />
+  <Button label="Large" size="large" />
+</div>
+
+```astro
+<Button label="Small" size="small" />
+<Button label="Medium" size="medium" />
+<Button label="Large" size="large" />
+```
+
+**サイズ:**
+- `small`: 高さ24px、最小幅60px
+- `medium`: 高さ28px、最小幅75px（デフォルト）
+- `large`: 高さ32px、最小幅90px
+
+## 無効化状態
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <Button label="通常" variant="default" />
+  <Button label="無効" variant="default" disabled />
+  <Button label="通常" variant="primary" />
+  <Button label="無効" variant="primary" disabled />
+  <Button label="通常" variant="flat" />
+  <Button label="無効" variant="flat" disabled />
+</div>
+
+```astro
+<Button label="無効" disabled />
+<Button label="無効" variant="primary" disabled />
+```
+
+## フルワイド（横幅100%）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <Button label="フルワイドボタン" fullWidth />
+  <div style="margin-top: 1rem;">
+    <Button label="フルワイドプライマリ" variant="primary" fullWidth />
+  </div>
+</div>
+
+```astro
+<Button label="フルワイドボタン" fullWidth />
+```
+
+## スロットを使ったカスタマイズ
+
+slotを使うと、ラベル以外の内容も表示できます。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <Button variant="default">
+    ✓ 保存
+  </Button>
+  <Button variant="primary">
+    ► 実行
+  </Button>
+  <Button variant="flat">
+    ✕ 削除
+  </Button>
+</div>
+
+```astro
+<Button variant="default">
+  ✓ 保存
+</Button>
+<Button variant="primary">
+  ► 実行
+</Button>
+```
+
+## 実用例：ダイアログボタン
+
+Windows Formsのダイアログでよく見るボタン配置です。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">設定を保存しますか？</h3>
+  <p>変更内容が保存されていません。</p>
+  <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 2rem;">
+    <Button label="保存" variant="primary" />
+    <Button label="保存しない" variant="default" />
+    <Button label="キャンセル" variant="default" />
+  </div>
+</div>
+
+```astro
+<div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+  <Button label="保存" variant="primary" />
+  <Button label="保存しない" variant="default" />
+  <Button label="キャンセル" variant="default" />
+</div>
+```
+
+## 実用例：ツールバー風
+
+<div style="margin: 2rem 0; padding: 0.5rem; background: #f0f0f0; border: 1px solid #adadad; display: flex; gap: 2px;">
+  <Button label="新規" variant="flat" size="small" />
+  <Button label="開く" variant="flat" size="small" />
+  <Button label="保存" variant="flat" size="small" />
+  <div style="width: 1px; background: #ccc; margin: 0 4px;"></div>
+  <Button label="切り取り" variant="flat" size="small" />
+  <Button label="コピー" variant="flat" size="small" />
+  <Button label="貼り付け" variant="flat" size="small" />
+</div>
+
+```astro
+<Button label="新規" variant="flat" size="small" />
+<Button label="開く" variant="flat" size="small" />
+<Button label="保存" variant="flat" size="small" />
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `label` | string | 'Button' | ボタンのテキスト |
+| `variant` | 'default' \| 'primary' \| 'flat' | 'default' | ボタンの種類 |
+| `size` | 'small' \| 'medium' \| 'large' | 'medium' | ボタンのサイズ |
+| `disabled` | boolean | false | 無効化状態 |
+| `type` | 'button' \| 'submit' \| 'reset' | 'button' | HTMLボタンのtype属性 |
+| `fullWidth` | boolean | false | 横幅を100%にする |
+
+## CSS :hover の仕組み
+
+ボタンのホバー効果もCSSの `:hover` 疑似クラスで実装されています。
+
+### ホバー時のスタイル変更
+
+```css
+.btn-default:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+  border-color: #3c7fb1;
+}
+```
+
+**ポイント:**
+- `:hover` でカーソルを当てた時のスタイルを定義
+- `:not(:disabled)` で無効化されているボタンには適用しない
+- `linear-gradient` でグラデーション背景を実現
+
+### アクティブ状態（クリック時）
+
+```css
+.btn-default:active:not(:disabled) {
+  background: linear-gradient(to bottom, #cce4f7 0%, #b8d6ed 100%);
+  border-color: #2c5f8d;
+}
+```
+
+`:active` 疑似クラスでボタンを押している間のスタイルを定義します。
+
+## 使い方のヒント
+
+### よく使う組み合わせ
+
+**OKボタン（アクション実行）:**
+```astro
+<Button label="OK" variant="primary" />
+```
+
+**キャンセルボタン:**
+```astro
+<Button label="キャンセル" variant="default" />
+```
+
+**削除などの危険な操作（色は今後追加予定）:**
+```astro
+<Button label="削除" variant="default" />
+```
+
+**ツールバーのボタン:**
+```astro
+<Button label="保存" variant="flat" size="small" />
+```
+
+**試してみましょう**: 上のボタンにカーソルを当てたり、クリックしてみてください！ホバー効果とアクティブ効果が確認できます。

@@ -1,0 +1,610 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: GroupBox使い方
+slug: ex
+---
+import Label from '../components/ui/Label.astro';
+import TextBox from '../components/ui/TextBox.astro';
+import CheckBox from '../components/ui/CheckBox.astro';
+import Button from '../components/ui/Button.astro';
+import GroupBox from '../components/ui/GroupBox.astro';
+import ComboBox from '../components/ui/ComboBox.astro';
+
+# GroupBox
+## TextBoxを含んだGroupBox
+
+### 基本的なフォーム
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="ユーザー情報" width="400px">
+    <div style="margin-bottom: 15px;">
+      <Label text="ユーザー名:" />
+      <br />
+      <TextBox placeholder="ユーザー名を入力" width="100%" />
+    </div>
+    <div style="margin-bottom: 15px;">
+      <Label text="パスワード:" />
+      <br />
+      <TextBox type="password" placeholder="パスワードを入力" width="100%" />
+    </div>
+    <div style="margin-bottom: 15px;">
+      <Label text="メールアドレス:" />
+      <br />
+      <TextBox type="email" placeholder="email@example.com" width="100%" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="ユーザー情報" width="400px">
+  <div style="margin-bottom: 15px;">
+    <Label text="ユーザー名:" />
+    <br />
+    <TextBox placeholder="ユーザー名を入力" width="100%" />
+  </div>
+  <div style="margin-bottom: 15px;">
+    <Label text="パスワード:" />
+    <br />
+    <TextBox type="password" placeholder="パスワードを入力" width="100%" />
+  </div>
+  <div style="margin-bottom: 15px;">
+    <Label text="メールアドレス:" />
+    <br />
+    <TextBox type="email" placeholder="email@example.com" width="100%" />
+  </div>
+</GroupBox>
+```
+
+### 複数のTextBoxを横並びに配置
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="住所情報" width="500px">
+    <div style="margin-bottom: 15px;">
+      <Label text="郵便番号:" />
+      <br />
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <TextBox placeholder="123" width="60px" />
+        <span>-</span>
+        <TextBox placeholder="4567" width="80px" />
+      </div>
+    </div>
+    <div style="margin-bottom: 15px;">
+      <Label text="住所:" />
+      <br />
+      <TextBox placeholder="都道府県・市区町村" width="100%" />
+    </div>
+    <div style="margin-bottom: 15px;">
+      <Label text="番地・建物名:" />
+      <br />
+      <TextBox placeholder="1-2-3 マンション名 101号室" width="100%" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="住所情報" width="500px">
+  <div style="margin-bottom: 15px;">
+    <Label text="郵便番号:" />
+    <br />
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <TextBox placeholder="123" width="60px" />
+      <span>-</span>
+      <TextBox placeholder="4567" width="80px" />
+    </div>
+  </div>
+  <div style="margin-bottom: 15px;">
+    <Label text="住所:" />
+    <br />
+    <TextBox placeholder="都道府県・市区町村" width="100%" />
+  </div>
+  <div style="margin-bottom: 15px;">
+    <Label text="番地・建物名:" />
+    <br />
+    <TextBox placeholder="1-2-3 マンション名 101号室" width="100%" />
+  </div>
+</GroupBox>
+```
+
+### 複数行のTextBox
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="お問い合わせ" width="450px">
+    <div style="margin-bottom: 15px;">
+      <Label text="件名:" />
+      <br />
+      <TextBox placeholder="お問い合わせの件名" width="100%" />
+    </div>
+    <div style="margin-bottom: 15px;">
+      <Label text="メッセージ:" />
+      <br />
+      <TextBox multiline rows={6} placeholder="お問い合わせ内容をご記入ください" width="100%" />
+    </div>
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <Button label="送信" variant="primary" />
+      <Button label="キャンセル" variant="default" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="お問い合わせ" width="450px">
+  <div style="margin-bottom: 15px;">
+    <Label text="件名:" />
+    <br />
+    <TextBox placeholder="お問い合わせの件名" width="100%" />
+  </div>
+  <div style="margin-bottom: 15px;">
+    <Label text="メッセージ:" />
+    <br />
+    <TextBox multiline rows={6} placeholder="お問い合わせ内容をご記入ください" width="100%" />
+  </div>
+  <div style="display: flex; justify-content: flex-end; gap: 10px;">
+    <Button label="送信" variant="primary" />
+    <Button label="キャンセル" variant="default" />
+  </div>
+</GroupBox>
+```
+
+## CheckBoxの配置パターン
+
+### 横に並べる（デフォルト）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="オプション" width="400px">
+    <CheckBox label="オプション1" />
+    <CheckBox label="オプション2" />
+    <CheckBox label="オプション3" />
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="オプション" width="400px">
+  <CheckBox label="オプション1" />
+  <CheckBox label="オプション2" />
+  <CheckBox label="オプション3" />
+</GroupBox>
+```
+
+### 縦に並べる
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="オプション（縦並び）" width="300px">
+    <CheckBox label="オプション1" />
+    <br />
+    <CheckBox label="オプション2" />
+    <br />
+    <CheckBox label="オプション3" />
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="オプション（縦並び）" width="300px">
+  <CheckBox label="オプション1" />
+  <br />
+  <CheckBox label="オプション2" />
+  <br />
+  <CheckBox label="オプション3" />
+</GroupBox>
+```
+
+### Flexboxで間隔を空けて横並び
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="趣味" width="450px">
+    <div style="display: flex; gap: 20px;">
+      <CheckBox label="読書" />
+      <CheckBox label="映画" />
+      <CheckBox label="音楽" />
+      <CheckBox label="スポーツ" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="趣味" width="450px">
+  <div style="display: flex; gap: 20px;">
+    <CheckBox label="読書" />
+    <CheckBox label="映画" />
+    <CheckBox label="音楽" />
+    <CheckBox label="スポーツ" />
+  </div>
+</GroupBox>
+```
+
+### Flexboxで縦並び（間隔あり）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="興味のある分野" width="300px">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <CheckBox label="プログラミング" />
+      <CheckBox label="デザイン" />
+      <CheckBox label="マーケティング" />
+      <CheckBox label="データ分析" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="興味のある分野" width="300px">
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <CheckBox label="プログラミング" />
+    <CheckBox label="デザイン" />
+    <CheckBox label="マーケティング" />
+    <CheckBox label="データ分析" />
+  </div>
+</GroupBox>
+```
+
+### Gridレイアウトで2列に配置
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="言語スキル" width="400px">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+      <CheckBox label="日本語" />
+      <CheckBox label="英語" />
+      <CheckBox label="中国語" />
+      <CheckBox label="韓国語" />
+      <CheckBox label="フランス語" />
+      <CheckBox label="スペイン語" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="言語スキル" width="400px">
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+    <CheckBox label="日本語" />
+    <CheckBox label="英語" />
+    <CheckBox label="中国語" />
+    <CheckBox label="韓国語" />
+    <CheckBox label="フランス語" />
+    <CheckBox label="スペイン語" />
+  </div>
+</GroupBox>
+```
+
+### 任意の位置に配置（absolute positioning）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="配置の例" width="400px" height="250px">
+    <div style="position: relative; height: 200px;">
+      <div style="position: absolute; top: 0; left: 0;">
+        <CheckBox label="左上" />
+      </div>
+      <div style="position: absolute; top: 0; right: 0;">
+        <CheckBox label="右上" />
+      </div>
+      <div style="position: absolute; bottom: 0; left: 0;">
+        <CheckBox label="左下" />
+      </div>
+      <div style="position: absolute; bottom: 0; right: 0;">
+        <CheckBox label="右下" />
+      </div>
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <CheckBox label="中央" />
+      </div>
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="配置の例" width="400px" height="250px">
+  <div style="position: relative; height: 200px;">
+    <div style="position: absolute; top: 0; left: 0;">
+      <CheckBox label="左上" />
+    </div>
+    <div style="position: absolute; top: 0; right: 0;">
+      <CheckBox label="右上" />
+    </div>
+    <div style="position: absolute; bottom: 0; left: 0;">
+      <CheckBox label="左下" />
+    </div>
+    <div style="position: absolute; bottom: 0; right: 0;">
+      <CheckBox label="右下" />
+    </div>
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      <CheckBox label="中央" />
+    </div>
+  </div>
+</GroupBox>
+```
+
+## GroupBoxとCheckBoxの組み合わせ例
+
+### 設定パネル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <div style="display: flex; gap: 20px;">
+    <GroupBox title="表示設定" width="220px">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <CheckBox label="ツールバーを表示" checked />
+        <CheckBox label="ステータスバーを表示" checked />
+        <CheckBox label="行番号を表示" />
+        <CheckBox label="ミニマップを表示" />
+      </div>
+    </GroupBox>
+
+    <GroupBox title="エディタ設定" width="220px">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <CheckBox label="自動保存" checked />
+        <CheckBox label="自動インデント" checked />
+        <CheckBox label="スペルチェック" />
+        <CheckBox label="折り返し表示" />
+      </div>
+    </GroupBox>
+  </div>
+</div>
+
+```astro
+<div style="display: flex; gap: 20px;">
+  <GroupBox title="表示設定" width="220px">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <CheckBox label="ツールバーを表示" checked />
+      <CheckBox label="ステータスバーを表示" checked />
+      <CheckBox label="行番号を表示" />
+      <CheckBox label="ミニマップを表示" />
+    </div>
+  </GroupBox>
+
+  <GroupBox title="エディタ設定" width="220px">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <CheckBox label="自動保存" checked />
+      <CheckBox label="自動インデント" checked />
+      <CheckBox label="スペルチェック" />
+      <CheckBox label="折り返し表示" />
+    </div>
+  </GroupBox>
+</div>
+```
+
+## ComboBox（ドロップダウンリスト）
+
+ComboBoxは選択肢から1つを選ぶドロップダウンリストです。カーソルを合わせると選択肢が表示されます。
+
+### 基本的な使い方
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <Label text="国を選択:" />
+  <br />
+  <ComboBox
+    options={['日本', 'アメリカ', 'イギリス', 'フランス', 'ドイツ', '中国', '韓国']}
+    placeholder="国を選択してください"
+    width="200px"
+  />
+</div>
+
+```astro
+<ComboBox
+  options={['日本', 'アメリカ', 'イギリス', 'フランス', 'ドイツ', '中国', '韓国']}
+  placeholder="国を選択してください"
+  width="200px"
+/>
+```
+
+### 初期値が選択されている場合
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <Label text="都道府県:" />
+  <br />
+  <ComboBox
+    options={['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '東京都', '神奈川県', '大阪府']}
+    selectedValue="東京都"
+    width="200px"
+  />
+</div>
+
+```astro
+<ComboBox
+  options={['北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県', '東京都', '神奈川県', '大阪府']}
+  selectedValue="東京都"
+  width="200px"
+/>
+```
+
+### 幅の指定
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <div style="margin-bottom: 10px;">
+    <Label text="幅: 150px" />
+    <br />
+    <ComboBox
+      options={['小', '中', '大']}
+      width="150px"
+    />
+  </div>
+  <div style="margin-bottom: 10px;">
+    <Label text="幅: 250px" />
+    <br />
+    <ComboBox
+      options={['オプションA', 'オプションB', 'オプションC']}
+      width="250px"
+    />
+  </div>
+  <div style="margin-bottom: 10px;">
+    <Label text="幅: 300px" />
+    <br />
+    <ComboBox
+      options={['長い選択肢の例です', '別の長い選択肢', 'さらに長い選択肢の例']}
+      width="300px"
+    />
+  </div>
+</div>
+
+```astro
+<ComboBox options={['小', '中', '大']} width="150px" />
+<ComboBox options={['オプションA', 'オプションB', 'オプションC']} width="250px" />
+<ComboBox options={['長い選択肢の例です', '別の長い選択肢', 'さらに長い選択肢の例']} width="300px" />
+```
+
+### 無効化されたComboBox
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <Label text="無効な選択:" />
+  <br />
+  <ComboBox
+    options={['選択肢1', '選択肢2', '選択肢3']}
+    disabled
+    width="200px"
+  />
+</div>
+
+```astro
+<ComboBox
+  options={['選択肢1', '選択肢2', '選択肢3']}
+  disabled
+  width="200px"
+/>
+```
+
+### GroupBoxと組み合わせ
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="プロフィール設定" width="400px">
+    <div style="margin-bottom: 15px;">
+      <Label text="名前:" />
+      <br />
+      <TextBox placeholder="山田 太郎" width="100%" />
+    </div>
+    <div style="margin-bottom: 15px;">
+      <Label text="性別:" />
+      <br />
+      <ComboBox
+        options={['男性', '女性', 'その他', '回答しない']}
+        placeholder="選択してください"
+        width="100%"
+      />
+    </div>
+    <div style="margin-bottom: 15px;">
+      <Label text="年齢:" />
+      <br />
+      <ComboBox
+        options={['10代', '20代', '30代', '40代', '50代', '60代以上']}
+        placeholder="選択してください"
+        width="100%"
+      />
+    </div>
+    <div style="margin-bottom: 15px;">
+      <Label text="職業:" />
+      <br />
+      <ComboBox
+        options={['会社員', '公務員', '自営業', '学生', 'フリーランス', 'その他']}
+        placeholder="選択してください"
+        width="100%"
+      />
+    </div>
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <Button label="保存" variant="primary" />
+      <Button label="キャンセル" variant="default" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="プロフィール設定" width="400px">
+  <div style="margin-bottom: 15px;">
+    <Label text="名前:" />
+    <br />
+    <TextBox placeholder="山田 太郎" width="100%" />
+  </div>
+  <div style="margin-bottom: 15px;">
+    <Label text="性別:" />
+    <br />
+    <ComboBox
+      options={['男性', '女性', 'その他', '回答しない']}
+      placeholder="選択してください"
+      width="100%"
+    />
+  </div>
+  <div style="margin-bottom: 15px;">
+    <Label text="年齢:" />
+    <br />
+    <ComboBox
+      options={['10代', '20代', '30代', '40代', '50代', '60代以上']}
+      placeholder="選択してください"
+      width="100%"
+    />
+  </div>
+  <div style="margin-bottom: 15px;">
+    <Label text="職業:" />
+    <br />
+    <ComboBox
+      options={['会社員', '公務員', '自営業', '学生', 'フリーランス', 'その他']}
+      placeholder="選択してください"
+      width="100%"
+    />
+  </div>
+  <div style="display: flex; justify-content: flex-end; gap: 10px;">
+    <Button label="保存" variant="primary" />
+    <Button label="キャンセル" variant="default" />
+  </div>
+</GroupBox>
+```
+
+### 複数のComboBoxを横並びに配置
+
+<div style="margin: 2rem 0; padding: 2rem; background: #e0e0e0;">
+  <GroupBox title="日時選択" width="450px">
+    <div style="margin-bottom: 15px;">
+      <Label text="日付:" />
+      <br />
+      <div style="display: flex; gap: 10px;">
+        <ComboBox
+          options={['2024', '2025', '2026']}
+          selectedValue="2025"
+          width="100px"
+        />
+        <span style="line-height: 23px;">年</span>
+        <ComboBox
+          options={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']}
+          selectedValue="1"
+          width="80px"
+        />
+        <span style="line-height: 23px;">月</span>
+        <ComboBox
+          options={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '15', '20', '25', '30', '31']}
+          selectedValue="8"
+          width="80px"
+        />
+        <span style="line-height: 23px;">日</span>
+      </div>
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="日時選択" width="450px">
+  <div style="margin-bottom: 15px;">
+    <Label text="日付:" />
+    <br />
+    <div style="display: flex; gap: 10px;">
+      <ComboBox
+        options={['2024', '2025', '2026']}
+        selectedValue="2025"
+        width="100px"
+      />
+      <span style="line-height: 23px;">年</span>
+      <ComboBox
+        options={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']}
+        selectedValue="1"
+        width="80px"
+      />
+      <span style="line-height: 23px;">月</span>
+      <ComboBox
+        options={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '15', '20', '25', '30', '31']}
+        selectedValue="8"
+        width="80px"
+      />
+      <span style="line-height: 23px;">日</span>
+    </div>
+  </div>
+</GroupBox>
+```
+
+**ComboBoxのプロパティ:**
+- `options`: 選択肢の配列（string[]）
+- `selectedValue`: 選択されている値
+- `placeholder`: プレースホルダーテキスト（デフォルト: "選択してください"）
+- `width`: 幅（デフォルト: "200px"）
+- `disabled`: 無効化（デフォルト: false）
+- `name`: name属性
+- `id`: id属性

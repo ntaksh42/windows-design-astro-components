@@ -1,0 +1,135 @@
+---
+/**
+ * TextBox - Windows Forms風のテキストボックス
+ */
+interface Props {
+  /** 入力タイプ */
+  type?: 'text' | 'password' | 'email' | 'number';
+  /** プレースホルダー */
+  placeholder?: string;
+  /** 初期値 */
+  value?: string;
+  /** 複数行入力 */
+  multiline?: boolean;
+  /** 行数（multilineの場合） */
+  rows?: number;
+  /** 読み取り専用 */
+  readOnly?: boolean;
+  /** 最大文字数 */
+  maxLength?: number;
+  /** 幅 */
+  width?: string;
+  /** name属性 */
+  name?: string;
+  /** id属性 */
+  id?: string;
+  /** 必須入力 */
+  required?: boolean;
+  /** 無効化 */
+  disabled?: boolean;
+  /** ボーダースタイル */
+  borderStyle?: 'fixed3D' | 'fixedSingle' | 'none';
+}
+
+const {
+  type = 'text',
+  placeholder = '',
+  value = '',
+  multiline = false,
+  rows = 3,
+  readOnly = false,
+  maxLength,
+  width = '200px',
+  name,
+  id,
+  required = false,
+  disabled = false,
+  borderStyle = 'fixed3D'
+} = Astro.props;
+---
+
+{multiline ? (
+  <textarea
+    class={`textbox textbox-border-${borderStyle} ${readOnly ? 'textbox-readonly' : ''}`}
+    placeholder={placeholder}
+    readonly={readOnly}
+    maxlength={maxLength}
+    style={`width: ${width};`}
+    rows={rows}
+    name={name}
+    id={id}
+    required={required}
+    disabled={disabled}
+  >{value}</textarea>
+) : (
+  <input
+    type={type}
+    class={`textbox textbox-border-${borderStyle} ${readOnly ? 'textbox-readonly' : ''}`}
+    placeholder={placeholder}
+    value={value}
+    readonly={readOnly}
+    maxlength={maxLength}
+    style={`width: ${width};`}
+    name={name}
+    id={id}
+    required={required}
+    disabled={disabled}
+  />
+)}
+
+<style>
+  .textbox {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    color: #000;
+    padding: 3px 4px;
+    background: #fff;
+    line-height: 1.5;
+  }
+
+  /* ボーダースタイル */
+  .textbox-border-fixed3D {
+    border: 1px solid #acacac;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .textbox-border-fixedSingle {
+    border: 1px solid #acacac;
+  }
+
+  .textbox-border-none {
+    border: none;
+  }
+
+  /* フォーカス */
+  .textbox:focus {
+    outline: none;
+    border-color: #0078d4;
+    box-shadow: inset 0 0 0 1px #0078d4;
+  }
+
+  /* 読み取り専用 */
+  .textbox-readonly {
+    background: #f0f0f0;
+    color: #6d6d6d;
+    cursor: default;
+  }
+
+  /* 無効化 */
+  .textbox:disabled {
+    background: #f0f0f0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+  }
+
+  /* ホバー */
+  .textbox:hover:not(:disabled):not(.textbox-readonly) {
+    border-color: #7eb4ea;
+  }
+
+  /* textarea */
+  textarea.textbox {
+    resize: vertical;
+    min-height: 60px;
+  }
+</style>

@@ -1,0 +1,217 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風ラベル
+slug: label-demo
+---
+import Label from '../components/ui/Label.astro';
+
+# Windows Forms風ラベル
+
+Windows Formsアプリケーションで使用されるようなラベルコンポーネントです。テキストの表示やフォーム要素のラベルとして使用します。
+
+## 基本的なラベル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <Label text="これは基本的なラベルです" />
+</div>
+
+```astro
+<Label text="これは基本的なラベルです" />
+```
+
+## テキストの配置
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <Label text="左揃え（デフォルト）" textAlign="left" width="300px" borderStyle="fixedSingle" />
+  <Label text="中央揃え" textAlign="center" width="300px" borderStyle="fixedSingle" />
+  <Label text="右揃え" textAlign="right" width="300px" borderStyle="fixedSingle" />
+</div>
+
+```astro
+<Label text="左揃え（デフォルト）" textAlign="left" width="300px" borderStyle="fixedSingle" />
+<Label text="中央揃え" textAlign="center" width="300px" borderStyle="fixedSingle" />
+<Label text="右揃え" textAlign="right" width="300px" borderStyle="fixedSingle" />
+```
+
+## ボーダースタイル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <Label text="ボーダーなし（デフォルト）" borderStyle="none" />
+  <Label text="単純なボーダー" borderStyle="fixedSingle" />
+  <Label text="3D風ボーダー" borderStyle="fixed3D" />
+</div>
+
+```astro
+<Label text="ボーダーなし（デフォルト）" borderStyle="none" />
+<Label text="単純なボーダー" borderStyle="fixedSingle" />
+<Label text="3D風ボーダー" borderStyle="fixed3D" />
+```
+
+**説明:**
+- `none`: ボーダーなし（デフォルト）
+- `fixedSingle`: 1pxの単純なボーダー
+- `fixed3D`: 影付きの3D風ボーダー
+
+## 幅の指定
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <Label text="幅100px" width="100px" borderStyle="fixedSingle" />
+  <Label text="幅200px" width="200px" borderStyle="fixedSingle" />
+  <Label text="幅300px" width="300px" borderStyle="fixedSingle" />
+</div>
+
+```astro
+<Label text="幅100px" width="100px" borderStyle="fixedSingle" />
+<Label text="幅200px" width="200px" borderStyle="fixedSingle" />
+<Label text="幅300px" width="300px" borderStyle="fixedSingle" />
+```
+
+## 自動サイズ調整
+
+`autoSize`プロパティを使うと、テキストの長さに合わせて自動的にサイズが調整されます。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <Label text="短いテキスト" autoSize borderStyle="fixedSingle" />
+  <Label text="これは少し長めのテキストです" autoSize borderStyle="fixedSingle" />
+  <Label text="これはとても長いテキストで、自動的にサイズが調整されます" autoSize borderStyle="fixedSingle" />
+</div>
+
+```astro
+<Label text="短いテキスト" autoSize borderStyle="fixedSingle" />
+<Label text="これは少し長めのテキストです" autoSize borderStyle="fixedSingle" />
+```
+
+## スロットを使ったカスタマイズ
+
+スロットを使うと、HTMLやスタイルを含めたカスタムコンテンツを表示できます。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <Label borderStyle="fixedSingle">
+    <strong>太字のテキスト</strong>
+  </Label>
+  <Label borderStyle="fixedSingle">
+    <span style="color: #e74c3c;">赤いテキスト</span>
+  </Label>
+  <Label borderStyle="fixedSingle">
+    ✓ チェックマーク付き
+  </Label>
+</div>
+
+```astro
+<Label borderStyle="fixedSingle">
+  <strong>太字のテキスト</strong>
+</Label>
+<Label borderStyle="fixedSingle">
+  <span style="color: #e74c3c;">赤いテキスト</span>
+</Label>
+```
+
+## フォーム要素のラベルとして使用
+
+`htmlFor`プロパティを使うと、入力要素と関連付けることができます。ラベルをクリックすると、関連する入力要素にフォーカスが当たります。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <Label text="ユーザー名:" htmlFor="username" />
+    <input type="text" id="username" style="width: 200px; padding: 4px; border: 1px solid #acacac;" />
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+    <Label text="パスワード:" htmlFor="password" />
+    <input type="password" id="password" style="width: 200px; padding: 4px; border: 1px solid #acacac;" />
+  </div>
+</div>
+
+```astro
+<Label text="ユーザー名:" htmlFor="username" />
+<input type="text" id="username" />
+
+<Label text="パスワード:" htmlFor="password" />
+<input type="password" id="password" />
+```
+
+**ポイント:** ラベルをクリックすると、関連する入力要素にフォーカスが当たります。これにより、ユーザビリティが向上します。
+
+## 実用例：情報表示パネル
+
+<div style="margin: 2rem 0; padding: 1.5rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">システム情報</h3>
+  <div style="display: grid; grid-template-columns: 120px 1fr; gap: 0.5rem; align-items: center;">
+    <Label text="OS:" />
+    <Label text="Windows 11 Pro" borderStyle="fixed3D" width="250px" />
+
+    <Label text="プロセッサ:" />
+    <Label text="Intel Core i7-12700K" borderStyle="fixed3D" width="250px" />
+
+    <Label text="メモリ:" />
+    <Label text="32 GB" borderStyle="fixed3D" width="250px" />
+
+    <Label text="状態:" />
+    <Label borderStyle="fixed3D" width="250px">
+      <span style="color: #27ae60;">● 正常</span>
+    </Label>
+  </div>
+</div>
+
+```astro
+<Label text="OS:" />
+<Label text="Windows 11 Pro" borderStyle="fixed3D" width="250px" />
+
+<Label text="状態:" />
+<Label borderStyle="fixed3D" width="250px">
+  <span style="color: #27ae60;">● 正常</span>
+</Label>
+```
+
+## 実用例：ステータスバー風
+
+<div style="margin: 2rem 0; padding: 0; background: #f0f0f0; border: 1px solid #adadad; display: flex;">
+  <Label text="準備完了" width="200px" borderStyle="fixedSingle" />
+  <Label text="行: 1, 列: 1" width="150px" borderStyle="fixedSingle" textAlign="center" />
+  <Label text="UTF-8" width="100px" borderStyle="fixedSingle" textAlign="center" />
+  <Label text="100%" width="80px" borderStyle="fixedSingle" textAlign="right" />
+</div>
+
+```astro
+<div style="display: flex;">
+  <Label text="準備完了" width="200px" borderStyle="fixedSingle" />
+  <Label text="行: 1, 列: 1" width="150px" borderStyle="fixedSingle" textAlign="center" />
+  <Label text="UTF-8" width="100px" borderStyle="fixedSingle" textAlign="center" />
+  <Label text="100%" width="80px" borderStyle="fixedSingle" textAlign="right" />
+</div>
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `text` | string | '' | 表示するテキスト |
+| `textAlign` | 'left' \| 'center' \| 'right' | 'left' | テキストの配置 |
+| `borderStyle` | 'none' \| 'fixedSingle' \| 'fixed3D' | 'none' | ボーダースタイル |
+| `autoSize` | boolean | false | 自動サイズ調整 |
+| `width` | string | undefined | 幅（CSS形式: '200px'など） |
+| `htmlFor` | string | undefined | 関連する入力要素のID |
+
+## 使い方のヒント
+
+**単純なテキスト表示:**
+```astro
+<Label text="こんにちは" />
+```
+
+**フォームのラベル:**
+```astro
+<Label text="名前:" htmlFor="name-input" />
+<input type="text" id="name-input" />
+```
+
+**情報パネル:**
+```astro
+<Label text="ファイル名: document.txt" borderStyle="fixed3D" width="300px" />
+```
+
+**ステータス表示:**
+```astro
+<Label borderStyle="fixedSingle">
+  <span style="color: green;">✓ 接続成功</span>
+</Label>
+```

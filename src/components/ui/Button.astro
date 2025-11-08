@@ -1,0 +1,143 @@
+---
+/**
+ * Button - Windows Forms風のボタン
+ */
+interface Props {
+  /** ボタンのテキスト */
+  label?: string;
+  /** ボタンの種類 */
+  variant?: 'default' | 'primary' | 'flat';
+  /** ボタンのサイズ */
+  size?: 'small' | 'medium' | 'large';
+  /** 無効化 */
+  disabled?: boolean;
+  /** HTMLボタンのtype属性 */
+  type?: 'button' | 'submit' | 'reset';
+  /** ボタンの幅を100%にする */
+  fullWidth?: boolean;
+}
+
+const {
+  label = 'Button',
+  variant = 'default',
+  size = 'medium',
+  disabled = false,
+  type = 'button',
+  fullWidth = false
+} = Astro.props;
+---
+
+<button
+  type={type}
+  class={`btn btn-${variant} btn-${size} ${fullWidth ? 'btn-full-width' : ''}`}
+  disabled={disabled}
+>
+  <slot>{label}</slot>
+</button>
+
+<style>
+  .btn {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    border: 1px solid #adadad;
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    transition: all 0.1s ease;
+  }
+
+  /* サイズバリエーション */
+  .btn-small {
+    padding: 2px 8px;
+    font-size: 12px;
+    min-width: 60px;
+    height: 24px;
+  }
+
+  .btn-medium {
+    padding: 4px 12px;
+    font-size: 13px;
+    min-width: 75px;
+    height: 28px;
+  }
+
+  .btn-large {
+    padding: 6px 16px;
+    font-size: 14px;
+    min-width: 90px;
+    height: 32px;
+  }
+
+  /* バリエーション */
+  .btn-default {
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+    color: #000;
+  }
+
+  .btn-default:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  .btn-default:active:not(:disabled) {
+    background: linear-gradient(to bottom, #cce4f7 0%, #b8d6ed 100%);
+    border-color: #2c5f8d;
+  }
+
+  .btn-primary {
+    background: linear-gradient(to bottom, #007acc 0%, #005a9e 100%);
+    border: 1px solid #005a9e;
+    color: white;
+    font-weight: 500;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #1e8ad6 0%, #0066b3 100%);
+    border-color: #004578;
+  }
+
+  .btn-primary:active:not(:disabled) {
+    background: linear-gradient(to bottom, #005a9e 0%, #004578 100%);
+    border-color: #003555;
+  }
+
+  .btn-flat {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #000;
+  }
+
+  .btn-flat:hover:not(:disabled) {
+    background: #e5f3ff;
+    border-color: #b8d6ed;
+  }
+
+  .btn-flat:active:not(:disabled) {
+    background: #cce4f7;
+    border-color: #9cc2df;
+  }
+
+  /* 無効化状態 */
+  .btn:disabled {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+  }
+
+  /* フルワイド */
+  .btn-full-width {
+    width: 100%;
+  }
+
+  /* フォーカス */
+  .btn:focus {
+    outline: 1px dotted #000;
+    outline-offset: -4px;
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+/**
+ * メニューバー - Windows風のメニューバー
+ * 横一列にメニューを表示します
+ */
+---
+
+<div class="menubar">
+  <slot />
+</div>
+
+<style>
+  .menubar {
+    background: #f0f0f0;
+    border-bottom: 1px solid #acacac;
+    display: flex;
+    padding: 0 0 0 2px;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    user-select: none;
+  }
+</style>

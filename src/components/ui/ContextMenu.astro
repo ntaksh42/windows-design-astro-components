@@ -1,0 +1,29 @@
+---
+/**
+ * ContextMenu - Windowsのコンテキストメニュー（右クリックメニュー）
+ */
+interface Props {
+  /** メニューの幅 */
+  width?: string;
+}
+
+const { width = '200px' } = Astro.props;
+---
+
+<div class="context-menu" style={`min-width: ${width};`}>
+  <slot />
+</div>
+
+<style>
+  .context-menu {
+    background: #f0f0f0;
+    border: 1px solid #acacac;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    width: max-content;
+    padding: 2px 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    user-select: none;
+  }
+</style>

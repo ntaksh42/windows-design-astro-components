@@ -1,0 +1,566 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: ログインフォーム
+---
+import Label from '../components/ui/Label.astro';
+import TextBox from '../components/ui/TextBox.astro';
+import CheckBox from '../components/ui/CheckBox.astro';
+import Button from '../components/ui/Button.astro';
+import GroupBox from '../components/ui/GroupBox.astro';
+
+# ログインフォーム - コンポーネントの組み合わせ
+
+Label、TextBox、CheckBox、Buttonコンポーネントを組み合わせて作った実用的なフォームです。
+
+## 完成形：ログインフォーム
+
+<div style="max-width: 400px; margin: 2rem auto; padding: 30px; background: #f0f0f0; border: 1px solid #adadad;">
+  <h2 style="margin: 0 0 20px 0; font-size: 18px; color: #000; text-align: center;">ログイン</h2>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="ユーザー名:" htmlFor="username" />
+    <div style="margin-top: 5px;">
+      <TextBox id="username" name="username" placeholder="ユーザー名を入力" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="パスワード:" htmlFor="password" />
+    <div style="margin-top: 5px;">
+      <TextBox id="password" name="password" type="password" placeholder="パスワードを入力" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 20px;">
+    <CheckBox label="ログイン状態を保持する" name="remember" />
+  </div>
+
+  <div style="display: flex; gap: 10px; justify-content: flex-end;">
+    <Button label="ログイン" variant="primary" />
+    <Button label="キャンセル" variant="default" />
+  </div>
+</div>
+
+### このフォームで使用しているコンポーネント
+
+- **Label** × 2 （ユーザー名、パスワード）
+- **TextBox** × 2 （テキスト入力、パスワード入力）
+- **CheckBox** × 1 （ログイン状態を保持）
+- **Button** × 2 （ログイン、キャンセル）
+
+## コード
+
+```astro
+<div style="max-width: 400px; padding: 30px; background: #f0f0f0; border: 1px solid #adadad;">
+  <h2>ログイン</h2>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="ユーザー名:" htmlFor="username" />
+    <div style="margin-top: 5px;">
+      <TextBox id="username" placeholder="ユーザー名を入力" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="パスワード:" htmlFor="password" />
+    <div style="margin-top: 5px;">
+      <TextBox id="password" type="password" placeholder="パスワードを入力" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 20px;">
+    <CheckBox label="ログイン状態を保持する" />
+  </div>
+
+  <div style="display: flex; gap: 10px;">
+    <Button label="ログイン" variant="primary" />
+    <Button label="キャンセル" variant="default" />
+  </div>
+</div>
+```
+
+## 各コンポーネントの説明
+
+### Label（ラベル）
+
+テキストを表示するシンプルなコンポーネントです。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <Label text="これはラベルです" />
+  <br /><br />
+  <Label text="中央揃え" textAlign="center" width="200px" borderStyle="fixedSingle" />
+  <br /><br />
+  <Label text="3D ボーダー" borderStyle="fixed3D" width="200px" />
+</div>
+
+```astro
+<Label text="これはラベルです" />
+<Label text="中央揃え" textAlign="center" width="200px" borderStyle="fixedSingle" />
+<Label text="3D ボーダー" borderStyle="fixed3D" width="200px" />
+```
+
+**プロパティ:**
+- `text`: 表示するテキスト
+- `textAlign`: テキストの配置（left/center/right）
+- `borderStyle`: ボーダースタイル（none/fixedSingle/fixed3D）
+- `htmlFor`: 関連する入力要素のID
+
+### TextBox（テキストボックス）
+
+テキスト入力用のコンポーネントです。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <div style="margin-bottom: 15px;">
+    <Label text="通常のテキスト:" />
+    <br />
+    <TextBox placeholder="テキストを入力" />
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="パスワード:" />
+    <br />
+    <TextBox type="password" placeholder="パスワードを入力" />
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="読み取り専用:" />
+    <br />
+    <TextBox value="編集できません" readOnly />
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="複数行:" />
+    <br />
+    <TextBox multiline rows={4} placeholder="複数行のテキスト" width="300px" />
+  </div>
+</div>
+
+```astro
+<TextBox placeholder="テキストを入力" />
+<TextBox type="password" placeholder="パスワードを入力" />
+<TextBox value="編集できません" readOnly />
+<TextBox multiline rows={4} placeholder="複数行のテキスト" />
+```
+
+**プロパティ:**
+- `type`: 入力タイプ（text/password/email/number）
+- `placeholder`: プレースホルダー
+- `multiline`: 複数行入力
+- `readOnly`: 読み取り専用
+- `width`: 幅
+
+### CheckBox（チェックボックス）
+
+ON/OFFの選択に使います。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <CheckBox label="オプション1" />
+  <br /><br />
+  <CheckBox label="オプション2（チェック済み）" checked />
+  <br /><br />
+  <CheckBox label="オプション3（無効）" disabled />
+  <br /><br />
+  <CheckBox label="オプション4（チェック＆無効）" checked disabled />
+</div>
+
+```astro
+<CheckBox label="オプション1" />
+<CheckBox label="オプション2（チェック済み）" checked />
+<CheckBox label="オプション3（無効）" disabled />
+```
+
+**プロパティ:**
+- `label`: ラベルテキスト
+- `checked`: チェック状態
+- `disabled`: 無効化
+
+## 他のフォーム例
+
+### ユーザー登録フォーム
+
+<div style="max-width: 400px; margin: 2rem auto; padding: 30px; background: #f0f0f0; border: 1px solid #adadad;">
+  <h2 style="margin: 0 0 20px 0; font-size: 18px; color: #000; text-align: center;">新規ユーザー登録</h2>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="氏名:" htmlFor="fullname" />
+    <div style="margin-top: 5px;">
+      <TextBox id="fullname" placeholder="山田 太郎" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="メールアドレス:" htmlFor="email" />
+    <div style="margin-top: 5px;">
+      <TextBox id="email" type="email" placeholder="example@example.com" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="パスワード:" htmlFor="newpassword" />
+    <div style="margin-top: 5px;">
+      <TextBox id="newpassword" type="password" placeholder="8文字以上" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 20px;">
+    <CheckBox label="利用規約に同意する" />
+    <br />
+    <CheckBox label="ニュースレターを受け取る" />
+  </div>
+
+  <div style="display: flex; gap: 10px; justify-content: flex-end;">
+    <Button label="登録" variant="primary" />
+    <Button label="キャンセル" variant="default" />
+  </div>
+</div>
+
+### お問い合わせフォーム
+
+<div style="max-width: 500px; margin: 2rem auto; padding: 30px; background: #f0f0f0; border: 1px solid #adadad;">
+  <h2 style="margin: 0 0 20px 0; font-size: 18px; color: #000; text-align: center;">お問い合わせ</h2>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="お名前:" />
+    <div style="margin-top: 5px;">
+      <TextBox placeholder="お名前を入力" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="メールアドレス:" />
+    <div style="margin-top: 5px;">
+      <TextBox type="email" placeholder="example@example.com" width="100%" />
+    </div>
+  </div>
+
+  <div style="margin-bottom: 15px;">
+    <Label text="お問い合わせ内容:" />
+    <div style="margin-top: 5px;">
+      <TextBox multiline rows={6} placeholder="お問い合わせ内容を入力してください" width="100%" />
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 10px; justify-content: flex-end;">
+    <Button label="送信" variant="primary" />
+    <Button label="クリア" variant="default" />
+  </div>
+</div>
+
+## CheckBoxの配置パターン
+
+CheckBoxコンポーネントは`display: inline-flex`なので、デフォルトで横に並びます。親要素のCSSで自由に配置できます。
+
+### 横に並べる（デフォルト）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <CheckBox label="オプション1" />
+  <CheckBox label="オプション2" />
+  <CheckBox label="オプション3" />
+</div>
+
+```astro
+<CheckBox label="オプション1" />
+<CheckBox label="オプション2" />
+<CheckBox label="オプション3" />
+```
+
+### 縦に並べる
+
+`<br />`タグを入れるか、親要素を`display: flex; flex-direction: column;`にします。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <CheckBox label="オプション1" />
+  <br />
+  <CheckBox label="オプション2" />
+  <br />
+  <CheckBox label="オプション3" />
+</div>
+
+```astro
+<CheckBox label="オプション1" />
+<br />
+<CheckBox label="オプション2" />
+<br />
+<CheckBox label="オプション3" />
+```
+
+### Flexboxで間隔を空けて横並び
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <div style="display: flex; gap: 20px;">
+    <CheckBox label="オプション1" />
+    <CheckBox label="オプション2" />
+    <CheckBox label="オプション3" />
+  </div>
+</div>
+
+```astro
+<div style="display: flex; gap: 20px;">
+  <CheckBox label="オプション1" />
+  <CheckBox label="オプション2" />
+  <CheckBox label="オプション3" />
+</div>
+```
+
+### Flexboxで縦並び（間隔あり）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <CheckBox label="オプション1" />
+    <CheckBox label="オプション2" />
+    <CheckBox label="オプション3" />
+  </div>
+</div>
+
+```astro
+<div style="display: flex; flex-direction: column; gap: 10px;">
+  <CheckBox label="オプション1" />
+  <CheckBox label="オプション2" />
+  <CheckBox label="オプション3" />
+</div>
+```
+
+### Gridレイアウトで2列に配置
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+    <CheckBox label="オプション1" />
+    <CheckBox label="オプション2" />
+    <CheckBox label="オプション3" />
+    <CheckBox label="オプション4" />
+    <CheckBox label="オプション5" />
+    <CheckBox label="オプション6" />
+  </div>
+</div>
+
+```astro
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+  <CheckBox label="オプション1" />
+  <CheckBox label="オプション2" />
+  <CheckBox label="オプション3" />
+  <CheckBox label="オプション4" />
+  <CheckBox label="オプション5" />
+  <CheckBox label="オプション6" />
+</div>
+```
+
+### 任意の位置に配置（absolute positioning）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; position: relative; height: 200px;">
+  <div style="position: absolute; top: 20px; left: 20px;">
+    <CheckBox label="左上" />
+  </div>
+  <div style="position: absolute; top: 20px; right: 20px;">
+    <CheckBox label="右上" />
+  </div>
+  <div style="position: absolute; bottom: 20px; left: 20px;">
+    <CheckBox label="左下" />
+  </div>
+  <div style="position: absolute; bottom: 20px; right: 20px;">
+    <CheckBox label="右下" />
+  </div>
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <CheckBox label="中央" />
+  </div>
+</div>
+
+```astro
+<div style="position: relative; height: 200px;">
+  <div style="position: absolute; top: 20px; left: 20px;">
+    <CheckBox label="左上" />
+  </div>
+  <div style="position: absolute; top: 20px; right: 20px;">
+    <CheckBox label="右上" />
+  </div>
+  <div style="position: absolute; bottom: 20px; left: 20px;">
+    <CheckBox label="左下" />
+  </div>
+  <div style="position: absolute; bottom: 20px; right: 20px;">
+    <CheckBox label="右下" />
+  </div>
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <CheckBox label="中央" />
+  </div>
+</div>
+```
+
+## GroupBox（グループボックス）
+
+GroupBoxは、関連するコントロールをグループ化するためのコンポーネントです。Windows Forms風の枠付きコンテナで、タイトルを表示できます。
+
+### 基本的な使い方
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <GroupBox title="個人情報" width="400px">
+    <div style="margin-bottom: 10px;">
+      <Label text="氏名:" />
+      <br />
+      <TextBox placeholder="山田 太郎" width="100%" />
+    </div>
+    <div style="margin-bottom: 10px;">
+      <Label text="メールアドレス:" />
+      <br />
+      <TextBox type="email" placeholder="example@example.com" width="100%" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="個人情報" width="400px">
+  <div style="margin-bottom: 10px;">
+    <Label text="氏名:" />
+    <br />
+    <TextBox placeholder="山田 太郎" width="100%" />
+  </div>
+  <div style="margin-bottom: 10px;">
+    <Label text="メールアドレス:" />
+    <br />
+    <TextBox type="email" placeholder="example@example.com" width="100%" />
+  </div>
+</GroupBox>
+```
+
+### CheckBoxをグループ化
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <GroupBox title="興味のある分野" width="300px">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <CheckBox label="プログラミング" />
+      <CheckBox label="デザイン" />
+      <CheckBox label="マーケティング" />
+      <CheckBox label="データ分析" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="興味のある分野" width="300px">
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <CheckBox label="プログラミング" />
+    <CheckBox label="デザイン" />
+    <CheckBox label="マーケティング" />
+    <CheckBox label="データ分析" />
+  </div>
+</GroupBox>
+```
+
+### 複数のGroupBoxを並べる
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <div style="display: flex; gap: 20px;">
+    <GroupBox title="性別" width="150px">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <CheckBox label="男性" />
+        <CheckBox label="女性" />
+        <CheckBox label="その他" />
+      </div>
+    </GroupBox>
+    <GroupBox title="年齢層" width="150px">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <CheckBox label="10代" />
+        <CheckBox label="20代" />
+        <CheckBox label="30代" />
+        <CheckBox label="40代以上" />
+      </div>
+    </GroupBox>
+  </div>
+</div>
+
+```astro
+<div style="display: flex; gap: 20px;">
+  <GroupBox title="性別" width="150px">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <CheckBox label="男性" />
+      <CheckBox label="女性" />
+      <CheckBox label="その他" />
+    </div>
+  </GroupBox>
+  <GroupBox title="年齢層" width="150px">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <CheckBox label="10代" />
+      <CheckBox label="20代" />
+      <CheckBox label="30代" />
+      <CheckBox label="40代以上" />
+    </div>
+  </GroupBox>
+</div>
+```
+
+### ネストしたGroupBox
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <GroupBox title="アカウント設定" width="450px">
+    <div style="margin-bottom: 15px;">
+      <Label text="ユーザー名:" />
+      <br />
+      <TextBox placeholder="username" width="100%" />
+    </div>
+    <GroupBox title="通知設定" width="100%">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <CheckBox label="メール通知を受け取る" checked />
+        <CheckBox label="プッシュ通知を受け取る" />
+        <CheckBox label="週次レポートを受け取る" checked />
+      </div>
+    </GroupBox>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="アカウント設定" width="450px">
+  <div style="margin-bottom: 15px;">
+    <Label text="ユーザー名:" />
+    <br />
+    <TextBox placeholder="username" width="100%" />
+  </div>
+  <GroupBox title="通知設定" width="100%">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <CheckBox label="メール通知を受け取る" checked />
+      <CheckBox label="プッシュ通知を受け取る" />
+      <CheckBox label="週次レポートを受け取る" checked />
+    </div>
+  </GroupBox>
+</GroupBox>
+```
+
+### 無効化されたGroupBox
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <GroupBox title="無効な設定" width="300px" disabled>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <CheckBox label="オプション1" />
+      <CheckBox label="オプション2" />
+      <CheckBox label="オプション3" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox title="無効な設定" width="300px" disabled>
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <CheckBox label="オプション1" />
+    <CheckBox label="オプション2" />
+    <CheckBox label="オプション3" />
+  </div>
+</GroupBox>
+```
+
+**GroupBoxのプロパティ:**
+- `title`: グループボックスのタイトル
+- `width`: 幅（デフォルト: auto）
+- `height`: 高さ（デフォルト: auto）
+- `disabled`: 無効化（デフォルト: false）
+
+## まとめ
+
+このように、作成したコンポーネントを組み合わせることで、実用的なフォームを簡単に作成できます！
+
+**作成したコンポーネント一覧:**
+- Button（ボタン）
+- Label（ラベル）
+- TextBox（テキストボックス）
+- CheckBox（チェックボックス）
+- GroupBox（グループボックス）
+- MessageBox（メッセージボックス）
+- Menu（メニュー）
+
+これらを自由に組み合わせて、様々なUIを作ることができます。

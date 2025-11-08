@@ -1,0 +1,361 @@
+---
+/**
+ * メッセージボックスコンポーネント
+ * Windows風のメッセージボックスを表示します
+ */
+
+interface Props {
+  /** メッセージボックスのタイプ */
+  type?: 'info' | 'success' | 'warning' | 'error';
+  /** タイトル */
+  title?: string;
+  /** メッセージ本文 */
+  message: string;
+  /** 表示するボタンの種類 */
+  buttons?: 'ok' | 'okcancel' | 'yesno' | 'yesnocancel';
+  /** デフォルトでフォーカスするボタン (0から始まるインデックス) */
+  defaultButton?: number;
+  /** 背景クリックで閉じるかどうか */
+  closeOnBackdrop?: boolean;
+  /** 一意なID（複数のメッセージボックスを区別するため） */
+  id?: string;
+}
+
+const {
+  type = 'info',
+  title = 'メッセージ',
+  message,
+  buttons = 'ok',
+  defaultButton = 0,
+  closeOnBackdrop = false,
+  id = 'messagebox-1'
+} = Astro.props;
+
+// タイプ別の設定
+const typeConfig = {
+  info: {
+    icon: 'ℹ️',
+    color: '#3b82f6',
+    bgColor: '#eff6ff',
+    borderColor: '#3b82f6'
+  },
+  success: {
+    icon: '✓',
+    color: '#10b981',
+    bgColor: '#f0fdf4',
+    borderColor: '#10b981'
+  },
+  warning: {
+    icon: '⚠️',
+    color: '#f59e0b',
+    bgColor: '#fffbeb',
+    borderColor: '#f59e0b'
+  },
+  error: {
+    icon: '✗',
+    color: '#ef4444',
+    bgColor: '#fef2f2',
+    borderColor: '#ef4444'
+  }
+};
+
+const config = typeConfig[type];
+
+// ボタン構成
+const buttonConfigs = {
+  ok: [{ text: 'OK', value: 'ok' }],
+  okcancel: [
+    { text: 'OK', value: 'ok' },
+    { text: 'キャンセル', value: 'cancel' }
+  ],
+  yesno: [
+    { text: 'はい', value: 'yes' },
+    { text: 'いいえ', value: 'no' }
+  ],
+  yesnocancel: [
+    { text: 'はい', value: 'yes' },
+    { text: 'いいえ', value: 'no' },
+    { text: 'キャンセル', value: 'cancel' }
+  ]
+};
+
+const buttonList = buttonConfigs[buttons];
+---
+
+<!-- オーバーレイ -->
+<div class="messagebox-overlay" id={`${id}-overlay`} style="display: none;" tabindex="-1">
+  <!-- メッセージボックス本体 -->
+  <div class="messagebox" id={id} role="dialog" aria-labelledby={`${id}-title`} aria-modal="true">
+    <!-- タイトルバー -->
+    <div class="messagebox-header">
+      <h3 class="messagebox-title" id={`${id}-title`}>
+        {title}
+      </h3>
+      <button type="button" class="messagebox-close" id={`${id}-close`} aria-label="閉じる">
+        ✕
+      </button>
+    </div>
+
+    <!-- 本文 -->
+    <div class="messagebox-body">
+      <div class="messagebox-icon">
+        {config.icon}
+      </div>
+      <p class="messagebox-message">{message}</p>
+    </div>
+
+    <!-- ボタン -->
+    <div class="messagebox-footer">
+      {buttonList.map((btn, index) => (
+        <button
+          type="button"
+          class={`messagebox-button ${index === defaultButton ? 'default' : ''}`}
+          data-value={btn.value}
+          data-default={index === defaultButton ? 'true' : 'false'}
+        >
+          {btn.text}
+        </button>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ id, closeOnBackdrop }}>
+  (function() {
+    function init() {
+      const overlay = document.getElementById(`${id}-overlay`);
+      const messagebox = document.getElementById(id);
+      const closeBtn = document.getElementById(`${id}-close`);
+      const buttons = messagebox?.querySelectorAll('.messagebox-button');
+
+      console.log('[MessageBox]', id, 'initialized', {
+        overlay: !!overlay,
+        messagebox: !!messagebox,
+        closeBtn: !!closeBtn,
+        buttonsCount: buttons?.length
+      });
+
+      if (!overlay || !messagebox) {
+        console.error('[MessageBox]', id, 'elements not found!');
+        return;
+      }
+
+      // メッセージボックスを閉じる関数
+      function closeMessageBox(result) {
+        console.log('[MessageBox]', id, 'closeMessageBox called with result:', result);
+        overlay.style.display = 'none';
+
+        // カスタムイベントを発火（結果を通知）
+        const event = new CustomEvent('messagebox-close', {
+          detail: { result: result || 'close' },
+          bubbles: true,
+          composed: true
+        });
+        console.log('[MessageBox]', id, 'dispatching event');
+        messagebox.dispatchEvent(event);
+      }
+
+      // 閉じるボタン
+      if (closeBtn) {
+        console.log('[MessageBox]', id, 'Adding click listener to close button');
+        closeBtn.addEventListener('click', (e) => {
+          console.log('[MessageBox]', id, 'Close button clicked');
+          e.preventDefault();
+          e.stopPropagation();
+          closeMessageBox('close');
+        });
+      }
+
+      // 各ボタンのクリックイベント
+      if (buttons) {
+        console.log('[MessageBox]', id, 'Adding click listeners to', buttons.length, 'buttons');
+        buttons.forEach((button, index) => {
+          button.addEventListener('click', (e) => {
+            console.log('[MessageBox]', id, 'Button', index, 'clicked');
+            e.preventDefault();
+            e.stopPropagation();
+            const value = e.target.getAttribute('data-value');
+            console.log('[MessageBox]', id, 'Button value:', value);
+            closeMessageBox(value || undefined);
+          });
+        });
+      }
+
+      // 背景クリックで閉じる
+      if (closeOnBackdrop) {
+        console.log('[MessageBox]', id, 'Background click enabled');
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) {
+            console.log('[MessageBox]', id, 'Background clicked');
+            closeMessageBox('backdrop');
+          }
+        });
+      }
+
+      // キーボード操作
+      overlay.addEventListener('keydown', (e) => {
+        console.log('[MessageBox]', id, 'Key pressed:', e.key);
+
+        // Escキーで閉じる
+        if (e.key === 'Escape') {
+          console.log('[MessageBox]', id, 'Escape key pressed');
+          e.preventDefault();
+          closeMessageBox('escape');
+        }
+
+        // Enterキーでデフォルトボタンを実行
+        if (e.key === 'Enter') {
+          const defaultBtn = messagebox.querySelector('[data-default="true"]');
+          if (defaultBtn && document.activeElement === defaultBtn) {
+            // フォーカスがデフォルトボタンにある場合のみ
+            return;
+          }
+          if (defaultBtn) {
+            console.log('[MessageBox]', id, 'Enter key pressed, clicking default button');
+            e.preventDefault();
+            defaultBtn.click();
+          }
+        }
+      });
+    }
+
+    // DOMが準備できたら初期化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      // すでに読み込み完了している場合は即実行
+      init();
+    }
+  })();
+</script>
+
+<style>
+  .messagebox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    outline: none;
+  }
+
+  .messagebox {
+    background: #f0f0f0;
+    border: 1px solid #0078d4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    min-width: 300px;
+    max-width: 500px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+  }
+
+  .messagebox-header {
+    background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+    border-bottom: 1px solid #adadad;
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .messagebox-icon {
+    font-size: 32px;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .messagebox-title {
+    flex: 1;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: #000;
+  }
+
+  .messagebox-close {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #000;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .messagebox-close:hover {
+    background: #e81123;
+    color: white;
+  }
+
+  .messagebox-body {
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .messagebox-message {
+    margin: 0;
+    color: #000;
+    line-height: 1.5;
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .messagebox-footer {
+    padding: 12px 20px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .messagebox-button {
+    padding: 4px 12px;
+    border: 1px solid #adadad;
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    color: #000;
+    font-size: 13px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    cursor: pointer;
+    min-width: 75px;
+    height: 28px;
+  }
+
+  .messagebox-button:hover {
+    background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  .messagebox-button:active {
+    background: linear-gradient(to bottom, #cce4f7 0%, #b8d6ed 100%);
+  }
+
+  .messagebox-button.default {
+    background: linear-gradient(to bottom, #007acc 0%, #005a9e 100%);
+    border-color: #005a9e;
+    color: white;
+    font-weight: 500;
+  }
+
+  .messagebox-button.default:hover {
+    background: linear-gradient(to bottom, #1e8ad6 0%, #0066b3 100%);
+  }
+
+  .messagebox-button:focus {
+    outline: 1px dotted #000;
+    outline-offset: -4px;
+  }
+</style>

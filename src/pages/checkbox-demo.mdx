@@ -1,0 +1,269 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風チェックボックス
+slug: checkbox-demo
+---
+import CheckBox from '../components/ui/CheckBox.astro';
+
+# Windows Forms風チェックボックス
+
+Windows Formsアプリケーションで使用されるようなチェックボックスコンポーネントです。ON/OFF選択や複数の選択肢から選ぶ際に使用します。
+
+## 基本的なチェックボックス
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <CheckBox label="チェックボックス" />
+</div>
+
+```astro
+<CheckBox label="チェックボックス" />
+```
+
+## チェック状態
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <CheckBox label="未チェック（デフォルト）" checked={false} />
+  <CheckBox label="チェック済み" checked={true} />
+</div>
+
+```astro
+<CheckBox label="未チェック（デフォルト）" checked={false} />
+<CheckBox label="チェック済み" checked={true} />
+```
+
+## 不定状態
+
+不定状態は、部分的に選択されている場合などに使用します。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <CheckBox label="未チェック" />
+  <CheckBox label="チェック済み" checked={true} />
+  <CheckBox label="不定状態" indeterminate={true} />
+</div>
+
+```astro
+<CheckBox label="未チェック" />
+<CheckBox label="チェック済み" checked={true} />
+<CheckBox label="不定状態" indeterminate={true} />
+```
+
+**説明:** 不定状態は、例えば「すべて選択」チェックボックスで一部のみ選択されている時などに使用します。
+
+## 無効化状態
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <CheckBox label="通常" />
+  <CheckBox label="無効化（未チェック）" disabled />
+  <CheckBox label="無効化（チェック済み）" checked disabled />
+  <CheckBox label="無効化（不定）" indeterminate disabled />
+</div>
+
+```astro
+<CheckBox label="通常" />
+<CheckBox label="無効化（未チェック）" disabled />
+<CheckBox label="無効化（チェック済み）" checked disabled />
+```
+
+## スロットを使ったカスタマイズ
+
+スロットを使うと、ラベルをカスタマイズできます。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <CheckBox>
+    <strong>太字のラベル</strong>
+  </CheckBox>
+  <CheckBox>
+    <span style="color: #e74c3c;">赤いテキスト</span>
+  </CheckBox>
+  <CheckBox>
+    利用規約に同意します（<a href="#" style="color: #007acc;">詳細</a>）
+  </CheckBox>
+</div>
+
+```astro
+<CheckBox>
+  <strong>太字のラベル</strong>
+</CheckBox>
+<CheckBox>
+  利用規約に同意します（<a href="#">詳細</a>）
+</CheckBox>
+```
+
+## 実用例：設定オプション
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">表示設定</h3>
+  <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+    <CheckBox label="行番号を表示" checked />
+    <CheckBox label="自動保存を有効にする" checked />
+    <CheckBox label="ツールバーを表示" checked />
+    <CheckBox label="ステータスバーを表示" checked />
+    <CheckBox label="ミニマップを表示" />
+  </div>
+</div>
+
+```astro
+<CheckBox label="行番号を表示" checked />
+<CheckBox label="自動保存を有効にする" checked />
+<CheckBox label="ツールバーを表示" checked />
+```
+
+## 実用例：フォームでの使用
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad; max-width: 500px;">
+  <h3 style="margin-top: 0;">アカウント作成</h3>
+  <form>
+    <div style="margin-bottom: 1.5rem;">
+      <div style="margin-bottom: 0.5rem; font-weight: bold;">ユーザー名</div>
+      <input type="text" style="width: 100%; padding: 4px; border: 1px solid #acacac;" />
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <div style="margin-bottom: 0.5rem; font-weight: bold;">パスワード</div>
+      <input type="password" style="width: 100%; padding: 4px; border: 1px solid #acacac;" />
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <CheckBox name="newsletter" value="yes">
+        メールマガジンを受け取る
+      </CheckBox>
+    </div>
+    <div style="margin-bottom: 1.5rem;">
+      <CheckBox name="terms" value="agreed">
+        <a href="#" style="color: #007acc;">利用規約</a>と<a href="#" style="color: #007acc;">プライバシーポリシー</a>に同意します
+      </CheckBox>
+    </div>
+    <button type="submit" style="padding: 6px 16px; background: #007acc; color: white; border: none; cursor: pointer; width: 100%;">
+      アカウントを作成
+    </button>
+  </form>
+</div>
+
+```astro
+<CheckBox name="newsletter" value="yes">
+  メールマガジンを受け取る
+</CheckBox>
+<CheckBox name="terms" value="agreed">
+  利用規約とプライバシーポリシーに同意します
+</CheckBox>
+```
+
+## 実用例：複数選択リスト
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">通知設定</h3>
+  <div style="margin-bottom: 1rem;">
+    <strong>どの通知を受け取りますか？</strong>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+    <CheckBox label="メール通知" name="notifications" value="email" checked />
+    <CheckBox label="プッシュ通知" name="notifications" value="push" checked />
+    <CheckBox label="SMS通知" name="notifications" value="sms" />
+    <CheckBox label="デスクトップ通知" name="notifications" value="desktop" checked />
+  </div>
+</div>
+
+```astro
+<CheckBox label="メール通知" name="notifications" value="email" checked />
+<CheckBox label="プッシュ通知" name="notifications" value="push" checked />
+<CheckBox label="SMS通知" name="notifications" value="sms" />
+<CheckBox label="デスクトップ通知" name="notifications" value="desktop" checked />
+```
+
+## 実用例：階層的なチェックボックス
+
+親チェックボックスと子チェックボックスの組み合わせです。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">ファイルのエクスポート</h3>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <CheckBox label="すべて選択" indeterminate />
+    <div style="margin-left: 2rem; display: flex; flex-direction: column; gap: 0.5rem;">
+      <CheckBox label="ドキュメント (.docx)" checked />
+      <CheckBox label="スプレッドシート (.xlsx)" checked />
+      <CheckBox label="プレゼンテーション (.pptx)" />
+      <CheckBox label="PDF (.pdf)" />
+    </div>
+  </div>
+</div>
+
+```astro
+<CheckBox label="すべて選択" indeterminate />
+<div style="margin-left: 2rem;">
+  <CheckBox label="ドキュメント (.docx)" checked />
+  <CheckBox label="スプレッドシート (.xlsx)" checked />
+  <CheckBox label="プレゼンテーション (.pptx)" />
+  <CheckBox label="PDF (.pdf)" />
+</div>
+```
+
+## 実用例：タスクリスト
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">今日のタスク</h3>
+  <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+    <CheckBox label="プロジェクトの企画書を作成" checked />
+    <CheckBox label="チームミーティングに参加" checked />
+    <CheckBox label="コードレビューを実施" />
+    <CheckBox label="ドキュメントを更新" />
+    <CheckBox label="メールの返信" />
+  </div>
+</div>
+
+```astro
+<CheckBox label="プロジェクトの企画書を作成" checked />
+<CheckBox label="チームミーティングに参加" checked />
+<CheckBox label="コードレビューを実施" />
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `label` | string | '' | ラベルテキスト |
+| `checked` | boolean | false | チェック状態 |
+| `indeterminate` | boolean | false | 不定状態 |
+| `disabled` | boolean | false | 無効化 |
+| `name` | string | undefined | name属性 |
+| `id` | string | undefined | id属性 |
+| `value` | string | undefined | value属性 |
+
+## CSS :hover の仕組み
+
+チェックボックスのホバー効果もCSSの `:hover` 疑似クラスで実装されています。
+
+```css
+.checkbox-container:hover:not(.checkbox-disabled) .checkbox-box {
+  border-color: #7eb4ea;
+  background: #e5f3ff;
+}
+```
+
+**ポイント:**
+- `:hover` でカーソルを当てた時のスタイルを定義
+- `:not(.checkbox-disabled)` で無効化されているチェックボックスには適用しない
+- チェックボックス本体の背景色とボーダー色を変更
+
+## 使い方のヒント
+
+**単純なチェックボックス:**
+```astro
+<CheckBox label="同意する" />
+```
+
+**デフォルトでチェック:**
+```astro
+<CheckBox label="自動保存を有効にする" checked />
+```
+
+**フォームでの使用:**
+```astro
+<CheckBox name="terms" value="agreed" label="利用規約に同意します" />
+```
+
+**カスタムラベル:**
+```astro
+<CheckBox>
+  利用規約（<a href="#">詳細</a>）に同意します
+</CheckBox>
+```
+
+**試してみましょう**: チェックボックスにカーソルを当てたり、クリックしてみてください！ホバー効果とチェック動作が確認できます。
