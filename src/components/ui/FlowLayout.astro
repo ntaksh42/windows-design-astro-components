@@ -1,0 +1,90 @@
+---
+/**
+ * FlowLayout - 自動配置レイアウトコンテナ
+ * 子要素を横または縦に自動的に並べるコンポーネント
+ * AIが座標計算せずに要素を並べられるため便利
+ *
+ * @param direction - 配置方向 'horizontal' | 'vertical' デフォルト: 'horizontal'
+ * @param gap - 要素間の間隔（ピクセル）デフォルト: 8
+ * @param align - 配置位置 'start' | 'center' | 'end' | 'stretch' デフォルト: 'start'
+ * @param justify - 主軸方向の配置 'start' | 'center' | 'end' | 'space-between' | 'space-around' デフォルト: 'start'
+ * @param wrap - 折り返しを許可するか デフォルト: false
+ * @param padding - 内側の余白（ピクセル）デフォルト: 0
+ * @param background - 背景色 デフォルト: 'transparent'
+ * @param border - ボーダーを表示するか デフォルト: false
+ * @param width - 幅 デフォルト: 'auto'
+ * @param height - 高さ デフォルト: 'auto'
+ */
+interface Props {
+  direction?: 'horizontal' | 'vertical';
+  gap?: number;
+  align?: 'start' | 'center' | 'end' | 'stretch';
+  justify?: 'start' | 'center' | 'end' | 'space-between' | 'space-around' | 'space-evenly';
+  wrap?: boolean;
+  padding?: number;
+  background?: string;
+  border?: boolean;
+  width?: number | string;
+  height?: number | string;
+  class?: string;
+}
+
+const {
+  direction = 'horizontal',
+  gap = 8,
+  align = 'start',
+  justify = 'start',
+  wrap = false,
+  padding = 0,
+  background = 'transparent',
+  border = false,
+  width = 'auto',
+  height = 'auto',
+  class: className = '',
+} = Astro.props;
+
+// width/height の値を適切な文字列に変換
+const widthValue = typeof width === 'number' ? `${width}px` : width;
+const heightValue = typeof height === 'number' ? `${height}px` : height;
+
+// align-items の値を変換
+const alignItems = align === 'start' ? 'flex-start'
+  : align === 'end' ? 'flex-end'
+  : align;
+
+// justify-content の値を変換
+const justifyContent = justify === 'start' ? 'flex-start'
+  : justify === 'end' ? 'flex-end'
+  : justify;
+---
+
+<div
+  class={`flow-layout ${className}`}
+  style={`
+    flex-direction: ${direction === 'vertical' ? 'column' : 'row'};
+    gap: ${gap}px;
+    align-items: ${alignItems};
+    justify-content: ${justifyContent};
+    flex-wrap: ${wrap ? 'wrap' : 'nowrap'};
+    padding: ${padding}px;
+    background: ${background};
+    width: ${widthValue};
+    height: ${heightValue};
+  `}
+  data-border={border}
+>
+  <slot />
+</div>
+
+<style>
+  .flow-layout {
+    display: flex;
+    box-sizing: border-box;
+  }
+
+  .flow-layout[data-border="true"] {
+    border: 1px solid #adadad;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+</style>
