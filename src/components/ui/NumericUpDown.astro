@@ -1,0 +1,199 @@
+---
+/**
+ * NumericUpDown - Windows Forms風の数値入力コンポーネント
+ *
+ * @param value - 初期値
+ * @param min - 最小値
+ * @param max - 最大値
+ * @param step - 増減ステップ
+ * @param width - 幅
+ * @param disabled - 無効化状態
+ */
+interface Props {
+  value?: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  width?: string;
+  disabled?: boolean;
+}
+
+const {
+  value = 0,
+  min = 0,
+  max = 100,
+  step = 1,
+  width = '120px',
+  disabled = false,
+} = Astro.props;
+---
+
+<div class={`numeric-updown ${disabled ? 'disabled' : ''}`} style={`--width: ${width};`}>
+  <input
+    type="number"
+    value={value}
+    min={min}
+    max={max}
+    step={step}
+    disabled={disabled}
+    class="numeric-input"
+  />
+  <div class="spinner-buttons">
+    <button type="button" class="spinner-up" disabled={disabled} aria-label="増やす">
+      <svg width="7" height="4" viewBox="0 0 7 4" fill="none">
+        <path d="M3.5 0L7 4H0L3.5 0Z" fill="currentColor"/>
+      </svg>
+    </button>
+    <button type="button" class="spinner-down" disabled={disabled} aria-label="減らす">
+      <svg width="7" height="4" viewBox="0 0 7 4" fill="none">
+        <path d="M3.5 4L0 0H7L3.5 4Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const updowns = document.querySelectorAll('.numeric-updown');
+
+    updowns.forEach((updown) => {
+      const input = updown.querySelector('.numeric-input') as HTMLInputElement;
+      const upBtn = updown.querySelector('.spinner-up') as HTMLButtonElement;
+      const downBtn = updown.querySelector('.spinner-down') as HTMLButtonElement;
+
+      if (!input || !upBtn || !downBtn) return;
+
+      const step = parseFloat(input.step) || 1;
+      const min = input.min ? parseFloat(input.min) : -Infinity;
+      const max = input.max ? parseFloat(input.max) : Infinity;
+
+      const updateValue = (delta: number) => {
+        const currentValue = parseFloat(input.value) || 0;
+        const newValue = Math.min(max, Math.max(min, currentValue + delta));
+        input.value = String(newValue);
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      };
+
+      upBtn.addEventListener('click', () => updateValue(step));
+      downBtn.addEventListener('click', () => updateValue(-step));
+
+      // キーボード操作
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          updateValue(step);
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          updateValue(-step);
+        }
+      });
+
+      // 値の検証
+      input.addEventListener('blur', () => {
+        const currentValue = parseFloat(input.value);
+        if (isNaN(currentValue)) {
+          input.value = String(min);
+        } else {
+          input.value = String(Math.min(max, Math.max(min, currentValue)));
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .numeric-updown {
+    display: inline-flex;
+    width: var(--width);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+  }
+
+  .numeric-input {
+    flex: 1;
+    height: 23px;
+    padding: 2px 20px 2px 4px;
+    font-size: 12px;
+    font-family: inherit;
+    border: 1px solid #7f7f7f;
+    background: linear-gradient(to bottom, #ffffff, #f8f8f8);
+    color: #000000;
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.1),
+      0 1px 0 rgba(255, 255, 255, 0.3);
+    outline: none;
+    text-align: right;
+    -moz-appearance: textfield;
+  }
+
+  .numeric-input::-webkit-inner-spin-button,
+  .numeric-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .numeric-input:focus {
+    border-color: #3c7fb1;
+    background: #ffffff;
+    box-shadow:
+      inset 0 1px 2px rgba(60, 127, 177, 0.2),
+      0 0 0 1px rgba(60, 127, 177, 0.3);
+  }
+
+  .numeric-updown.disabled .numeric-input {
+    background: linear-gradient(to bottom, #f0f0f0, #e8e8e8);
+    color: #808080;
+    cursor: not-allowed;
+  }
+
+  .spinner-buttons {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    width: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .spinner-up,
+  .spinner-down {
+    flex: 1;
+    border: none;
+    background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+    border-left: 1px solid #a0a0a0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    padding: 0;
+    transition: all 0.1s ease;
+  }
+
+  .spinner-up {
+    border-bottom: 1px solid #a0a0a0;
+  }
+
+  .spinner-up:hover:not(:disabled),
+  .spinner-down:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #e5f3ff, #cce8ff);
+  }
+
+  .spinner-up:active:not(:disabled),
+  .spinner-down:active:not(:disabled) {
+    background: linear-gradient(to bottom, #cce8ff, #99d1ff);
+  }
+
+  .spinner-up:disabled,
+  .spinner-down:disabled {
+    cursor: not-allowed;
+    color: #808080;
+    background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
+  }
+
+  .spinner-up svg,
+  .spinner-down svg {
+    pointer-events: none;
+  }
+</style>

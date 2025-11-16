@@ -1,0 +1,247 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: "TabControl Demo"
+---
+
+import TabControl from '../components/ui/TabControl.astro';
+import TabPage from '../components/ui/TabPage.astro';
+import Button from '../components/ui/Button.astro';
+import CheckBox from '../components/ui/CheckBox.astro';
+import RadioButton from '../components/ui/RadioButton.astro';
+import TextBox from '../components/ui/TextBox.astro';
+import Label from '../components/ui/Label.astro';
+import GroupBox from '../components/ui/GroupBox.astro';
+
+# TabControl デモ
+
+Windows Forms風のタブコントロールコンポーネントです。複数のページを切り替えて表示できます。
+
+## 基本的な使い方
+
+<div style="margin: 20px 0;">
+  <TabControl>
+    <TabPage label="一般">
+      <h3>一般設定</h3>
+      <p>このタブには一般的な設定項目が含まれます。</p>
+      <CheckBox label="起動時に自動的に開く" checked />
+      <br />
+      <CheckBox label="通知を表示する" />
+    </TabPage>
+
+    <TabPage label="詳細">
+      <h3>詳細設定</h3>
+      <p>高度な設定オプションです。</p>
+      <CheckBox label="デバッグモードを有効にする" />
+      <br />
+      <CheckBox label="詳細ログを記録する" />
+    </TabPage>
+
+    <TabPage label="バージョン情報">
+      <h3>アプリケーション情報</h3>
+      <p><strong>バージョン:</strong> 1.0.0</p>
+      <p><strong>ビルド日:</strong> 2025-11-16</p>
+      <p><strong>ライセンス:</strong> MIT</p>
+    </TabPage>
+  </TabControl>
+</div>
+
+```astro
+<TabControl>
+  <TabPage label="一般">
+    <h3>一般設定</h3>
+    <CheckBox label="起動時に自動的に開く" checked />
+  </TabPage>
+
+  <TabPage label="詳細">
+    <h3>詳細設定</h3>
+    <CheckBox label="デバッグモードを有効にする" />
+  </TabPage>
+
+  <TabPage label="バージョン情報">
+    <h3>アプリケーション情報</h3>
+    <p>バージョン: 1.0.0</p>
+  </TabPage>
+</TabControl>
+```
+
+## デフォルトタブの指定
+
+2番目のタブ（インデックス1）をデフォルトで選択状態にできます。
+
+<div style="margin: 20px 0;">
+  <TabControl defaultTab={1}>
+    <TabPage label="タブ 1">
+      <p>これは1番目のタブです。</p>
+    </TabPage>
+
+    <TabPage label="タブ 2">
+      <p>このタブがデフォルトで選択されています（defaultTab={1}）</p>
+    </TabPage>
+
+    <TabPage label="タブ 3">
+      <p>これは3番目のタブです。</p>
+    </TabPage>
+  </TabControl>
+</div>
+
+```astro
+<TabControl defaultTab={1}>
+  <TabPage label="タブ 1">...</TabPage>
+  <TabPage label="タブ 2">...</TabPage>
+  <TabPage label="タブ 3">...</TabPage>
+</TabControl>
+```
+
+## 実用例：ユーザー設定フォーム
+
+<div style="margin: 20px 0;">
+  <TabControl>
+    <TabPage label="プロフィール">
+      <div style="display: flex; flex-direction: column; gap: 12px; max-width: 400px;">
+        <div>
+          <Label>ユーザー名</Label>
+          <br />
+          <TextBox value="田中太郎" />
+        </div>
+
+        <div>
+          <Label>メールアドレス</Label>
+          <br />
+          <TextBox value="tanaka@example.com" />
+        </div>
+
+        <div>
+          <Label>電話番号</Label>
+          <br />
+          <TextBox value="03-1234-5678" />
+        </div>
+
+        <div style="margin-top: 8px;">
+          <Button variant="primary">保存</Button>
+        </div>
+      </div>
+    </TabPage>
+
+    <TabPage label="表示設定">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <GroupBox legend="テーマ">
+          <RadioButton name="theme" value="light" label="ライトモード" checked />
+          <br />
+          <RadioButton name="theme" value="dark" label="ダークモード" />
+          <br />
+          <RadioButton name="theme" value="auto" label="システム設定に従う" />
+        </GroupBox>
+
+        <GroupBox legend="その他">
+          <CheckBox label="アニメーションを有効にする" checked />
+          <br />
+          <CheckBox label="サイドバーを常に表示" checked />
+        </GroupBox>
+
+        <div style="margin-top: 8px;">
+          <Button variant="primary">保存</Button>
+        </div>
+      </div>
+    </TabPage>
+
+    <TabPage label="通知">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <h4 style="margin: 0 0 8px 0;">通知設定</h4>
+
+        <CheckBox label="メール通知を受け取る" checked />
+        <CheckBox label="デスクトップ通知を表示" checked />
+        <CheckBox label="プッシュ通知を有効にする" />
+        <CheckBox label="マーケティングメールを受け取る" />
+
+        <div style="margin-top: 8px;">
+          <Button variant="primary">保存</Button>
+        </div>
+      </div>
+    </TabPage>
+
+    <TabPage label="セキュリティ">
+      <div style="display: flex; flex-direction: column; gap: 12px; max-width: 400px;">
+        <div>
+          <Label>現在のパスワード</Label>
+          <br />
+          <TextBox type="password" />
+        </div>
+
+        <div>
+          <Label>新しいパスワード</Label>
+          <br />
+          <TextBox type="password" />
+        </div>
+
+        <div>
+          <Label>パスワードの確認</Label>
+          <br />
+          <TextBox type="password" />
+        </div>
+
+        <CheckBox label="2段階認証を有効にする" />
+
+        <div style="margin-top: 8px;">
+          <Button variant="primary">パスワードを変更</Button>
+        </div>
+      </div>
+    </TabPage>
+  </TabControl>
+</div>
+
+## 多数のタブ
+
+<div style="margin: 20px 0;">
+  <TabControl>
+    <TabPage label="月曜日">
+      <p>月曜日のスケジュール</p>
+    </TabPage>
+    <TabPage label="火曜日">
+      <p>火曜日のスケジュール</p>
+    </TabPage>
+    <TabPage label="水曜日">
+      <p>水曜日のスケジュール</p>
+    </TabPage>
+    <TabPage label="木曜日">
+      <p>木曜日のスケジュール</p>
+    </TabPage>
+    <TabPage label="金曜日">
+      <p>金曜日のスケジュール</p>
+    </TabPage>
+    <TabPage label="土曜日">
+      <p>土曜日のスケジュール</p>
+    </TabPage>
+    <TabPage label="日曜日">
+      <p>日曜日のスケジュール</p>
+    </TabPage>
+  </TabControl>
+</div>
+
+```astro
+<TabControl>
+  <TabPage label="月曜日">...</TabPage>
+  <TabPage label="火曜日">...</TabPage>
+  <TabPage label="水曜日">...</TabPage>
+  ...
+</TabControl>
+```
+
+## Props
+
+### TabControl
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|------|-----------|------|
+| `defaultTab` | `number` | `0` | デフォルトで選択されるタブのインデックス（0始まり） |
+
+### TabPage
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|------|-----------|------|
+| `label` | `string` | **必須** | タブのラベル |
+
+## 使用上の注意
+
+- TabPageコンポーネントは必ずTabControlの子要素として配置してください
+- タブの切り替えはクライアントサイドで動作します（JavaScriptが必要）
+- 各TabPageには一意のラベルを付けることを推奨します
