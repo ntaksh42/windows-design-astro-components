@@ -34,20 +34,19 @@ npm run preview
 
 ### AI仕様書生成ツール ✨
 
-このプロジェクトには、**自然言語からPC アプリ風の外部仕様書を自動生成する**ツールが含まれています。
+このプロジェクトには、**自然言語またはExcelメモからPC アプリ風の外部仕様書を自動生成する**ツールが含まれています。
 
-#### クイックスタート
+#### 方法1: 自然言語から生成
 
 ```bash
-# 方法1: npmコマンドで実行
+# npmコマンドで実行
 npm run spec:generate "コンポーネント名" "説明"
 
-# 方法2: Claude Codeのスラッシュコマンドで実行（推奨）
+# Claude Codeのスラッシュコマンドで実行（推奨）
 /spec-generate
 ```
 
-#### 使用例
-
+**使用例:**
 ```bash
 # ScrollBarコンポーネントの仕様書を生成
 npm run spec:generate "ScrollBar" "縦横両対応のスクロールバー、マウスホイール対応"
@@ -55,6 +54,29 @@ npm run spec:generate "ScrollBar" "縦横両対応のスクロールバー、マ
 # 既存コンポーネントを参考にして生成
 npm run spec:generate "SearchBox" "検索用入力欄" "form" "TextBox"
 ```
+
+#### 方法2: Excelメモから生成 📊 NEW!
+
+既存のExcelやCSVファイルから仕様書を生成できます。
+
+```bash
+# npmコマンドで実行
+npm run spec:from-excel "<Excelファイルパス>"
+
+# Claude Codeのスラッシュコマンドで実行（推奨）
+/spec-from-excel
+```
+
+**使用例:**
+```bash
+# CSVファイルから生成
+npm run spec:from-excel "./specs/DatePicker.csv"
+
+# Excelファイルの特定シートから生成
+npm run spec:from-excel "./specs/components.xlsx" "DatePicker"
+```
+
+**Excelテンプレート:** [templates/excel-spec/](./templates/excel-spec/) にサンプルがあります。
 
 **詳細は [AI仕様書生成ツール使用ガイド](./docs/spec-generator-guide.md) を参照してください。**
 
