@@ -1,0 +1,86 @@
+---
+/**
+ * UIBuilder - JSON定義からUIを生成するコンポーネント
+ * 画像キャプチャをAIが解析したJSONを受け取り、UIを再現します
+ *
+ * @param schema - UI定義のJSONオブジェクト
+ *
+ * JSON形式:
+ * {
+ *   "type": "FlowLayout",
+ *   "props": { "direction": "vertical", "gap": 10 },
+ *   "children": [
+ *     { "type": "Label", "props": { "text": "名前:" } },
+ *     { "type": "TextBox", "props": { "placeholder": "入力" } }
+ *   ]
+ * }
+ */
+
+import Button from './Button.astro';
+import Label from './Label.astro';
+import TextBox from './TextBox.astro';
+import CheckBox from './CheckBox.astro';
+import RadioButton from './RadioButton.astro';
+import ComboBox from './ComboBox.astro';
+import NumericUpDown from './NumericUpDown.astro';
+import ProgressBar from './ProgressBar.astro';
+import GroupBox from './GroupBox.astro';
+import Container from './Container.astro';
+import FlowLayout from './FlowLayout.astro';
+
+interface UISchema {
+  type: string;
+  props?: Record<string, any>;
+  children?: UISchema[];
+  text?: string;
+}
+
+interface Props {
+  schema: UISchema;
+}
+
+const { schema } = Astro.props;
+
+// コンポーネントのマッピング
+const componentMap: Record<string, any> = {
+  Button,
+  Label,
+  TextBox,
+  CheckBox,
+  RadioButton,
+  ComboBox,
+  NumericUpDown,
+  ProgressBar,
+  GroupBox,
+  Container,
+  FlowLayout,
+};
+
+// 再帰的にコンポーネントをレンダリング
+function renderComponent(node: UISchema) {
+  const Component = componentMap[node.type];
+
+  if (!Component) {
+    console.warn(`Unknown component type: ${node.type}`);
+    return null;
+  }
+
+  return {
+    component: Component,
+    props: node.props || {},
+    children: node.children || [],
+    text: node.text,
+  };
+}
+
+const rendered = renderComponent(schema);
+---
+
+{rendered && (
+  <rendered.component {...rendered.props}>
+    {rendered.text && rendered.text}
+    {rendered.children && rendered.children.map((child: UISchema) => (
+      <Astro.self schema={child} />
+    ))}
+  </rendered.component>
+)}

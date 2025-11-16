@@ -1,0 +1,336 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: 画像からUI実装ガイド
+---
+
+# 画像からUI実装ガイド
+
+画面キャプチャをAI（Claude等）に解析させて、このコンポーネントライブラリでUIを再現する方法を説明します。
+
+---
+
+## ワークフロー
+
+```
+1. 画面をキャプチャ
+   ↓
+2. AIに画像を送信
+   ↓
+3. プロンプトでJSON形式の出力を指示
+   ↓
+4. 生成されたJSONをUIBuilderに渡す
+   ↓
+5. UIが再現される
+```
+
+---
+
+## Step 1: 画面キャプチャのベストプラクティス
+
+### 良いキャプチャ
+- ✅ UI全体が見える
+- ✅ 解像度が十分（最低800x600推奨）
+- ✅ ボタンやラベルのテキストが読める
+- ✅ コントラストが明瞭
+
+### 避けるべきキャプチャ
+- ❌ 一部が切れている
+- ❌ 解像度が低すぎる
+- ❌ テキストがぼやけている
+- ❌ 背景と区別がつかない
+
+---
+
+## Step 2: AIプロンプトテンプレート
+
+### 基本プロンプト
+
+```
+この画像のUIを、以下のWindows Forms風コンポーネントを使ってJSON形式で再現してください。
+
+利用可能なコンポーネント:
+- Container (絶対座標配置)
+- FlowLayout (自動配置)
+- Button, Label, TextBox, CheckBox, RadioButton
+- ComboBox, NumericUpDown, ProgressBar
+- GroupBox
+
+JSON形式:
+{
+  "type": "コンポーネント名",
+  "props": { プロパティ },
+  "children": [ 子要素の配列 ],
+  "text": "テキスト"
+}
+
+コンポーネントの詳細は以下を参照してください:
+[コンポーネントカタログへのリンク]
+
+注意事項:
+1. レイアウトには FlowLayout を優先的に使用してください
+2. 座標が明確な場合のみ Container を使用
+3. 全てのテキストを正確に読み取ってください
+4. ボタンの種類（primary/default/flat）を判断してください
+5. 要素間の間隔（gap）を適切に設定してください
+
+JSONのみを出力してください。
+```
+
+---
+
+### 詳細版プロンプト（より正確な再現用）
+
+```
+添付した画像のUIを、Windows Forms風のコンポーネントライブラリでJSON形式で再現してください。
+
+## 解析手順
+1. UI全体の構造を把握（どのような領域に分かれているか）
+2. 各要素の種類を特定（ボタン、ラベル、入力欄など）
+3. レイアウト方法を決定（FlowLayout or Container）
+4. テキスト内容を正確に読み取る
+5. サイズや間隔を推定
+
+## 利用可能なコンポーネント
+
+### レイアウト
+- **FlowLayout**: 自動的に横/縦に並べる（推奨）
+  - props: direction, gap, align, justify, padding, background, border
+- **Container**: 絶対座標で配置
+  - props: x, y, width, height, padding, background, border
+- **GroupBox**: 枠付きグループ
+  - props: title, width, height
+
+### 基本コンポーネント
+- **Button**: ボタン
+  - props: variant (default/primary/flat), disabled
+  - text: ボタンのテキスト
+- **Label**: ラベル
+  - props: bold, align
+  - text: ラベルのテキスト
+- **TextBox**: テキスト入力
+  - props: type, placeholder, disabled, width
+- **CheckBox**: チェックボックス
+  - props: label, checked, disabled
+- **RadioButton**: ラジオボタン
+  - props: label, name, value, checked, disabled
+- **ComboBox**: ドロップダウン
+  - props: options (配列), disabled, width
+- **NumericUpDown**: 数値入力
+  - props: min, max, step, value, disabled, width
+- **ProgressBar**: プログレスバー
+  - props: value, max, width, height, variant
+
+## 出力形式
+JSONのみを出力してください（説明文は不要）。
+
+## 例
+{
+  "type": "FlowLayout",
+  "props": {
+    "direction": "vertical",
+    "gap": 15,
+    "padding": 20
+  },
+  "children": [
+    {"type": "Label", "text": "名前:"},
+    {"type": "TextBox", "props": {"width": 300}},
+    {"type": "Button", "text": "送信", "props": {"variant": "primary"}}
+  ]
+}
+
+画像を解析してJSONを出力してください。
+```
+
+---
+
+## Step 3: JSONからUIを生成
+
+### 方法1: UIBuilderコンポーネントを使用（.astroファイル）
+
+```astro
+---
+import UIBuilder from '../components/ui/UIBuilder.astro';
+
+const uiSchema = {
+  "type": "FlowLayout",
+  "props": {
+    "direction": "vertical",
+    "gap": 10
+  },
+  "children": [
+    {"type": "Label", "text": "ユーザー名:"},
+    {"type": "TextBox", "props": {"placeholder": "入力してください"}}
+  ]
+};
+---
+
+<UIBuilder schema={uiSchema} />
+```
+
+### 方法2: デモページで試す
+
+`/uibuilder-demo` ページで、生成されたJSONを貼り付けて確認できます。
+
+---
+
+## 実例
+
+### 例1: シンプルなログインフォーム
+
+**キャプチャ内容**:
+- ユーザー名入力欄
+- パスワード入力欄
+- ログインボタン
+
+**生成されたJSON**:
+```json
+{
+  "type": "FlowLayout",
+  "props": {
+    "direction": "vertical",
+    "gap": 15,
+    "padding": 30,
+    "background": "#f5f5f5",
+    "border": true
+  },
+  "children": [
+    {
+      "type": "FlowLayout",
+      "props": {"direction": "vertical", "gap": 5},
+      "children": [
+        {"type": "Label", "text": "ユーザー名:"},
+        {"type": "TextBox", "props": {"placeholder": "ユーザー名を入力", "width": 300}}
+      ]
+    },
+    {
+      "type": "FlowLayout",
+      "props": {"direction": "vertical", "gap": 5},
+      "children": [
+        {"type": "Label", "text": "パスワード:"},
+        {"type": "TextBox", "props": {"type": "password", "placeholder": "パスワードを入力", "width": 300}}
+      ]
+    },
+    {
+      "type": "Button",
+      "text": "ログイン",
+      "props": {"variant": "primary"}
+    }
+  ]
+}
+```
+
+---
+
+### 例2: 設定画面
+
+**キャプチャ内容**:
+- 「通知設定」グループボックス
+- 複数のチェックボックス
+- 保存・キャンセルボタン
+
+**生成されたJSON**:
+```json
+{
+  "type": "FlowLayout",
+  "props": {
+    "direction": "vertical",
+    "gap": 20,
+    "padding": 20
+  },
+  "children": [
+    {
+      "type": "GroupBox",
+      "props": {"title": "通知設定"},
+      "children": [
+        {
+          "type": "FlowLayout",
+          "props": {"direction": "vertical", "gap": 10, "padding": 15},
+          "children": [
+            {"type": "CheckBox", "props": {"label": "メール通知を受け取る"}},
+            {"type": "CheckBox", "props": {"label": "プッシュ通知を受け取る"}},
+            {"type": "CheckBox", "props": {"label": "サウンドを再生"}}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "FlowLayout",
+      "props": {"gap": 10, "justify": "end"},
+      "children": [
+        {"type": "Button", "text": "キャンセル"},
+        {"type": "Button", "text": "保存", "props": {"variant": "primary"}}
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## ベストプラクティス
+
+### 1. レイアウトの選択
+- **FlowLayoutを優先**: 自動配置で柔軟性が高い
+- **Containerは必要時のみ**: 座標が重要な場合のみ使用
+
+### 2. ネスト構造
+- フォームフィールドは `FlowLayout` でグループ化
+- ボタングループも `FlowLayout` で配置
+- グループボックスには `GroupBox` を使用
+
+### 3. プロパティの指定
+- 必須プロパティのみ指定（デフォルト値を活用）
+- サイズは適切に推定（通常 200-300px）
+- 間隔（gap）は 8-15px が標準的
+
+### 4. テキストの正確性
+- ボタンやラベルのテキストは正確に転記
+- プレースホルダーも忘れずに
+
+---
+
+## トラブルシューティング
+
+### AIが正確に解析してくれない場合
+
+1. **画像の品質を上げる**
+   - より高解像度のキャプチャを使用
+   - コントラストを調整
+
+2. **プロンプトを詳細化する**
+   - 特定の要素に注目するよう指示
+   - 例を追加で提供
+
+3. **段階的に解析**
+   - まず構造のみを解析
+   - 次に詳細を追加
+
+### JSONが複雑すぎる場合
+
+1. **領域を分割**
+   - 画面を複数の部分に分けて解析
+   - 後で統合
+
+2. **簡略化**
+   - 不要な装飾を省略
+   - 基本機能に集中
+
+---
+
+## 参考リンク
+
+- [コンポーネントカタログ](/component-catalog) - 全コンポーネントのリファレンス
+- [UIBuilder デモ](/uibuilder-demo) - JSONを試せるデモページ
+- [Container デモ](/container-demo) - 絶対座標配置の例
+- [FlowLayout デモ](/flowlayout-demo) - 自動配置の例
+
+---
+
+## 次のステップ
+
+1. 簡単な画面から試してみる
+2. コンポーネントカタログで利用可能な機能を確認
+3. 生成されたJSONを調整して最適化
+4. 複雑な画面にチャレンジ
+
+画像からUIを再現して、開発を加速させましょう！

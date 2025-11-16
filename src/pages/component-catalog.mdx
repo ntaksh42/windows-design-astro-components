@@ -1,0 +1,378 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: コンポーネントカタログ（AI向け）
+---
+
+# コンポーネントカタログ（AI向けリファレンス）
+
+このページは、AIが画像からUIを再現する際に参照するためのリファレンスです。
+全コンポーネントのプロパティと使用例を記載しています。
+
+---
+
+## レイアウトコンポーネント
+
+### Container
+**説明**: 絶対座標で要素を配置するコンテナ
+
+**Props**:
+```typescript
+{
+  x?: number;              // X座標（ピクセル）デフォルト: 0
+  y?: number;              // Y座標（ピクセル）デフォルト: 0
+  width?: number | string; // 幅 デフォルト: 'auto'
+  height?: number | string;// 高さ デフォルト: 'auto'
+  padding?: number;        // 内側の余白 デフォルト: 0
+  background?: string;     // 背景色 デフォルト: 'transparent'
+  border?: boolean;        // ボーダー表示 デフォルト: false
+  relative?: boolean;      // 相対配置モード デフォルト: false
+}
+```
+
+**JSON例**:
+```json
+{
+  "type": "Container",
+  "props": {
+    "x": 100,
+    "y": 50,
+    "width": 200,
+    "height": 100,
+    "border": true
+  },
+  "children": [
+    {"type": "Button", "text": "クリック"}
+  ]
+}
+```
+
+---
+
+### FlowLayout
+**説明**: 子要素を自動的に横または縦に並べるコンテナ
+
+**Props**:
+```typescript
+{
+  direction?: 'horizontal' | 'vertical'; // 配置方向 デフォルト: 'horizontal'
+  gap?: number;            // 要素間の間隔 デフォルト: 8
+  align?: 'start' | 'center' | 'end' | 'stretch'; // 交差軸配置 デフォルト: 'start'
+  justify?: 'start' | 'center' | 'end' | 'space-between' | 'space-around' | 'space-evenly'; // 主軸配置 デフォルト: 'start'
+  wrap?: boolean;          // 折り返し デフォルト: false
+  padding?: number;        // 内側の余白 デフォルト: 0
+  background?: string;     // 背景色 デフォルト: 'transparent'
+  border?: boolean;        // ボーダー表示 デフォルト: false
+  width?: number | string; // 幅 デフォルト: 'auto'
+  height?: number | string;// 高さ デフォルト: 'auto'
+}
+```
+
+**JSON例**:
+```json
+{
+  "type": "FlowLayout",
+  "props": {
+    "direction": "vertical",
+    "gap": 10,
+    "padding": 20
+  },
+  "children": [
+    {"type": "Label", "text": "名前:"},
+    {"type": "TextBox", "props": {"placeholder": "入力してください"}}
+  ]
+}
+```
+
+---
+
+## 基本コンポーネント
+
+### Button
+**説明**: ボタン
+
+**Props**:
+```typescript
+{
+  variant?: 'default' | 'primary' | 'flat'; // スタイル デフォルト: 'default'
+  disabled?: boolean;      // 無効化 デフォルト: false
+}
+```
+
+**JSON例**:
+```json
+{"type": "Button", "text": "保存", "props": {"variant": "primary"}}
+```
+
+---
+
+### Label
+**説明**: テキストラベル
+
+**Props**:
+```typescript
+{
+  bold?: boolean;          // 太字 デフォルト: false
+  align?: 'left' | 'center' | 'right'; // 配置 デフォルト: 'left'
+}
+```
+
+**JSON例**:
+```json
+{"type": "Label", "text": "ユーザー名:"}
+```
+
+---
+
+### TextBox
+**説明**: テキスト入力ボックス
+
+**Props**:
+```typescript
+{
+  type?: string;           // input type デフォルト: 'text'
+  placeholder?: string;    // プレースホルダー
+  disabled?: boolean;      // 無効化 デフォルト: false
+  width?: number | string; // 幅 デフォルト: '200px'
+}
+```
+
+**JSON例**:
+```json
+{"type": "TextBox", "props": {"placeholder": "名前を入力", "width": 300}}
+```
+
+---
+
+### CheckBox
+**説明**: チェックボックス
+
+**Props**:
+```typescript
+{
+  label?: string;          // ラベルテキスト
+  checked?: boolean;       // チェック状態 デフォルト: false
+  disabled?: boolean;      // 無効化 デフォルト: false
+}
+```
+
+**JSON例**:
+```json
+{"type": "CheckBox", "props": {"label": "同意する"}}
+```
+
+---
+
+### RadioButton
+**説明**: ラジオボタン
+
+**Props**:
+```typescript
+{
+  label?: string;          // ラベルテキスト
+  name?: string;           // グループ名
+  value?: string;          // 値
+  checked?: boolean;       // チェック状態 デフォルト: false
+  disabled?: boolean;      // 無効化 デフォルト: false
+}
+```
+
+**JSON例**:
+```json
+{"type": "RadioButton", "props": {"label": "オプション1", "name": "group1"}}
+```
+
+---
+
+### ComboBox
+**説明**: ドロップダウンリスト（コンボボックス）
+
+**Props**:
+```typescript
+{
+  options?: string[];      // 選択肢の配列
+  disabled?: boolean;      // 無効化 デフォルト: false
+  width?: number | string; // 幅 デフォルト: '200px'
+}
+```
+
+**JSON例**:
+```json
+{"type": "ComboBox", "props": {"options": ["選択1", "選択2", "選択3"]}}
+```
+
+---
+
+### NumericUpDown
+**説明**: 数値入力（上下ボタン付き）
+
+**Props**:
+```typescript
+{
+  min?: number;            // 最小値 デフォルト: 0
+  max?: number;            // 最大値 デフォルト: 100
+  step?: number;           // ステップ デフォルト: 1
+  value?: number;          // 初期値 デフォルト: 0
+  disabled?: boolean;      // 無効化 デフォルト: false
+  width?: number | string; // 幅 デフォルト: '120px'
+}
+```
+
+**JSON例**:
+```json
+{"type": "NumericUpDown", "props": {"min": 0, "max": 10, "value": 5}}
+```
+
+---
+
+### ProgressBar
+**説明**: プログレスバー
+
+**Props**:
+```typescript
+{
+  value?: number;          // 進捗値（0-100）デフォルト: 0
+  max?: number;            // 最大値 デフォルト: 100
+  width?: number | string; // 幅 デフォルト: '200px'
+  height?: number;         // 高さ デフォルト: 24
+  variant?: 'default' | 'success' | 'warning' | 'error'; // スタイル デフォルト: 'default'
+}
+```
+
+**JSON例**:
+```json
+{"type": "ProgressBar", "props": {"value": 75, "width": 300}}
+```
+
+---
+
+### GroupBox
+**説明**: グループボックス（枠付きコンテナ）
+
+**Props**:
+```typescript
+{
+  title?: string;          // タイトル
+  width?: number | string; // 幅 デフォルト: 'auto'
+  height?: number | string;// 高さ デフォルト: 'auto'
+}
+```
+
+**JSON例**:
+```json
+{
+  "type": "GroupBox",
+  "props": {"title": "ユーザー情報"},
+  "children": [
+    {"type": "Label", "text": "名前:"},
+    {"type": "TextBox"}
+  ]
+}
+```
+
+---
+
+## 実用例
+
+### ログインフォーム
+
+```json
+{
+  "type": "FlowLayout",
+  "props": {
+    "direction": "vertical",
+    "gap": 15,
+    "padding": 30,
+    "background": "#f9f9f9",
+    "border": true
+  },
+  "children": [
+    {
+      "type": "FlowLayout",
+      "props": {"direction": "vertical", "gap": 5},
+      "children": [
+        {"type": "Label", "text": "ユーザー名:"},
+        {"type": "TextBox", "props": {"placeholder": "ユーザー名", "width": 300}}
+      ]
+    },
+    {
+      "type": "FlowLayout",
+      "props": {"direction": "vertical", "gap": 5},
+      "children": [
+        {"type": "Label", "text": "パスワード:"},
+        {"type": "TextBox", "props": {"type": "password", "placeholder": "パスワード", "width": 300}}
+      ]
+    },
+    {
+      "type": "FlowLayout",
+      "props": {"gap": 10, "justify": "end"},
+      "children": [
+        {"type": "Button", "text": "キャンセル"},
+        {"type": "Button", "text": "ログイン", "props": {"variant": "primary"}}
+      ]
+    }
+  ]
+}
+```
+
+---
+
+### 設定画面
+
+```json
+{
+  "type": "FlowLayout",
+  "props": {
+    "direction": "vertical",
+    "gap": 20,
+    "padding": 20
+  },
+  "children": [
+    {
+      "type": "GroupBox",
+      "props": {"title": "表示設定"},
+      "children": [
+        {
+          "type": "FlowLayout",
+          "props": {"direction": "vertical", "gap": 8},
+          "children": [
+            {"type": "CheckBox", "props": {"label": "通知を表示"}},
+            {"type": "CheckBox", "props": {"label": "サウンドを有効化"}},
+            {"type": "CheckBox", "props": {"label": "自動更新"}}
+          ]
+        }
+      ]
+    },
+    {
+      "type": "FlowLayout",
+      "props": {"gap": 10, "justify": "end"},
+      "children": [
+        {"type": "Button", "text": "キャンセル"},
+        {"type": "Button", "text": "保存", "props": {"variant": "primary"}}
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## AIへの注意事項
+
+1. **コンテナの選択**:
+   - 座標が明確な場合: `Container` を使用
+   - 自動配置したい場合: `FlowLayout` を使用
+
+2. **ネスト構造**:
+   - `FlowLayout` や `Container` は子要素を持てます
+   - 複雑なレイアウトは複数のコンテナをネストして実現
+
+3. **プロパティのデフォルト値**:
+   - 多くのプロパティはオプションです
+   - デフォルト値で問題ない場合は省略可能
+
+4. **テキストの指定**:
+   - `Label` や `Button` のテキストは `text` プロパティで指定
+
+5. **サイズ指定**:
+   - 数値の場合はピクセル単位
+   - 文字列の場合は `"100%"` などのCSS値も可能
