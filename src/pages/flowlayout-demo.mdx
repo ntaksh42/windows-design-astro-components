@@ -1,0 +1,290 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: FlowLayout デモ
+---
+import FlowLayout from '../components/ui/FlowLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Label from '../components/ui/Label.astro';
+import TextBox from '../components/ui/TextBox.astro';
+import CheckBox from '../components/ui/CheckBox.astro';
+
+# FlowLayout（フローレイアウト）
+
+子要素を自動的に横または縦に並べるコンポーネントです。AIが座標を計算せずに要素を配置できます。
+
+## 基本的な使い方
+
+### 横方向（水平）配置
+
+```astro
+<FlowLayout direction="horizontal" gap={10}>
+  <Button>ボタン1</Button>
+  <Button>ボタン2</Button>
+  <Button>ボタン3</Button>
+</FlowLayout>
+```
+
+<FlowLayout direction="horizontal" gap={10} padding={20} background="#f5f5f5" border={true}>
+  <Button>ボタン1</Button>
+  <Button>ボタン2</Button>
+  <Button>ボタン3</Button>
+</FlowLayout>
+
+---
+
+### 縦方向（垂直）配置
+
+```astro
+<FlowLayout direction="vertical" gap={10}>
+  <Button>ボタン1</Button>
+  <Button>ボタン2</Button>
+  <Button>ボタン3</Button>
+</FlowLayout>
+```
+
+<FlowLayout direction="vertical" gap={10} padding={20} background="#f5f5f5" border={true}>
+  <Button>ボタン1</Button>
+  <Button>ボタン2</Button>
+  <Button>ボタン3</Button>
+</FlowLayout>
+
+---
+
+## 配置オプション
+
+### 中央揃え
+
+```astro
+<FlowLayout align="center" justify="center" padding={20}>
+  <Button variant="primary">中央配置</Button>
+</FlowLayout>
+```
+
+<FlowLayout align="center" justify="center" padding={40} background="#e3f2fd" border={true} height={150}>
+  <Button variant="primary">中央配置</Button>
+</FlowLayout>
+
+---
+
+### 両端揃え（space-between）
+
+```astro
+<FlowLayout justify="space-between">
+  <Button>左</Button>
+  <Button>右</Button>
+</FlowLayout>
+```
+
+<FlowLayout justify="space-between" padding={20} background="#f5f5f5" border={true}>
+  <Button>左</Button>
+  <Button>右</Button>
+</FlowLayout>
+
+---
+
+### 均等配置（space-evenly）
+
+```astro
+<FlowLayout justify="space-evenly">
+  <Button>A</Button>
+  <Button>B</Button>
+  <Button>C</Button>
+</FlowLayout>
+```
+
+<FlowLayout justify="space-evenly" padding={20} background="#f5f5f5" border={true}>
+  <Button>A</Button>
+  <Button>B</Button>
+  <Button>C</Button>
+</FlowLayout>
+
+---
+
+## 折り返し（Wrap）
+
+```astro
+<FlowLayout wrap={true} gap={10} width={400}>
+  <Button>1</Button>
+  <Button>2</Button>
+  <Button>3</Button>
+  <Button>4</Button>
+  <Button>5</Button>
+  <Button>6</Button>
+</FlowLayout>
+```
+
+<FlowLayout wrap={true} gap={10} padding={20} background="#fff3e0" border={true} width={400}>
+  <Button>ボタン1</Button>
+  <Button>ボタン2</Button>
+  <Button>ボタン3</Button>
+  <Button>ボタン4</Button>
+  <Button>ボタン5</Button>
+  <Button>ボタン6</Button>
+</FlowLayout>
+
+---
+
+## 実用例
+
+### フォームのボタングループ
+
+```astro
+<FlowLayout gap={10} justify="end">
+  <Button>キャンセル</Button>
+  <Button variant="primary">保存</Button>
+</FlowLayout>
+```
+
+<FlowLayout gap={10} justify="end" padding={20} background="#f9f9f9" border={true}>
+  <Button>キャンセル</Button>
+  <Button variant="primary">保存</Button>
+</FlowLayout>
+
+---
+
+### ラベルと入力欄のペア
+
+```astro
+<FlowLayout direction="vertical" gap={5}>
+  <Label>ユーザー名:</Label>
+  <TextBox placeholder="名前を入力" />
+</FlowLayout>
+```
+
+<FlowLayout direction="vertical" gap={5} padding={20} background="#f9f9f9" border={true}>
+  <Label>ユーザー名:</Label>
+  <TextBox placeholder="名前を入力" />
+</FlowLayout>
+
+---
+
+### チェックボックスのリスト
+
+```astro
+<FlowLayout direction="vertical" gap={8}>
+  <CheckBox label="オプション1" />
+  <CheckBox label="オプション2" />
+  <CheckBox label="オプション3" />
+</FlowLayout>
+```
+
+<FlowLayout direction="vertical" gap={8} padding={20} background="#f9f9f9" border={true}>
+  <CheckBox label="オプション1" />
+  <CheckBox label="オプション2" />
+  <CheckBox label="オプション3" />
+</FlowLayout>
+
+---
+
+### ツールバー風
+
+```astro
+<FlowLayout gap={5} padding={10} background="#e0e0e0">
+  <Button variant="flat">新規</Button>
+  <Button variant="flat">開く</Button>
+  <Button variant="flat">保存</Button>
+  <div style="width: 1px; height: 24px; background: #999; margin: 0 5px;"></div>
+  <Button variant="flat">切り取り</Button>
+  <Button variant="flat">コピー</Button>
+  <Button variant="flat">貼り付け</Button>
+</FlowLayout>
+```
+
+<FlowLayout gap={5} padding={10} background="#e0e0e0" border={true}>
+  <Button variant="flat">新規</Button>
+  <Button variant="flat">開く</Button>
+  <Button variant="flat">保存</Button>
+  <div style="width: 1px; height: 24px; background: #999; margin: 0 5px;"></div>
+  <Button variant="flat">切り取り</Button>
+  <Button variant="flat">コピー</Button>
+  <Button variant="flat">貼り付け</Button>
+</FlowLayout>
+
+---
+
+## プロパティ
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|-----|----------|------|
+| `direction` | `'horizontal' \| 'vertical'` | `'horizontal'` | 配置方向 |
+| `gap` | `number` | `8` | 要素間の間隔（ピクセル） |
+| `align` | `'start' \| 'center' \| 'end' \| 'stretch'` | `'start'` | 交差軸方向の配置 |
+| `justify` | `'start' \| 'center' \| 'end' \| 'space-between' \| 'space-around' \| 'space-evenly'` | `'start'` | 主軸方向の配置 |
+| `wrap` | `boolean` | `false` | 折り返しを許可するか |
+| `padding` | `number` | `0` | 内側の余白（ピクセル） |
+| `background` | `string` | `'transparent'` | 背景色 |
+| `border` | `boolean` | `false` | ボーダーを表示するか |
+| `width` | `number \| string` | `'auto'` | 幅 |
+| `height` | `number \| string` | `'auto'` | 高さ |
+
+---
+
+## AI向けの使い方ヒント
+
+FlowLayoutを使えば、AIは座標を計算せずに要素を並べられます：
+
+### 横に並べる場合
+```json
+{
+  "type": "FlowLayout",
+  "props": {"direction": "horizontal", "gap": 10},
+  "children": [
+    {"type": "Button", "text": "保存"},
+    {"type": "Button", "text": "キャンセル"}
+  ]
+}
+```
+
+### 縦に並べる場合
+```json
+{
+  "type": "FlowLayout",
+  "props": {"direction": "vertical", "gap": 10},
+  "children": [
+    {"type": "Label", "text": "名前:"},
+    {"type": "TextBox", "placeholder": "入力してください"}
+  ]
+}
+```
+
+### フォーム全体の例
+```json
+{
+  "type": "FlowLayout",
+  "props": {"direction": "vertical", "gap": 15, "padding": 20},
+  "children": [
+    {
+      "type": "FlowLayout",
+      "props": {"direction": "vertical", "gap": 5},
+      "children": [
+        {"type": "Label", "text": "ユーザー名:"},
+        {"type": "TextBox"}
+      ]
+    },
+    {
+      "type": "FlowLayout",
+      "props": {"direction": "vertical", "gap": 5},
+      "children": [
+        {"type": "Label", "text": "パスワード:"},
+        {"type": "TextBox", "type": "password"}
+      ]
+    },
+    {
+      "type": "FlowLayout",
+      "props": {"gap": 10, "justify": "end"},
+      "children": [
+        {"type": "Button", "text": "キャンセル"},
+        {"type": "Button", "text": "ログイン", "variant": "primary"}
+      ]
+    }
+  ]
+}
+```
+
+**メリット**:
+- 座標計算が不要
+- レスポンシブに対応しやすい
+- コードが読みやすい
+- メンテナンスが簡単
+
+Containerと組み合わせれば、さらに柔軟なレイアウトが可能です！
