@@ -1,0 +1,123 @@
+---
+/**
+ * TabControl - Windows Forms風のタブコントロールコンポーネント
+ *
+ * @param defaultTab - デフォルトで選択されるタブのインデックス（0始まり）
+ */
+interface Props {
+  defaultTab?: number;
+}
+
+const { defaultTab = 0 } = Astro.props;
+---
+
+<div class="tab-control" data-default-tab={defaultTab}>
+  <div class="tab-header">
+    <!-- タブボタンはJavaScriptで動的に生成 -->
+  </div>
+  <div class="tab-content">
+    <slot />
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabControls = document.querySelectorAll('.tab-control');
+
+    tabControls.forEach((control) => {
+      const header = control.querySelector('.tab-header');
+      const content = control.querySelector('.tab-content');
+      const pages = content?.querySelectorAll('.tab-page');
+
+      if (!header || !content || !pages) return;
+
+      const defaultTab = parseInt(control.getAttribute('data-default-tab') || '0', 10);
+
+      // タブボタンを生成
+      pages.forEach((page, index) => {
+        const label = page.getAttribute('data-label') || `Tab ${index + 1}`;
+        const button = document.createElement('button');
+        button.className = 'tab-button';
+        button.textContent = label;
+        button.setAttribute('type', 'button');
+        button.setAttribute('data-index', String(index));
+
+        if (index === defaultTab) {
+          button.classList.add('active');
+          page.classList.add('active');
+        }
+
+        button.addEventListener('click', () => {
+          // すべてのタブを非アクティブに
+          header.querySelectorAll('.tab-button').forEach((btn) => {
+            btn.classList.remove('active');
+          });
+          pages.forEach((p) => {
+            p.classList.remove('active');
+          });
+
+          // クリックされたタブをアクティブに
+          button.classList.add('active');
+          page.classList.add('active');
+        });
+
+        header.appendChild(button);
+      });
+    });
+  });
+</script>
+
+<style>
+  .tab-control {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+  }
+
+  .tab-header {
+    display: flex;
+    gap: 2px;
+    border-bottom: 1px solid #a0a0a0;
+    padding: 0 4px;
+    background: linear-gradient(to bottom, #f0f0f0, #e8e8e8);
+  }
+
+  .tab-button {
+    padding: 6px 16px;
+    border: 1px solid #a0a0a0;
+    border-bottom: none;
+    background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+    color: #000000;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    border-radius: 3px 3px 0 0;
+    position: relative;
+    top: 1px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .tab-button:hover {
+    background: linear-gradient(to bottom, #e5f3ff, #cce8ff);
+  }
+
+  .tab-button.active {
+    background: linear-gradient(to bottom, #ffffff, #f8f8f8);
+    border-bottom: 1px solid #ffffff;
+    margin-bottom: -1px;
+    font-weight: 600;
+    z-index: 1;
+  }
+
+  .tab-button:focus {
+    outline: 1px dotted #000000;
+    outline-offset: -4px;
+  }
+
+  .tab-content {
+    border: 1px solid #a0a0a0;
+    border-top: none;
+    background: #ffffff;
+    min-height: 100px;
+  }
+</style>

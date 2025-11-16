@@ -1,0 +1,92 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: "ProgressBar Demo"
+---
+
+import ProgressBar from '../components/ui/ProgressBar.astro';
+
+# ProgressBar デモ
+
+Windows Forms風のプログレスバーコンポーネントです。
+
+## 基本的な使い方
+
+### 進捗表示
+
+<div style="margin: 20px 0;">
+  <p style="margin-bottom: 8px;">0%</p>
+  <ProgressBar value={0} />
+
+  <p style="margin: 20px 0 8px;">25%</p>
+  <ProgressBar value={25} />
+
+  <p style="margin: 20px 0 8px;">50%</p>
+  <ProgressBar value={50} />
+
+  <p style="margin: 20px 0 8px;">75%</p>
+  <ProgressBar value={75} />
+
+  <p style="margin: 20px 0 8px;">100%</p>
+  <ProgressBar value={100} />
+</div>
+
+```astro
+<ProgressBar value={0} />
+<ProgressBar value={25} />
+<ProgressBar value={50} />
+<ProgressBar value={75} />
+<ProgressBar value={100} />
+```
+
+## 不確定プログレスバー
+
+進捗が不明な場合に使用します。
+
+<div style="margin: 20px 0;">
+  <ProgressBar variant="indeterminate" />
+</div>
+
+```astro
+<ProgressBar variant="indeterminate" />
+```
+
+## 縦向きプログレスバー
+
+<div style="margin: 20px 0; display: flex; gap: 20px; align-items: flex-end;">
+  <ProgressBar orientation="vertical" value={25} width="100px" />
+  <ProgressBar orientation="vertical" value={50} width="100px" />
+  <ProgressBar orientation="vertical" value={75} width="100px" />
+  <ProgressBar orientation="vertical" variant="indeterminate" width="100px" />
+</div>
+
+```astro
+<ProgressBar orientation="vertical" value={25} width="100px" />
+<ProgressBar orientation="vertical" value={50} width="100px" />
+<ProgressBar orientation="vertical" value={75} width="100px" />
+<ProgressBar orientation="vertical" variant="indeterminate" width="100px" />
+```
+
+## カスタムサイズ
+
+<div style="margin: 20px 0;">
+  <p style="margin-bottom: 8px;">幅300px、高さ30px</p>
+  <ProgressBar value={60} width="300px" height="30px" />
+
+  <p style="margin: 20px 0 8px;">幅150px、高さ15px</p>
+  <ProgressBar value={60} width="150px" height="15px" />
+</div>
+
+```astro
+<ProgressBar value={60} width="300px" height="30px" />
+<ProgressBar value={60} width="150px" height="15px" />
+```
+
+## Props
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|------|-----------|------|
+| `value` | `number` | `0` | 進捗値（0-100） |
+| `variant` | `'default' \| 'indeterminate'` | `'default'` | スタイルバリアント |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | 向き |
+| `height` | `string` | `'23px'` | バーの高さ |
+| `width` | `string` | `'200px'` | バーの幅 |

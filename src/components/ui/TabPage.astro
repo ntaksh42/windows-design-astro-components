@@ -1,0 +1,29 @@
+---
+/**
+ * TabPage - TabControlの個別タブページ
+ *
+ * @param label - タブのラベル
+ * @param active - アクティブ状態（通常はTabControlが管理）
+ */
+interface Props {
+  label: string;
+  active?: boolean;
+}
+
+const { label, active = false } = Astro.props;
+---
+
+<div class={`tab-page ${active ? 'active' : ''}`} data-label={label}>
+  <slot />
+</div>
+
+<style>
+  .tab-page {
+    display: none;
+    padding: 12px;
+  }
+
+  .tab-page.active {
+    display: block;
+  }
+</style>

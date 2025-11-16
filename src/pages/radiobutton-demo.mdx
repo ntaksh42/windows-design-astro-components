@@ -1,0 +1,120 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: "RadioButton Demo"
+---
+
+import RadioButton from '../components/ui/RadioButton.astro';
+import GroupBox from '../components/ui/GroupBox.astro';
+
+# RadioButton デモ
+
+Windows Forms風のラジオボタンコンポーネントです。複数の選択肢から1つだけ選択する場合に使用します。
+
+## 基本的な使い方
+
+同じ`name`属性を持つラジオボタンの中から、1つだけ選択できます。
+
+<div style="margin: 20px 0;">
+  <RadioButton name="size" value="small" label="小" />
+  <br />
+  <RadioButton name="size" value="medium" label="中" checked />
+  <br />
+  <RadioButton name="size" value="large" label="大" />
+</div>
+
+```astro
+<RadioButton name="size" value="small" label="小" />
+<RadioButton name="size" value="medium" label="中" checked />
+<RadioButton name="size" value="large" label="大" />
+```
+
+## グループ化の例
+
+GroupBoxと組み合わせて使うことで、視覚的にグループ化できます。
+
+<div style="margin: 20px 0; display: flex; gap: 20px; flex-wrap: wrap;">
+  <GroupBox legend="配送方法">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <RadioButton name="shipping" value="standard" label="通常配送（無料）" checked />
+      <RadioButton name="shipping" value="express" label="速達（500円）" />
+      <RadioButton name="shipping" value="overnight" label="翌日配送（1000円）" />
+    </div>
+  </GroupBox>
+
+  <GroupBox legend="支払い方法">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <RadioButton name="payment" value="credit" label="クレジットカード" checked />
+      <RadioButton name="payment" value="bank" label="銀行振込" />
+      <RadioButton name="payment" value="cod" label="代金引換" />
+      <RadioButton name="payment" value="convenience" label="コンビニ決済" />
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox legend="配送方法">
+  <RadioButton name="shipping" value="standard" label="通常配送（無料）" checked />
+  <RadioButton name="shipping" value="express" label="速達（500円）" />
+  <RadioButton name="shipping" value="overnight" label="翌日配送（1000円）" />
+</GroupBox>
+
+<GroupBox legend="支払い方法">
+  <RadioButton name="payment" value="credit" label="クレジットカード" checked />
+  <RadioButton name="payment" value="bank" label="銀行振込" />
+  <RadioButton name="payment" value="cod" label="代金引換" />
+  <RadioButton name="payment" value="convenience" label="コンビニ決済" />
+</GroupBox>
+```
+
+## 無効状態
+
+<div style="margin: 20px 0;">
+  <RadioButton name="status" value="active" label="有効" checked />
+  <br />
+  <RadioButton name="status" value="inactive" label="無効（選択不可）" disabled />
+  <br />
+  <RadioButton name="status" value="disabled-checked" label="無効（選択済み）" checked disabled />
+</div>
+
+```astro
+<RadioButton name="status" value="active" label="有効" checked />
+<RadioButton name="status" value="inactive" label="無効（選択不可）" disabled />
+<RadioButton name="status" value="disabled-checked" label="無効（選択済み）" checked disabled />
+```
+
+## スロットを使ったカスタムラベル
+
+<div style="margin: 20px 0;">
+  <RadioButton name="custom" value="option1" checked>
+    <strong>オプション1</strong> - 推奨設定
+  </RadioButton>
+  <br />
+  <RadioButton name="custom" value="option2">
+    <strong>オプション2</strong> - <em>カスタム設定</em>
+  </RadioButton>
+</div>
+
+```astro
+<RadioButton name="custom" value="option1" checked>
+  <strong>オプション1</strong> - 推奨設定
+</RadioButton>
+<RadioButton name="custom" value="option2">
+  <strong>オプション2</strong> - <em>カスタム設定</em>
+</RadioButton>
+```
+
+## Props
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|------|-----------|------|
+| `label` | `string` | `''` | ラベルテキスト |
+| `name` | `string` | **必須** | グループ名（同じnameの中から1つだけ選択可能） |
+| `value` | `string` | **必須** | ラジオボタンの値 |
+| `checked` | `boolean` | `false` | 選択状態 |
+| `disabled` | `boolean` | `false` | 無効化状態 |
+
+## 使用上の注意
+
+- 同じ`name`属性を持つラジオボタンは、グループとして扱われます
+- 各グループ内で1つだけ選択可能です
+- 複数選択が必要な場合は、CheckBoxコンポーネントを使用してください

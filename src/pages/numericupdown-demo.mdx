@@ -1,0 +1,185 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: "NumericUpDown Demo"
+---
+
+import NumericUpDown from '../components/ui/NumericUpDown.astro';
+import GroupBox from '../components/ui/GroupBox.astro';
+import Label from '../components/ui/Label.astro';
+
+# NumericUpDown デモ
+
+Windows Forms風の数値入力コンポーネントです。上下ボタンまたはキーボードの矢印キーで数値を増減できます。
+
+## 基本的な使い方
+
+<div style="margin: 20px 0;">
+  <NumericUpDown value={50} />
+</div>
+
+```astro
+<NumericUpDown value={50} />
+```
+
+## 最小値・最大値の設定
+
+<div style="margin: 20px 0;">
+  <div style="margin-bottom: 12px;">
+    <Label>音量 (0-100)</Label>
+    <br />
+    <NumericUpDown value={75} min={0} max={100} />
+  </div>
+
+  <div style="margin-bottom: 12px;">
+    <Label>年齢 (18-120)</Label>
+    <br />
+    <NumericUpDown value={25} min={18} max={120} />
+  </div>
+
+  <div>
+    <Label>温度 (-50°C - 50°C)</Label>
+    <br />
+    <NumericUpDown value={20} min={-50} max={50} />
+  </div>
+</div>
+
+```astro
+<NumericUpDown value={75} min={0} max={100} />
+<NumericUpDown value={25} min={18} max={120} />
+<NumericUpDown value={20} min={-50} max={50} />
+```
+
+## ステップの設定
+
+増減の単位を変更できます。
+
+<div style="margin: 20px 0;">
+  <div style="margin-bottom: 12px;">
+    <Label>1ずつ増減（デフォルト）</Label>
+    <br />
+    <NumericUpDown value={10} step={1} />
+  </div>
+
+  <div style="margin-bottom: 12px;">
+    <Label>5ずつ増減</Label>
+    <br />
+    <NumericUpDown value={50} step={5} min={0} max={100} />
+  </div>
+
+  <div style="margin-bottom: 12px;">
+    <Label>10ずつ増減</Label>
+    <br />
+    <NumericUpDown value={100} step={10} min={0} max={1000} />
+  </div>
+
+  <div>
+    <Label>0.1ずつ増減（小数点）</Label>
+    <br />
+    <NumericUpDown value={5.5} step={0.1} min={0} max={10} />
+  </div>
+</div>
+
+```astro
+<NumericUpDown value={10} step={1} />
+<NumericUpDown value={50} step={5} min={0} max={100} />
+<NumericUpDown value={100} step={10} min={0} max={1000} />
+<NumericUpDown value={5.5} step={0.1} min={0} max={10} />
+```
+
+## カスタム幅
+
+<div style="margin: 20px 0;">
+  <div style="margin-bottom: 12px;">
+    <Label>幅80px（コンパクト）</Label>
+    <br />
+    <NumericUpDown value={10} width="80px" />
+  </div>
+
+  <div style="margin-bottom: 12px;">
+    <Label>幅120px（デフォルト）</Label>
+    <br />
+    <NumericUpDown value={1000} width="120px" />
+  </div>
+
+  <div>
+    <Label>幅200px（ワイド）</Label>
+    <br />
+    <NumericUpDown value={999999} width="200px" />
+  </div>
+</div>
+
+```astro
+<NumericUpDown value={10} width="80px" />
+<NumericUpDown value={1000} width="120px" />
+<NumericUpDown value={999999} width="200px" />
+```
+
+## 無効状態
+
+<div style="margin: 20px 0;">
+  <NumericUpDown value={50} disabled />
+</div>
+
+```astro
+<NumericUpDown value={50} disabled />
+```
+
+## 実用例：設定パネル
+
+<div style="margin: 20px 0;">
+  <GroupBox legend="表示設定">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div>
+        <Label>フォントサイズ (px)</Label>
+        <br />
+        <NumericUpDown value={14} min={8} max={72} step={1} width="100px" />
+      </div>
+
+      <div>
+        <Label>行間 (%)</Label>
+        <br />
+        <NumericUpDown value={150} min={100} max={300} step={10} width="100px" />
+      </div>
+
+      <div>
+        <Label>不透明度 (%)</Label>
+        <br />
+        <NumericUpDown value={100} min={0} max={100} step={5} width="100px" />
+      </div>
+    </div>
+  </GroupBox>
+</div>
+
+```astro
+<GroupBox legend="表示設定">
+  <div>
+    <Label>フォントサイズ (px)</Label>
+    <NumericUpDown value={14} min={8} max={72} step={1} />
+  </div>
+  <div>
+    <Label>行間 (%)</Label>
+    <NumericUpDown value={150} min={100} max={300} step={10} />
+  </div>
+  <div>
+    <Label>不透明度 (%)</Label>
+    <NumericUpDown value={100} min={0} max={100} step={5} />
+  </div>
+</GroupBox>
+```
+
+## Props
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|------|-----------|------|
+| `value` | `number` | `0` | 初期値 |
+| `min` | `number` | `0` | 最小値 |
+| `max` | `number` | `100` | 最大値 |
+| `step` | `number` | `1` | 増減ステップ |
+| `width` | `string` | `'120px'` | 幅 |
+| `disabled` | `boolean` | `false` | 無効化状態 |
+
+## キーボード操作
+
+- **↑（上矢印）**: 値を増やす
+- **↓（下矢印）**: 値を減らす
+- **数値入力**: 直接入力も可能（範囲外の値は自動的に補正されます）
