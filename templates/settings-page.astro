@@ -1,0 +1,67 @@
+---
+/**
+ * 設定画面テンプレート
+ *
+ * 使い方:
+ * cp templates/settings-page.astro src/pages/my-settings.astro
+ */
+import BaseLayout from '../src/layouts/BaseLayout.astro';
+import FlowLayout from '../src/components/ui/FlowLayout.astro';
+import GroupBox from '../src/components/ui/GroupBox.astro';
+import Label from '../src/components/ui/Label.astro';
+import CheckBox from '../src/components/ui/CheckBox.astro';
+import ComboBox from '../src/components/ui/ComboBox.astro';
+import NumericUpDown from '../src/components/ui/NumericUpDown.astro';
+import Button from '../src/components/ui/Button.astro';
+---
+
+<BaseLayout title="設定">
+  <h1>設定</h1>
+
+  <FlowLayout direction="vertical" gap={20} padding={20}>
+    <!-- 通知設定 -->
+    <GroupBox title="通知設定">
+      <FlowLayout direction="vertical" gap={10} padding={15}>
+        <CheckBox label="メール通知を受け取る" checked={true} />
+        <CheckBox label="プッシュ通知を受け取る" />
+        <CheckBox label="サウンドを再生" checked={true} />
+      </FlowLayout>
+    </GroupBox>
+
+    <!-- 表示設定 -->
+    <GroupBox title="表示設定">
+      <FlowLayout direction="vertical" gap={10} padding={15}>
+        <FlowLayout align="center" gap={10}>
+          <Label style="width: 120px;">テーマ:</Label>
+          <ComboBox options={["ライト", "ダーク", "自動"]} width={150} />
+        </FlowLayout>
+
+        <FlowLayout align="center" gap={10}>
+          <Label style="width: 120px;">フォントサイズ:</Label>
+          <NumericUpDown min={8} max={24} value={12} width={80} />
+        </FlowLayout>
+
+        <FlowLayout align="center" gap={10}>
+          <Label style="width: 120px;">言語:</Label>
+          <ComboBox options={["日本語", "English", "中文"]} width={150} />
+        </FlowLayout>
+      </FlowLayout>
+    </GroupBox>
+
+    <!-- プライバシー設定 -->
+    <GroupBox title="プライバシー">
+      <FlowLayout direction="vertical" gap={10} padding={15}>
+        <CheckBox label="プロフィールを公開" checked={true} />
+        <CheckBox label="アクティビティを公開" />
+        <CheckBox label="検索結果に表示" checked={true} />
+      </FlowLayout>
+    </GroupBox>
+
+    <!-- ボタングループ -->
+    <FlowLayout gap={10} justify="end">
+      <Button>リセット</Button>
+      <Button>キャンセル</Button>
+      <Button variant="primary">保存</Button>
+    </FlowLayout>
+  </FlowLayout>
+</BaseLayout>

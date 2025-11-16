@@ -1,0 +1,46 @@
+---
+/**
+ * ログインフォームテンプレート
+ *
+ * 使い方:
+ * cp templates/login-form.astro src/pages/my-login.astro
+ */
+import BaseLayout from '../src/layouts/BaseLayout.astro';
+import FlowLayout from '../src/components/ui/FlowLayout.astro';
+import Label from '../src/components/ui/Label.astro';
+import TextBox from '../src/components/ui/TextBox.astro';
+import CheckBox from '../src/components/ui/CheckBox.astro';
+import Button from '../src/components/ui/Button.astro';
+---
+
+<BaseLayout title="ログイン">
+  <h1>ログイン</h1>
+
+  <FlowLayout direction="vertical" gap={15} padding={30} width={400} background="#ffffff" border={true}>
+    <!-- ユーザー名フィールド -->
+    <FlowLayout direction="vertical" gap={5}>
+      <Label bold={true}>ユーザー名:</Label>
+      <TextBox placeholder="ユーザー名を入力" width="100%" />
+    </FlowLayout>
+
+    <!-- パスワードフィールド -->
+    <FlowLayout direction="vertical" gap={5}>
+      <Label bold={true}>パスワード:</Label>
+      <TextBox type="password" placeholder="パスワードを入力" width="100%" />
+    </FlowLayout>
+
+    <!-- オプション -->
+    <CheckBox label="ログイン状態を保持" />
+
+    <!-- ボタングループ -->
+    <FlowLayout gap={10} justify="end">
+      <Button>キャンセル</Button>
+      <Button variant="primary">ログイン</Button>
+    </FlowLayout>
+
+    <!-- リンク -->
+    <FlowLayout justify="center" style="margin-top: 10px;">
+      <a href="#" style="color: #3b82f6; text-decoration: none;">パスワードを忘れた方</a>
+    </FlowLayout>
+  </FlowLayout>
+</BaseLayout>
