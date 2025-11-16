@@ -1,0 +1,235 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風ScrollBar
+slug: scrollbar-demo
+---
+import ScrollBar from '../components/ui/ScrollBar.astro';
+
+# Windows風ScrollBar
+
+## 1. 概要
+
+### 1.1 目的
+縦横両対応のスクロールバー、マウスホイール対応、スムーズスクロール機能付きを実現するコンポーネントです。Windows Forms のデザイン言語に従い、使いやすいインターフェースを提供します。
+
+### 1.2 対象ユーザー
+- デスクトップアプリケーション開発者
+- Windows Forms風UIを求めるWeb開発者
+
+### 1.3 主要機能
+- 縦横両対応のスクロールバー、マウスホイール対応、スムーズスクロール機能付き
+- Windows Forms風の視覚デザイン
+- 複数のバリエーションとサイズをサポート
+- アクセシビリティ対応
+
+---
+
+## 2. 外観仕様
+
+### 2.1 基本デザイン
+
+Windows Forms アプリケーションのScrollBarと同様の外観を持ちます。グラデーション背景、ボーダー、ホバー効果により立体的な印象を与えます。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <ScrollBar />
+<ScrollBar variant="primary" />
+<ScrollBar disabled />
+</div>
+
+```astro
+<ScrollBar />
+<ScrollBar variant="primary" />
+<ScrollBar disabled />
+```
+
+### 2.2 デザイントークン
+
+| 要素 | 値 | 説明 |
+|------|-----|------|
+| フォント | Segoe UI | Windows標準フォント |
+| ボーダー色 | #adadad | 標準ボーダー |
+| 背景 | linear-gradient | グラデーション背景 |
+
+---
+
+## 3. プロパティ仕様
+
+### 3.1 プロパティ一覧
+
+| プロパティ | 型 | デフォルト値 | 必須 | 説明 |
+|-----------|-----|------------|------|------|
+| `variant` | string | "default" | ✗ | コンポーネントのバリエーション |
+| `disabled` | boolean | false | ✗ | 無効化状態 |
+
+### 3.2 プロパティ詳細
+
+#### variant
+コンポーネントの外観バリエーションを指定します。
+- `default`: 標準スタイル
+- `primary`: 強調スタイル
+
+#### disabled
+無効化状態にします。ユーザー操作を受け付けなくなります。
+
+---
+
+## 4. バリエーション仕様
+
+### デフォルト
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <ScrollBar variant="default" />
+</div>
+
+### プライマリ
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <ScrollBar variant="primary" />
+</div>
+
+---
+
+## 5. 状態仕様
+
+### 5.1 状態遷移
+
+```
+通常 → ホバー → アクティブ
+  ↓
+無効化
+```
+
+### 5.2 各状態の外観
+
+### 通常状態
+デフォルトの外観
+
+### ホバー状態
+マウスカーソルを重ねると、背景色が変化
+
+### アクティブ状態
+クリック時、さらに濃い背景色に
+
+### 無効化状態
+グレーアウトし、操作不可
+
+---
+
+## 6. 動作仕様
+
+### 6.1 ユーザー操作
+
+- **マウスオーバー**: ホバー状態に遷移
+- **クリック**: アクティブ状態を経て、イベント発火
+
+### 6.2 キーボード操作
+
+該当する場合は、Tabキー、Enterキーなどの操作を記載
+
+### 6.3 イベント仕様
+
+必要に応じて、onclick等のイベントを記載
+
+---
+
+## 7. 実装例
+
+### 7.1 基本的な使用例
+
+```astro
+<ScrollBar />
+```
+
+最もシンプルな使用例です。
+
+### 7.2 実用例
+
+### 例1: フォーム内での使用
+```astro
+<form>
+  <ScrollBar variant="primary" />
+</form>
+```
+
+### 例2: 複数配置
+```astro
+<div style="display: flex; gap: 1rem;">
+  <ScrollBar />
+  <ScrollBar variant="primary" />
+</div>
+```
+
+### 7.3 よくある組み合わせ
+
+- OKボタンとキャンセルボタンの組み合わせ
+- ツールバー内での使用
+
+---
+
+## 8. アクセシビリティ
+
+### 8.1 ARIA属性
+
+必要に応じて、`aria-label`, `aria-disabled`などを設定します。
+
+### 8.2 キーボードナビゲーション
+
+キーボードのみで操作可能にします。
+
+### 8.3 スクリーンリーダー対応
+
+スクリーンリーダーでコンテンツが適切に読み上げられるようにします。
+
+---
+
+## 9. 制約事項・注意事項
+
+### 9.1 技術的制約
+
+- Astro 5.x以上が必要
+- モダンブラウザでの動作を想定
+
+### 9.2 使用上の注意
+
+- 過度な使用は避け、UIの一貫性を保ってください
+- アクセシビリティを考慮した実装を心がけてください
+
+### 9.3 既知の問題
+
+現時点で既知の問題はありません。
+
+---
+
+## 10. 参考情報
+
+### 10.1 関連コンポーネント
+
+他の関連コンポーネント（Button, Label等）を参照してください。
+
+### 10.2 参考リンク
+
+- [Windows Forms デザインガイドライン](https://learn.microsoft.com/ja-jp/dotnet/desktop/winforms/)
+- [Astro公式ドキュメント](https://docs.astro.build/)
+
+---
+
+## 付録: 実装メモ
+
+### CSS実装のポイント
+
+```css
+/* グラデーション背景 */
+background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+
+/* ホバー効果 */
+:hover {
+  background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+}
+```
+
+### TypeScript実装のポイント
+
+```typescript
+interface Props {
+  variant?: "default" | "primary";
+  disabled?: boolean;
+}
+```

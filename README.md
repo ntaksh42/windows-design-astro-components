@@ -32,11 +32,38 @@ npm run preview
 - [Astro文法リファレンス](./docs/astro-syntax.md) - Astroの文法を網羅的に解説
 - [プロジェクト構造ガイド](./docs/project-structure.md) - このプロジェクトの構造と開発方法
 
+### AI仕様書生成ツール ✨
+
+このプロジェクトには、**自然言語からPC アプリ風の外部仕様書を自動生成する**ツールが含まれています。
+
+#### クイックスタート
+
+```bash
+# 方法1: npmコマンドで実行
+npm run spec:generate "コンポーネント名" "説明"
+
+# 方法2: Claude Codeのスラッシュコマンドで実行（推奨）
+/spec-generate
+```
+
+#### 使用例
+
+```bash
+# ScrollBarコンポーネントの仕様書を生成
+npm run spec:generate "ScrollBar" "縦横両対応のスクロールバー、マウスホイール対応"
+
+# 既存コンポーネントを参考にして生成
+npm run spec:generate "SearchBox" "検索用入力欄" "form" "TextBox"
+```
+
+**詳細は [AI仕様書生成ツール使用ガイド](./docs/spec-generator-guide.md) を参照してください。**
+
 ### 推奨学習順序
 
 1. まず[Astro入門ガイド](./docs/astro-guide.md)でAstroの全体像を把握
 2. [Astro文法リファレンス](./docs/astro-syntax.md)で実際の書き方を学ぶ
 3. [プロジェクト構造ガイド](./docs/project-structure.md)で開発の進め方を理解
+4. [AI仕様書生成ツール](./docs/spec-generator-guide.md)で効率的な開発フローを習得
 
 ## プロジェクト構造
 
