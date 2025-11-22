@@ -1,0 +1,406 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風ツリービュー
+slug: treeview-demo
+---
+import TreeView from '../components/ui/TreeView.astro';
+
+# Windows Forms風ツリービュー
+
+Windows Formsアプリケーションで使用されるようなTreeViewコンポーネントです。階層的なデータを表示し、展開/折りたたみ、選択が可能です。
+
+## 基本的なツリービュー
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <TreeView 
+    items={[
+      {
+        id: '1',
+        label: 'フォルダ1',
+        expanded: true,
+        children: [
+          { id: '1-1', label: 'ファイル1.txt' },
+          { id: '1-2', label: 'ファイル2.txt' },
+        ]
+      },
+      {
+        id: '2',
+        label: 'フォルダ2',
+        expanded: false,
+        children: [
+          { id: '2-1', label: 'ファイル3.txt' },
+          { id: '2-2', label: 'ファイル4.txt' },
+        ]
+      },
+      {
+        id: '3',
+        label: 'ファイル5.txt'
+      }
+    ]}
+  />
+</div>
+
+```astro
+<TreeView 
+  items={[
+    {
+      id: '1',
+      label: 'フォルダ1',
+      expanded: true,
+      children: [
+        { id: '1-1', label: 'ファイル1.txt' },
+        { id: '1-2', label: 'ファイル2.txt' },
+      ]
+    },
+    {
+      id: '2',
+      label: 'フォルダ2',
+      children: [
+        { id: '2-1', label: 'ファイル3.txt' },
+      ]
+    }
+  ]}
+/>
+```
+
+## 深い階層のツリー
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <TreeView 
+    width="300px"
+    height="250px"
+    items={[
+      {
+        id: 'root',
+        label: 'マイコンピュータ',
+        expanded: true,
+        children: [
+          {
+            id: 'c',
+            label: 'Cドライブ (C:)',
+            expanded: true,
+            children: [
+              {
+                id: 'program-files',
+                label: 'Program Files',
+                expanded: false,
+                children: [
+                  { id: 'app1', label: 'アプリケーション1' },
+                  { id: 'app2', label: 'アプリケーション2' },
+                ]
+              },
+              {
+                id: 'windows',
+                label: 'Windows',
+                expanded: false,
+                children: [
+                  { id: 'system32', label: 'System32' },
+                  { id: 'temp', label: 'Temp' },
+                ]
+              },
+              {
+                id: 'users',
+                label: 'Users',
+                expanded: true,
+                children: [
+                  { id: 'user1', label: 'ユーザー1' },
+                  { id: 'public', label: 'Public' },
+                ]
+              }
+            ]
+          },
+          {
+            id: 'd',
+            label: 'Dドライブ (D:)',
+            children: [
+              { id: 'data', label: 'データ' },
+              { id: 'backup', label: 'バックアップ' },
+            ]
+          }
+        ]
+      }
+    ]}
+  />
+</div>
+
+```astro
+<TreeView 
+  width="300px"
+  height="250px"
+  items={[
+    {
+      id: 'root',
+      label: 'マイコンピュータ',
+      expanded: true,
+      children: [
+        {
+          id: 'c',
+          label: 'Cドライブ (C:)',
+          expanded: true,
+          children: [
+            {
+              id: 'program-files',
+              label: 'Program Files',
+              children: [...]
+            }
+          ]
+        }
+      ]
+    }
+  ]}
+/>
+```
+
+## カスタムサイズ
+
+幅と高さをカスタマイズできます。
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 2rem; flex-wrap: wrap;">
+  <div>
+    <h4 style="margin-top: 0;">小さいサイズ</h4>
+    <TreeView 
+      width="150px"
+      height="120px"
+      items={[
+        {
+          id: 's1',
+          label: 'フォルダA',
+          expanded: true,
+          children: [
+            { id: 's1-1', label: 'アイテム1' },
+            { id: 's1-2', label: 'アイテム2' },
+          ]
+        }
+      ]}
+    />
+  </div>
+  
+  <div>
+    <h4 style="margin-top: 0;">大きいサイズ</h4>
+    <TreeView 
+      width="400px"
+      height="300px"
+      items={[
+        {
+          id: 'l1',
+          label: 'プロジェクト',
+          expanded: true,
+          children: [
+            {
+              id: 'l1-1',
+              label: 'src',
+              expanded: true,
+              children: [
+                { id: 'l1-1-1', label: 'components' },
+                { id: 'l1-1-2', label: 'pages' },
+                { id: 'l1-1-3', label: 'layouts' },
+              ]
+            },
+            {
+              id: 'l1-2',
+              label: 'public',
+              children: [
+                { id: 'l1-2-1', label: 'images' },
+                { id: 'l1-2-2', label: 'styles' },
+              ]
+            },
+            { id: 'l1-3', label: 'package.json' },
+            { id: 'l1-4', label: 'README.md' },
+          ]
+        }
+      ]}
+    />
+  </div>
+</div>
+
+```astro
+<!-- 小さいサイズ -->
+<TreeView width="150px" height="120px" items={[...]} />
+
+<!-- 大きいサイズ -->
+<TreeView width="400px" height="300px" items={[...]} />
+
+<!-- 数値でも指定可能 -->
+<TreeView width={250} height={200} items={[...]} />
+```
+
+## 実用例：ファイルエクスプローラー
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <TreeView 
+    width="350px"
+    height="300px"
+    items={[
+      {
+        id: 'documents',
+        label: '📁 ドキュメント',
+        expanded: true,
+        children: [
+          {
+            id: 'work',
+            label: '📁 仕事',
+            expanded: true,
+            children: [
+              { id: 'report', label: '📄 報告書.docx' },
+              { id: 'proposal', label: '📄 提案書.pptx' },
+              {
+                id: 'project-a',
+                label: '📁 プロジェクトA',
+                children: [
+                  { id: 'spec', label: '📄 仕様書.pdf' },
+                  { id: 'design', label: '📄 設計書.xlsx' },
+                ]
+              }
+            ]
+          },
+          {
+            id: 'personal',
+            label: '📁 個人',
+            children: [
+              { id: 'resume', label: '📄 履歴書.pdf' },
+              { id: 'photo', label: '🖼️ 写真.jpg' },
+            ]
+          }
+        ]
+      },
+      {
+        id: 'downloads',
+        label: '📁 ダウンロード',
+        children: [
+          { id: 'installer', label: '💿 インストーラー.exe' },
+          { id: 'archive', label: '📦 アーカイブ.zip' },
+        ]
+      }
+    ]}
+  />
+</div>
+
+```astro
+<TreeView 
+  width="350px"
+  height="300px"
+  items={[
+    {
+      id: 'documents',
+      label: '📁 ドキュメント',
+      expanded: true,
+      children: [
+        {
+          id: 'work',
+          label: '📁 仕事',
+          children: [
+            { id: 'report', label: '📄 報告書.docx' }
+          ]
+        }
+      ]
+    }
+  ]}
+/>
+```
+
+## 機能
+
+### 展開/折りたたみ
+
+- ノードの左側にある `+` ボタンをクリックすると子要素を展開
+- `-` ボタンをクリックすると子要素を折りたたみ
+- `expanded: true` を指定すると初期状態で展開
+
+### 選択
+
+- ノードをクリックすると選択状態になる（青色の背景）
+- 選択状態のノードは白色のテキストで表示
+- 別のノードをクリックすると選択が移動
+
+### 階層表示
+
+- 点線でツリー構造を視覚的に表示
+- インデントで階層の深さを表現
+- 子要素は親要素の下に表示
+
+## プロパティ一覧
+
+### TreeView Props
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `items` | TreeItem[] | [] | ツリーに表示するデータ配列 |
+| `width` | string \| number | '200px' | コンポーネントの幅 |
+| `height` | string \| number | '150px' | コンポーネントの高さ |
+
+### TreeItem 型
+
+```typescript
+interface TreeItem {
+  id: string;           // 一意の識別子
+  label: string;        // 表示されるテキスト
+  children?: TreeItem[]; // 子要素の配列
+  expanded?: boolean;   // 初期展開状態
+}
+```
+
+## 実装の特徴
+
+### Astro.selfによる再帰レンダリング
+
+このコンポーネントは `Astro.self` を使用して自身を再帰的に呼び出し、任意の深さのツリー構造を表現しています。
+
+```astro
+<Astro.self items={item.children} level={level + 1} />
+```
+
+### クライアントサイドのインタラクション
+
+展開/折りたたみと選択機能は、`<script>` タグ内のJavaScriptで実装されています：
+
+- **イベント委譲**: ツリー全体に1つのイベントリスナーを設定し、効率的にクリックイベントを処理
+- **動的スタイル変更**: `display` プロパティで子要素の表示/非表示を切り替え
+- **選択状態管理**: CSSクラスで選択状態を管理
+
+### Windows Formsスタイル
+
+以下の特徴でWindows Formsの見た目を再現しています：
+
+- 白背景とインセット風のボーダー
+- 点線による階層ガイドライン
+- 小さな `+`/`-` ボタン
+- 青色の選択背景（`#3399ff`）
+- `Segoe UI` フォント
+
+## 使い方のヒント
+
+### データ構造の準備
+
+ツリーデータは階層構造のオブジェクト配列として準備します：
+
+```typescript
+const treeData = [
+  {
+    id: '1',
+    label: '親ノード',
+    expanded: true,  // 初期状態で展開
+    children: [
+      { id: '1-1', label: '子ノード1' },
+      { id: '1-2', label: '子ノード2' }
+    ]
+  }
+];
+```
+
+### 絵文字やアイコンの使用
+
+ラベルにUnicode絵文字を含めることで、視覚的にわかりやすくできます：
+
+```astro
+items={[
+  { id: '1', label: '📁 フォルダ' },
+  { id: '2', label: '📄 ファイル' },
+  { id: '3', label: '🖼️ 画像' }
+]}
+```
+
+### 初期展開状態の制御
+
+`expanded: true` で初期表示時に展開された状態にできます。深い階層でも各ノードに指定可能です。
+
+**試してみましょう**: 上のツリービューの `+`/`-` ボタンをクリックして展開・折りたたみを試したり、ノードをクリックして選択してみてください！

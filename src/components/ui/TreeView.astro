@@ -1,0 +1,230 @@
+---
+/**
+ * TreeView - Windows Forms風のツリービュー
+ */
+export interface TreeItem {
+  id: string;
+  label: string;
+  children?: TreeItem[];
+  expanded?: boolean;
+}
+
+interface Props {
+  /** ツリーに表示するデータ配列 */
+  items?: TreeItem[];
+  /** コンポーネントの幅 */
+  width?: string | number;
+  /** コンポーネントの高さ */
+  height?: string | number;
+  /** 内部使用: 再帰レベル */
+  level?: number;
+}
+
+const {
+  items = [],
+  width = '200px',
+  height = '150px',
+  level = 0
+} = Astro.props;
+
+const widthValue = typeof width === 'number' ? `${width}px` : width;
+const heightValue = typeof height === 'number' ? `${height}px` : height;
+---
+
+{level === 0 ? (
+  <div class="tree-view" style={`width: ${widthValue}; height: ${heightValue};`}>
+    <ul class="tree-list root-list">
+      {items.map((item) => (
+        <Astro.self items={[item]} level={level + 1} />
+      ))}
+    </ul>
+  </div>
+) : (
+  items.map((item) => {
+    const hasChildren = item.children && item.children.length > 0;
+    return (
+      <li class="tree-node">
+        <div class="node-content" tabindex="0" data-id={item.id}>
+          {/* 展開ボタンまたはスペーサー */}
+          <span 
+            class={`toggle-icon ${hasChildren ? 'has-children' : ''} ${item.expanded ? 'expanded' : ''}`}
+            data-has-children={hasChildren}
+          >
+            {hasChildren && (item.expanded ? '-' : '+')}
+          </span>
+          
+          <span class="node-label">{item.label}</span>
+        </div>
+        
+        {hasChildren && (
+          <ul class="tree-list child-list" style={{ display: item.expanded ? 'block' : 'none' }}>
+            <Astro.self items={item.children} level={level + 1} />
+          </ul>
+        )}
+      </li>
+    );
+  })
+)}
+
+{level === 0 && (
+  <script>
+    // クライアントサイドの動作
+    function setupTreeView() {
+      const treeViews = document.querySelectorAll('.tree-view');
+      
+      treeViews.forEach(treeView => {
+        // イベント委譲を使ってクリックイベントを処理
+        treeView.addEventListener('click', (e) => {
+          const target = e.target as HTMLElement;
+          
+          // トグルボタンのクリック処理
+          if (target.classList.contains('toggle-icon') && target.dataset.hasChildren === 'true') {
+            e.stopPropagation(); // 親への伝播を止める
+            const nodeContent = target.parentElement;
+            const treeNode = nodeContent?.parentElement;
+            const childList = treeNode?.querySelector('.child-list') as HTMLElement;
+            
+            if (childList) {
+              const isExpanded = childList.style.display !== 'none';
+              
+              if (isExpanded) {
+                childList.style.display = 'none';
+                target.classList.remove('expanded');
+                target.textContent = '+';
+              } else {
+                childList.style.display = 'block';
+                target.classList.add('expanded');
+                target.textContent = '-';
+              }
+            }
+            return;
+          }
+          
+          // ノード選択処理
+          const nodeContent = target.closest('.node-content');
+          if (nodeContent) {
+            // 同じツリー内の選択を解除
+            treeView.querySelectorAll('.node-content.selected').forEach(el => {
+              el.classList.remove('selected');
+            });
+            
+            nodeContent.classList.add('selected');
+          }
+        });
+      });
+    }
+    
+    setupTreeView();
+    // Astroのビュー遷移に対応
+    document.addEventListener('astro:page-load', setupTreeView);
+  </script>
+)}
+
+<style>
+  /* ベースコンテナ */
+  .tree-view {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    background-color: #fff;
+    border: 1px solid #7f9db9; /* インセット風ボーダー */
+    border-top-color: #7f9db9;
+    border-left-color: #7f9db9;
+    border-right-color: #d9e3f0;
+    border-bottom-color: #d9e3f0;
+    overflow: auto;
+    padding: 4px;
+    user-select: none;
+    box-sizing: border-box;
+  }
+
+  .tree-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .root-list {
+    margin-left: 0;
+  }
+
+  .child-list {
+    margin-left: 20px; /* インデント */
+    border-left: 1px dotted #888; /* 階層ガイドライン */
+  }
+
+  .tree-node {
+    position: relative;
+  }
+  
+  /* ガイドラインの横棒 */
+  .child-list > .tree-node::before {
+    content: '';
+    position: absolute;
+    top: 9px; /* 行の高さの半分くらい */
+    left: -20px;
+    width: 18px;
+    height: 1px;
+    border-top: 1px dotted #888;
+  }
+  
+  .node-content {
+    display: flex;
+    align-items: center;
+    padding: 1px 0;
+    cursor: default;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  
+  /* 選択状態 */
+  .node-content.selected {
+    background-color: #3399ff;
+    border-color: #3399ff;
+    color: white;
+  }
+  
+  /* 選択されていない時のホバー（任意だがWindows Formsっぽくはない場合もあるので控えめに） */
+  .node-content:hover:not(.selected) {
+    text-decoration: underline;
+  }
+  
+  .node-content.selected .toggle-icon {
+    /* 選択行の中にあるトグルボタンは見やすくする */
+    color: #000; 
+  }
+
+  /* トグルボタン [+] [-] */
+  .toggle-icon {
+    width: 9px;
+    height: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #808080;
+    background-color: #fff;
+    margin-right: 6px;
+    margin-left: 2px;
+    font-size: 8px;
+    line-height: 1;
+    color: #000;
+    cursor: pointer;
+    position: relative;
+    z-index: 1; /* 線の上に表示 */
+  }
+  
+  .toggle-icon:not(.has-children) {
+    border-color: transparent;
+    background-color: transparent;
+    cursor: default;
+  }
+
+  .node-label {
+    padding: 0 2px;
+  }
+  
+  /* フォーカス時の点線枠 */
+  .node-content:focus {
+    outline: 1px dotted #000;
+    outline-offset: -1px;
+  }
+</style>
