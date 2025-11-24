@@ -57,8 +57,8 @@ import Container from '../components/ui/Container.astro';
           <Label style="font-weight: bold; font-size: 14px;">その他の設定</Label>
         </div>
 
-        <FlowLayout direction="vertical" gap="16px" style="flex: 1;">
-          <FlowLayout direction="vertical" gap="8px">
+        <FlowLayout direction="vertical" gap={16} style="flex: 1;">
+          <FlowLayout direction="vertical" gap={8}>
             <Label>プロジェクト言語設定(L)</Label>
             <ComboBox
               width="350px"
@@ -74,14 +74,14 @@ import Container from '../components/ui/Container.astro';
 
           <CheckBox label="ラダープログラムをセル方式で編集する(C)" checked={false} />
 
-          <FlowLayout direction="horizontal" gap="8px" style="align-items: center;">
+          <FlowLayout direction="horizontal" gap={8} style="align-items: center;">
             <Label>ラダー列数設定(H)</Label>
             <Button disabled size="small">---</Button>
           </FlowLayout>
         </FlowLayout>
 
         <div style="border-top: 1px solid #d9d9d9; padding-top: 12px; margin-top: auto;">
-          <FlowLayout direction="horizontal" gap="8px">
+          <FlowLayout direction="horizontal" gap={8} justify="end">
             <Button variant="primary">OK</Button>
             <Button>キャンセル</Button>
             <Button disabled>適用(A)</Button>
