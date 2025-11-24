@@ -1,0 +1,118 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: CPUシステム設定
+slug: screen-cpu-system-settings
+---
+import SplitContainer from '../components/ui/SplitContainer.astro';
+import TreeView from '../components/ui/TreeView.astro';
+import Button from '../components/ui/Button.astro';
+import Label from '../components/ui/Label.astro';
+import ComboBox from '../components/ui/ComboBox.astro';
+import CheckBox from '../components/ui/CheckBox.astro';
+import FlowLayout from '../components/ui/FlowLayout.astro';
+import Container from '../components/ui/Container.astro';
+
+# CPUシステム設定
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <div style="background: #fff; border: 1px solid #adadad; box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 0; max-width: 900px; margin: 0 auto;">
+    <SplitContainer width={900} height={450} orientation="vertical" splitPosition={30}>
+      <div slot="panel1">
+        <TreeView
+          width="100%"
+          height="100%"
+          items={[
+            {
+              id: 'program-settings',
+              label: 'プログラムの設定',
+              expanded: true,
+              children: [
+                { id: 'module-execution', label: 'モジュール実行順序設定' },
+                { id: 'periodic-execution', label: '定周期実行とユーザ割り込み設定' },
+                { id: 'scan-time', label: 'スキャンタイム再計測の設定' },
+                { id: 'project-settings', label: 'プロジェクト設定' },
+                { id: 'program-other', label: 'その他の設定' }
+              ]
+            },
+            {
+              id: 'system-settings',
+              label: 'システムの設定',
+              expanded: true,
+              children: [
+                { id: 'local-global', label: 'ローカル全体割付設定' },
+                { id: 'program-device', label: 'プログラム別デバイス設定' },
+                { id: 'cpu-buffer', label: 'CPUユニットバッファ容量設定' },
+                { id: 'operation-log', label: '運転記録バッファ容量設定' },
+                { id: 'power-hold', label: '停電保持設定' },
+                { id: 'event-error', label: 'イベントエラー設定' },
+                { id: 'access-window', label: 'アクセスウィンドウ設定' },
+                { id: 'system-other', label: 'その他の設定' }
+              ]
+            }
+          ]}
+        />
+      </div>
+      <div slot="panel2" style="padding: 16px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+        <div style="background: #f0f0f0; padding: 8px 12px; margin: -16px -16px 16px -16px; border-bottom: 1px solid #d9d9d9;">
+          <Label style="font-weight: bold; font-size: 14px;">その他の設定</Label>
+        </div>
+
+        <FlowLayout direction="vertical" gap="16px" style="flex: 1;">
+          <FlowLayout direction="vertical" gap="8px">
+            <Label>プロジェクト言語設定(L)</Label>
+            <ComboBox
+              width="350px"
+              selectedValue="Unicode (UTF-8)"
+              options={[
+                'Unicode (UTF-8)',
+                'Shift-JIS',
+                'EUC-JP',
+                'ISO-8859-1'
+              ]}
+            />
+          </FlowLayout>
+
+          <CheckBox label="ラダープログラムをセル方式で編集する(C)" checked={false} />
+
+          <FlowLayout direction="horizontal" gap="8px" style="align-items: center;">
+            <Label>ラダー列数設定(H)</Label>
+            <Button disabled size="small">---</Button>
+          </FlowLayout>
+        </FlowLayout>
+
+        <div style="border-top: 1px solid #d9d9d9; padding-top: 12px; margin-top: auto;">
+          <FlowLayout direction="horizontal" gap="8px">
+            <Button variant="primary">OK</Button>
+            <Button>キャンセル</Button>
+            <Button disabled>適用(A)</Button>
+          </FlowLayout>
+        </div>
+      </div>
+    </SplitContainer>
+  </div>
+</div>
+
+## 説明
+
+このページは「CPUシステム設定」ダイアログのUIを再現したものです。
+
+### 構成要素
+
+- **左側パネル**: TreeViewで設定カテゴリを階層表示
+  - プログラムの設定
+  - システムの設定
+- **右側パネル**: 「その他の設定」の設定項目
+  - プロジェクト言語設定（ComboBox）
+  - ラダープログラム編集方式（CheckBox）
+  - ラダー列数設定（無効化されたボタン）
+  - OK/キャンセル/適用ボタン
+
+### 使用コンポーネント
+
+- SplitContainer（垂直分割レイアウト）
+- TreeView（階層メニュー）
+- ComboBox（ドロップダウンリスト）
+- CheckBox（チェックボックス）
+- Button（ボタン）
+- Label（ラベル）
+- FlowLayout（フレックスレイアウト）

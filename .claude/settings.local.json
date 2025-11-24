@@ -3,7 +3,10 @@
     "allow": [
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Astro components library with Windows Forms style UI\n\n- Add Windows Forms-style UI components (Button, Label, TextBox, CheckBox, ComboBox, MessageBox, Menu, GroupBox)\n- Add demo pages for all components\n- Add comprehensive documentation (CLAUDE.md, docs/)\n- Configure Astro with MDX support\n- Add project structure and learning resources\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Astro components library with Windows Forms style UI\n\n- Add Windows Forms-style UI components (Button, Label, TextBox, CheckBox, ComboBox, MessageBox, Menu, GroupBox)\n- Add demo pages for all components\n- Add comprehensive documentation (CLAUDE.md, docs/)\n- Configure Astro with MDX support\n- Add project structure and learning resources\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Skill(ai-feedback-loop-optimizer)",
+      "Skill(component-from-capture)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

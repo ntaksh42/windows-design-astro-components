@@ -34,6 +34,33 @@ allowed-tools: "Read, Write, Edit, Glob, Grep, Bash"
   * **テキスト内容**（ラベル、ボタンテキスト等）
   * **インタラクション要素**（フォームフィールド、ボタン等）
 
+#### 画像解析チェックリスト
+
+**全体構造:**
+- [ ] ウィンドウタイプ（ダイアログ、メインウィンドウ、パネル等）
+- [ ] ウィンドウの外観装飾（枠線、影、丸角等）
+- [ ] 背景色とテクスチャ
+- [ ] 分割構造（左右、上下、複数パネル）
+
+**視覚的詳細（重要！）:**
+- [ ] セクションヘッダーの背景色・ボーダー
+- [ ] エリア分離の視覚的要素（罫線、背景色の変化）
+- [ ] ボタンエリアの視覚的分離
+- [ ] 全体を包むボーダーや影
+- [ ] パネルのパディング・余白
+
+**UI要素:**
+- [ ] 各要素の種類と配置
+- [ ] 選択状態や無効化状態の表示
+- [ ] 階層構造（TreeViewやメニュー）
+- [ ] グルーピング（GroupBox、枠線等）
+
+**サイズと間隔:**
+- [ ] ウィンドウ全体のサイズ
+- [ ] 各エリアの比率（分割位置）
+- [ ] UI要素間の間隔
+- [ ] パディング・マージン
+
 ### 3. 既存コンポーネントの確認
 
 必ず最初に利用可能な既存コンポーネントをGlobで確認：
@@ -234,6 +261,48 @@ const pageTitle = '{画面名}';
 - ビルド成功/失敗を報告
 - 修正したエラーの数と内容を報告
 - 未解決のエラーがあればユーザーに報告
+
+### 6.7. 視覚的検証（重要！）
+
+ビルドが成功しても、視覚的な再現度を確認する必要があります。
+
+**視覚的検証チェックリスト：**
+
+1. **全体構造**
+   - [ ] ウィンドウ全体にボーダー・影がある
+   - [ ] 背景色が適切
+   - [ ] 分割比率が元画像に近い
+
+2. **セクションヘッダー**
+   - [ ] 背景色が設定されている（#f0f0f0等）
+   - [ ] 適切な余白とパディング
+   - [ ] 下部ボーダーで区切られている
+
+3. **エリア分離**
+   - [ ] ボタンエリアが上部ボーダーで分離
+   - [ ] 設定エリアとボタンエリアが明確に区別される
+   - [ ] パディングが適切に設定
+
+4. **UI要素**
+   - [ ] サイズが適切（高さ、幅）
+   - [ ] 間隔が均等（gap設定）
+   - [ ] 無効化状態が視覚的に表現されている
+
+5. **パディング・余白**
+   - [ ] パネル内部のパディング（16px程度）
+   - [ ] UI要素間の適切な間隔
+   - [ ] ネガティブマージンの正しい使用
+
+**よくある視覚的問題と対策：**
+
+| 問題 | 症状 | 対策 |
+|-----|------|------|
+| セクションヘッダーに背景色がない | 平坦な見た目 | `background: #f0f0f0` を追加 |
+| ボタンエリアが分離されていない | 設定とボタンが一体化 | `border-top: 1px solid #d9d9d9` を追加 |
+| ダイアログの独立感がない | ページに埋もれている | 外側divに `border`, `box-shadow` を追加 |
+| パネル内が詰まっている | 窮屈な見た目 | `padding: 16px` を追加 |
+| TreeViewが溢れる | スクロールが機能しない | `height: 100%` に設定 |
+| SplitContainerが大きすぎる | 画面に収まらない | height を 400-450px に調整 |
 
 ### 7. 結果の報告
 
@@ -474,6 +543,47 @@ UI要素を識別したら、以下のデシジョンツリーで最適なコン
 </Container>
 ```
 
+#### 7. ダイアログボックスパターン（左側ツリー、右側設定）
+```astro
+<!-- ダイアログ風の外観を持つコンテナ -->
+<div style="background: #fff; border: 1px solid #adadad; box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 0; max-width: 900px;">
+  <SplitContainer width={900} height={450} orientation="vertical" splitPosition={30}>
+    <div slot="panel1">
+      <TreeView width="100%" height="100%" items={[...]} />
+    </div>
+    <div slot="panel2" style="padding: 16px; display: flex; flex-direction: column;">
+      <!-- セクションヘッダー（背景色付き） -->
+      <div style="background: #f0f0f0; padding: 8px 12px; margin: -16px -16px 16px -16px; border-bottom: 1px solid #d9d9d9;">
+        <Label style="font-weight: bold; font-size: 14px;">セクション名</Label>
+      </div>
+
+      <!-- 設定項目エリア -->
+      <FlowLayout direction="vertical" gap="16px" style="flex: 1;">
+        <!-- 各種設定項目 -->
+      </FlowLayout>
+
+      <!-- ボタンエリア（視覚的に分離） -->
+      <div style="border-top: 1px solid #d9d9d9; padding-top: 12px; margin-top: 16px;">
+        <FlowLayout direction="horizontal" gap="8px" style="justify-content: flex-end;">
+          <Button variant="primary">OK</Button>
+          <Button>キャンセル</Button>
+          <Button disabled>適用(A)</Button>
+        </FlowLayout>
+      </div>
+    </div>
+  </SplitContainer>
+</div>
+```
+
+**ダイアログボックスパターンの重要ポイント：**
+- **外側のdivに白背景、ボーダー、影を追加**してダイアログの独立感を演出
+- **セクションヘッダーには背景色（#f0f0f0）を設定**し、視覚的に目立たせる
+- **ネガティブマージン**を使ってヘッダーをパネル端まで伸ばす
+- **ボタンエリアに上部ボーダー**を追加して設定エリアと視覚的に分離
+- **右側パネルに適切なパディング（16px程度）**を設定
+- **SplitContainerの高さは400-450px程度**に設定（元画像のダイアログサイズに合わせる）
+- **TreeViewの高さは100%**に設定してコンテナに合わせる
+
 ### 色の抽出と標準化
 
 **手順：**
@@ -557,6 +667,148 @@ UI要素を識別したら、以下のデシジョンツリーで最適なコン
 - 既存コンポーネントで実現困難な要素は、最も近いコンポーネントで代替
 - 必要に応じてユーザーに追加情報を質問（色の正確な値、動作仕様等）
 - 画面ファイルは`src/pages/screen-{name}.astro`形式で作成（.mdxではなく.astro）
+
+## よくある失敗事例と対策
+
+実際のプロジェクトで発生した失敗事例から学びます。
+
+### 失敗事例1: セクションヘッダーの背景色欠落
+
+**元画像:**
+- グレー背景のセクションヘッダー「その他の設定」
+
+**初回実装（失敗）:**
+```astro
+<Label style="font-size: 16px; font-weight: bold;">その他の設定</Label>
+```
+
+**問題:**
+- 背景色がない
+- パディングがない
+- 視覚的に目立たない
+
+**改善版（成功）:**
+```astro
+<div style="background: #f0f0f0; padding: 8px 12px; margin: -16px -16px 16px -16px; border-bottom: 1px solid #d9d9d9;">
+  <Label style="font-weight: bold; font-size: 14px;">その他の設定</Label>
+</div>
+```
+
+**学び:**
+- ヘッダーエリアは単なるLabelではなく、背景色付きのコンテナが必要
+- ネガティブマージンでパネル端まで伸ばす
+- 下部ボーダーで視覚的に区切る
+
+### 失敗事例2: ボタンエリアの視覚的分離欠如
+
+**元画像:**
+- 上部に罫線があるボタンエリア
+
+**初回実装（失敗）:**
+```astro
+<div style="margin-top: auto; padding-top: 2rem;">
+  <FlowLayout direction="horizontal" gap="8px" style="justify-content: flex-end;">
+    <Button variant="primary">OK</Button>
+    <Button>キャンセル</Button>
+  </FlowLayout>
+</div>
+```
+
+**問題:**
+- 上部ボーダーがない
+- 設定エリアとボタンエリアが視覚的に区別されない
+
+**改善版（成功）:**
+```astro
+<div style="border-top: 1px solid #d9d9d9; padding-top: 12px; margin-top: 16px;">
+  <FlowLayout direction="horizontal" gap="8px" style="justify-content: flex-end;">
+    <Button variant="primary">OK</Button>
+    <Button>キャンセル</Button>
+    <Button disabled>適用(A)</Button>
+  </FlowLayout>
+</div>
+```
+
+**学び:**
+- ボタンエリアには上部ボーダーが必要
+- 適切なマージン・パディングで視覚的に分離
+
+### 失敗事例3: ダイアログの独立感欠如
+
+**元画像:**
+- 影とボーダーのあるダイアログボックス
+
+**初回実装（失敗）:**
+```astro
+<SplitContainer width={900} height={550} orientation="vertical">
+  ...
+</SplitContainer>
+```
+
+**問題:**
+- ページに埋もれている
+- ダイアログの独立感がない
+
+**改善版（成功）:**
+```astro
+<div style="background: #fff; border: 1px solid #adadad; box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 0; max-width: 900px; margin: 0 auto;">
+  <SplitContainer width={900} height={450} orientation="vertical">
+    ...
+  </SplitContainer>
+</div>
+```
+
+**学び:**
+- SplitContainerを外側のdivでラップ
+- ボーダー、影、白背景でダイアログ感を演出
+
+### 失敗事例4: TreeViewの高さオーバーフロー
+
+**初回実装（失敗）:**
+```astro
+<TreeView width="100%" height="500px" items={[...]} />
+```
+
+**問題:**
+- SplitContainerが550pxなのにTreeViewが500px
+- スクロールが正しく機能しない
+
+**改善版（成功）:**
+```astro
+<TreeView width="100%" height="100%" items={[...]} />
+```
+
+**学び:**
+- 親コンテナのサイズに合わせて `height: 100%` を使用
+
+### 失敗事例5: パネル内のパディング不足
+
+**初回実装（失敗）:**
+```astro
+<div slot="panel2">
+  <FlowLayout direction="vertical" gap="16px">
+    ...
+  </FlowLayout>
+</div>
+```
+
+**問題:**
+- UI要素が端に密着
+- 窮屈な見た目
+
+**改善版（成功）:**
+```astro
+<div slot="panel2" style="padding: 16px; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;">
+  <FlowLayout direction="vertical" gap="16px" style="flex: 1;">
+    ...
+  </FlowLayout>
+</div>
+```
+
+**学び:**
+- パネルには適切なパディング（16px）を設定
+- `box-sizing: border-box` で正確なサイズ計算
+- flexboxで縦レイアウトを制御
 
 ## エラーハンドリング
 
