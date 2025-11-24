@@ -1,3 +1,9 @@
+---
+name: generate-props-documentation
+description: 全コンポーネントのProps定義（型、デフォルト値、説明）を自動的に解析し、統一されたマークダウンドキュメントを生成します。
+allowed-tools: "Read, Write, Glob, Grep"
+---
+
 # Props一覧ドキュメント自動生成
 
 このスキルは、全コンポーネントのProps定義を解析し、統一されたドキュメントを自動生成します。

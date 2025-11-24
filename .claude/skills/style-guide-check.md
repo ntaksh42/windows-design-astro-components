@@ -1,3 +1,9 @@
+---
+name: validate-windows-forms-style
+description: 既存のAstroコンポーネントがWindows Forms風のデザインシステム（フォント、グラデーション、インタラクション状態など）に準拠しているかを検証し、レポートを生成します。
+allowed-tools: "Read, Glob, Grep"
+---
+
 # Windows Formsスタイルガイド検証
 
 このスキルは、既存のコンポーネントがWindows Forms風のデザインシステムに準拠しているかを検証します。

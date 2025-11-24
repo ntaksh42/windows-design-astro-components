@@ -1,3 +1,9 @@
+---
+name: new-windows-forms-component
+description: Windows Forms風のAstroコンポーネントとデモページを一貫性を持って自動生成します。コンポーネント名を指定すると、.astroファイル、デモページ、ナビゲーションリンクを自動作成します。
+allowed-tools: "Read, Write, Edit, Glob, Grep, Bash"
+---
+
 # 新規Windows Formsコンポーネント作成
 
 このスキルは、Windows Forms風のAstroコンポーネントとそのデモページを一貫性を持って自動生成します。
