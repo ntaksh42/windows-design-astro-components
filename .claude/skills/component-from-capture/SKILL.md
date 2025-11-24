@@ -1,12 +1,12 @@
 ---
 name: component-from-capture
-description: 画像キャプチャ（直接貼り付けまたはファイルパス指定）からWindows Forms風のAstroコンポーネントを自動生成します。UIデザインを解析し、レイアウト、色、サイズ、テキストを再現したコンポーネントとデモページを作成します。
+description: 画像キャプチャ（直接貼り付けまたはファイルパス指定）から既存のWindows Forms風Astroコンポーネントを組み合わせて画面ページを自動生成します。UIデザインを解析し、レイアウト、色、サイズ、テキストを再現した画面を作成します。
 allowed-tools: "Read, Write, Edit, Glob, Grep, Bash"
 ---
 
-# キャプチャからコンポーネント作成
+# キャプチャから画面ページ作成
 
-このスキルは、画像ファイルからUIデザインを解析し、Windows Forms風のAstroコンポーネントを自動生成します。
+このスキルは、画像ファイルからUIデザインを解析し、既存のWindows Forms風Astroコンポーネントを組み合わせて画面ページを自動生成します。
 
 ## 実行手順
 
@@ -34,63 +34,88 @@ allowed-tools: "Read, Write, Edit, Glob, Grep, Bash"
   * **テキスト内容**（ラベル、ボタンテキスト等）
   * **インタラクション要素**（フォームフィールド、ボタン等）
 
-### 3. コンポーネント設計
+### 3. 既存コンポーネントの確認
 
-解析結果から実装方針を決定：
+必ず最初に利用可能な既存コンポーネントをGlobで確認：
 
-**a) 既存コンポーネントの組み合わせで実現可能な場合**
-- `src/components/ui/`の既存コンポーネントを確認
-- Button、TextBox、Label、CheckBox等を組み合わせる
-- FlowLayoutやContainerで配置を再現
+```bash
+Glob pattern: src/components/ui/*.astro
+```
 
-**b) 新しいコンポーネントが必要な場合**
-- Windows Forms風のデザインパターンに従って新規作成
-- 必要に応じて複合コンポーネントを作成
+利用可能な主なコンポーネント：
+- **基本**: Button, Label, TextBox, CheckBox, RadioButton, ComboBox
+- **レイアウト**: Container, FlowLayout, Panel, GroupBox, SplitContainer
+- **入力**: NumericUpDown, DateTimePicker, TrackBar, RichTextBox
+- **表示**: ProgressBar, TabControl/TabPage, TreeView, ListBox, PictureBox
+- **データ**: DataGridView
+- **メニュー**: MenuBar, Menu, MenuItem, ContextMenu, ToolStrip, StatusStrip
 
-### 4. コンポーネントファイルの作成
+### 4. 画面設計
 
-**新規コンポーネントが必要な場合：**
+解析結果から既存コンポーネントの組み合わせを決定：
 
-ファイルパス: `src/components/ui/{ComponentName}.astro`
+**重要**: 新しいコンポーネントは作成しない。必ず既存コンポーネントのみを使用する。
 
-含める要素：
-- TypeScriptインターフェースでProps定義（JSDocコメント付き）
-- デフォルト値の設定
-- Windows Forms風のスタイル：
-  * `font-family: 'Segoe UI', Tahoma, sans-serif`
-  * グラデーション背景（該当する場合）
-  * 立体的なボーダー
-  * ホバー、アクティブ、フォーカス状態
-- キャプチャから抽出した色、サイズ、レイアウトを反映
+設計方針：
+- キャプチャのレイアウトに最も近いコンポーネント構成を選択
+- Container、FlowLayout、Panelを使って配置を再現
+- GroupBoxで論理的なグループ化を行う
+- 複雑なレイアウトはSplitContainerで分割
 
-**既存コンポーネントのみで実現する場合：**
-- デモページで組み合わせ例を作成
+### 5. 画面ページファイルの作成
 
-### 5. デモページの作成
+ファイルパス: `src/pages/screen-{name}.astro`
 
-ファイルパス: `src/pages/{name}-from-capture.mdx`
+**必須要素：**
 
-内容：
-- `BaseLayout`をimport
-- 必要なコンポーネントをimport
-- タイトル: 「{名前}（キャプチャから作成）」
-- 元画像の説明セクション
-- 再現したUIの実装例
-- 使用したコンポーネントの説明
-- Props一覧（新規コンポーネントの場合）
+```astro
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+// 必要な既存コンポーネントをimport
+import Button from '../components/ui/Button.astro';
+import Label from '../components/ui/Label.astro';
+// ... 他のコンポーネント
+
+const pageTitle = '{画面名}';
+---
+
+<BaseLayout title={pageTitle}>
+  <h1>{pageTitle}</h1>
+
+  <div class="screen-description">
+    <p>この画面はキャプチャから再現されました。</p>
+  </div>
+
+  <!-- ここにコンポーネントを組み合わせて画面を構築 -->
+  <Container>
+    <!-- レイアウトとコンポーネント -->
+  </Container>
+
+  <style>
+    /* 画面固有のスタイル（必要に応じて） */
+  </style>
+</BaseLayout>
+```
+
+**コンポーネント配置のポイント：**
+- キャプチャの視覚的構造を忠実に再現
+- 適切なProps（variant、disabled、value等）を設定
+- レスポンシブを考慮したレイアウト
+- Windows Forms風のスタイルを維持
 
 ### 6. ナビゲーションへの追加
 
 - `src/layouts/BaseLayout.astro`のnavセクションにリンクを追加
-- 形式: `<a href="/{name}-from-capture">{日本語名}（キャプチャ）</a>`
+- 形式: `<a href="/screen-{name}">{日本語名}画面</a>`
 
 ### 7. 結果の報告
 
 ユーザーに以下を報告：
-- 解析した要素の概要
-- 作成したコンポーネント（新規/既存の組み合わせ）
-- 生成されたファイル一覧
-- 元画像と比較した再現度
+- 解析した画面要素の概要
+- 使用した既存コンポーネントのリスト
+- 生成された画面ファイルのパス
+- 元画像と比較した再現度と差異
+- アクセスURL: `http://localhost:4321/screen-{name}`
 - `npm run dev`で確認するよう案内
 
 ## 解析のガイドライン
@@ -136,15 +161,19 @@ allowed-tools: "Read, Write, Edit, Glob, Grep, Bash"
 
 ## 注意事項
 
-- 完全な再現ではなく、Windows Formsスタイルに適合させた解釈を行う
+- **絶対に新しいコンポーネントを作成しない** - 必ず既存コンポーネントのみを使用
+- 完全な再現ではなく、既存コンポーネントで実現可能な範囲で再現する
 - キャプチャが不鮮明な場合は推測箇所をユーザーに確認
 - 複雑なUIは段階的に実装（まず基本構造、次に詳細）
-- 既存コンポーネントとの一貫性を最優先
+- 既存コンポーネントのPropsを最大限活用（variant、disabled、size等）
+- 既存コンポーネントで実現困難な要素は、最も近いコンポーネントで代替
 - 必要に応じてユーザーに追加情報を質問（色の正確な値、動作仕様等）
+- 画面ファイルは`src/pages/screen-{name}.astro`形式で作成（.mdxではなく.astro）
 
 ## エラーハンドリング
 
 - 画像ファイルが存在しない場合: パスの再確認を促す
-- 画像が読み込めない場合: ファイル形式を確認
+- 画像が読み込めない場合: ファイル形式を確認（PNG、JPG、JPEG対応）
 - UI要素が識別できない場合: ユーザーに説明を求める
-- 実装が困難な要素: 代替案を提示してユーザーに確認
+- 既存コンポーネントで実現困難な要素: 最も近いコンポーネントでの代替案を提示
+- 複雑すぎるレイアウト: 段階的な実装を提案（基本構造→詳細）
