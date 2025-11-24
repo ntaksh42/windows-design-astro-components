@@ -1,0 +1,109 @@
+---
+/**
+ * PictureBox - Windows Forms風の画像ボックス
+ */
+interface Props {
+  /** 画像のURL */
+  src?: string;
+  /** 代替テキスト */
+  alt?: string;
+  /** 画像のサイズモード */
+  sizeMode?: 'normal' | 'stretch' | 'auto-size' | 'center' | 'zoom';
+  /** 幅（px） */
+  width?: number;
+  /** 高さ（px） */
+  height?: number;
+  /** ボーダースタイル */
+  borderStyle?: 'none' | 'fixed-single' | 'fixed-3d';
+}
+
+const {
+  src = '',
+  alt = '',
+  sizeMode = 'normal',
+  width = 100,
+  height = 100,
+  borderStyle = 'fixed-single'
+} = Astro.props;
+---
+
+<div
+  class={`picturebox picturebox-${borderStyle} picturebox-${sizeMode}`}
+  style={`width: ${width}px; height: ${height}px;`}
+>
+  {src && (
+    <img src={src} alt={alt} class={`picturebox-image picturebox-image-${sizeMode}`} />
+  )}
+  <slot />
+</div>
+
+<style>
+  .picturebox {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  /* ボーダースタイル: なし */
+  .picturebox-none {
+    border: none;
+  }
+
+  /* ボーダースタイル: 単一線 */
+  .picturebox-fixed-single {
+    border: 1px solid #adadad;
+  }
+
+  /* ボーダースタイル: 3D */
+  .picturebox-fixed-3d {
+    border: 2px solid;
+    border-color: #f0f0f0 #808080 #808080 #f0f0f0;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 画像 */
+  .picturebox-image {
+    display: block;
+  }
+
+  /* サイズモード: normal（そのまま表示） */
+  .picturebox-image-normal {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: none;
+  }
+
+  /* サイズモード: stretch（引き伸ばし） */
+  .picturebox-image-stretch {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+
+  /* サイズモード: auto-size（画像サイズに合わせる） */
+  .picturebox-auto-size .picturebox-image-auto-size {
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+  }
+
+  /* サイズモード: center（中央配置） */
+  .picturebox-image-center {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: none;
+    object-position: center;
+  }
+
+  /* サイズモード: zoom（アスペクト比を保って拡大/縮小） */
+  .picturebox-image-zoom {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+</style>

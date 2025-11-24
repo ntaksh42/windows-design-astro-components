@@ -1,0 +1,250 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風トラックバー
+slug: trackbar-demo
+---
+import TrackBar from '../components/ui/TrackBar.astro';
+
+# Windows Forms風トラックバー
+
+Windows Formsアプリケーションで使用されるようなスライダーコンポーネントです。
+
+## 基本的なトラックバー
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <TrackBar width={200} />
+</div>
+
+```astro
+<TrackBar width={200} />
+```
+
+## 範囲指定
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 2rem;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">0〜100（デフォルト）</p>
+    <TrackBar min={0} max={100} value={50} width={250} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">0〜10</p>
+    <TrackBar min={0} max={10} value={5} width={250} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">-50〜50</p>
+    <TrackBar min={-50} max={50} value={0} width={250} />
+  </div>
+</div>
+
+```astro
+<TrackBar min={0} max={100} value={50} />
+<TrackBar min={0} max={10} value={5} />
+<TrackBar min={-50} max={50} value={0} />
+```
+
+## 刻み幅
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 2rem;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">刻み幅: 1（デフォルト）</p>
+    <TrackBar min={0} max={100} step={1} width={250} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">刻み幅: 5</p>
+    <TrackBar min={0} max={100} step={5} width={250} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">刻み幅: 10</p>
+    <TrackBar min={0} max={100} step={10} width={250} />
+  </div>
+</div>
+
+```astro
+<TrackBar step={1} />
+<TrackBar step={5} />
+<TrackBar step={10} />
+```
+
+## サイズバリエーション
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 2rem;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">小（150px）</p>
+    <TrackBar width={150} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">中（250px）</p>
+    <TrackBar width={250} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">大（400px）</p>
+    <TrackBar width={400} />
+  </div>
+</div>
+
+```astro
+<TrackBar width={150} />
+<TrackBar width={250} />
+<TrackBar width={400} />
+```
+
+## 垂直方向
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 2rem; align-items: flex-start;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">垂直（150px）</p>
+    <TrackBar orientation="vertical" height={150} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">垂直（200px）</p>
+    <TrackBar orientation="vertical" height={200} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">垂直（250px）</p>
+    <TrackBar orientation="vertical" height={250} />
+  </div>
+</div>
+
+```astro
+<TrackBar orientation="vertical" height={150} />
+<TrackBar orientation="vertical" height={200} />
+<TrackBar orientation="vertical" height={250} />
+```
+
+## 無効化状態
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 2rem;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">通常</p>
+    <TrackBar width={250} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">無効</p>
+    <TrackBar width={250} disabled />
+  </div>
+</div>
+
+```astro
+<TrackBar disabled />
+```
+
+## 実用例：音量調整
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">音量</h3>
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <span style="font-size: 20px;">🔈</span>
+    <TrackBar min={0} max={100} value={70} width={300} />
+    <span style="font-size: 20px;">🔊</span>
+  </div>
+</div>
+
+```astro
+<TrackBar min={0} max={100} value={70} width={300} />
+```
+
+## 実用例：明るさ調整
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">画面設定</h3>
+  <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <div>
+      <label style="display: block; margin-bottom: 8px; font-size: 13px;">明るさ</label>
+      <TrackBar min={0} max={100} value={80} width={300} />
+    </div>
+    <div>
+      <label style="display: block; margin-bottom: 8px; font-size: 13px;">コントラスト</label>
+      <TrackBar min={0} max={100} value={50} width={300} />
+    </div>
+    <div>
+      <label style="display: block; margin-bottom: 8px; font-size: 13px;">彩度</label>
+      <TrackBar min={0} max={100} value={60} width={300} />
+    </div>
+  </div>
+</div>
+
+```astro
+<TrackBar min={0} max={100} value={80} width={300} />
+<TrackBar min={0} max={100} value={50} width={300} />
+<TrackBar min={0} max={100} value={60} width={300} />
+```
+
+## 実用例：ズームレベル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">ズーム</h3>
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <span style="font-size: 16px;">−</span>
+    <TrackBar min={50} max={200} value={100} step={10} width={350} />
+    <span style="font-size: 16px;">+</span>
+  </div>
+  <p style="margin: 1rem 0 0 0; font-size: 12px; color: #666;">50% 〜 200%</p>
+</div>
+
+```astro
+<TrackBar min={50} max={200} value={100} step={10} width={350} />
+```
+
+## 実用例：温度調整
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">エアコン設定</h3>
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <span style="font-size: 20px;">❄️</span>
+    <TrackBar min={16} max={30} value={24} step={1} width={280} />
+    <span style="font-size: 20px;">🔥</span>
+  </div>
+  <p style="margin: 1rem 0 0 0; font-size: 12px; color: #666;">16°C 〜 30°C</p>
+</div>
+
+```astro
+<TrackBar min={16} max={30} value={24} step={1} width={280} />
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `min` | number | 0 | 最小値 |
+| `max` | number | 100 | 最大値 |
+| `value` | number | 50 | 初期値 |
+| `step` | number | 1 | 刻み幅 |
+| `orientation` | 'horizontal' \| 'vertical' | 'horizontal' | 方向 |
+| `disabled` | boolean | false | 無効化状態 |
+| `width` | number | 200 | 幅（px）※horizontal時 |
+| `height` | number | 200 | 高さ（px）※vertical時 |
+| `name` | string | - | name属性 |
+| `id` | string | - | id属性 |
+
+## 使い方のヒント
+
+### よく使う組み合わせ
+
+**音量調整:**
+```astro
+<TrackBar min={0} max={100} value={70} width={300} />
+```
+
+**温度設定:**
+```astro
+<TrackBar min={16} max={30} value={24} step={1} width={280} />
+```
+
+**ズーム:**
+```astro
+<TrackBar min={50} max={200} value={100} step={10} width={350} />
+```
+
+**垂直スライダー:**
+```astro
+<TrackBar orientation="vertical" height={200} />
+```
+
+## インタラクション
+
+- **ドラッグ**: つまみをドラッグして値を変更できます
+- **クリック**: レール上をクリックしてその位置に移動できます
+- **キーボード**: 矢印キーで値を調整できます（フォーカス時）
+- **値表示**: 現在の値がリアルタイムで表示されます
+
+試してみましょう: 上のスライダーをドラッグして値を変更してみてください！

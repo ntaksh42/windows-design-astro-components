@@ -1,0 +1,54 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風分割コンテナ
+slug: splitcontainer-demo
+---
+import SplitContainer from '../components/ui/SplitContainer.astro';
+
+# Windows Forms風分割コンテナ
+
+画面を2つのパネルに分割できるコンテナコンポーネントです。
+
+## 垂直分割
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <SplitContainer width={600} height={300} orientation="vertical" splitPosition={50}>
+    <div slot="panel1">
+      <h4>左パネル</h4>
+      <p>このエリアはスクロール可能です。</p>
+    </div>
+    <div slot="panel2">
+      <h4>右パネル</h4>
+      <p>分割バーをドラッグしてサイズを調整できます。</p>
+    </div>
+  </SplitContainer>
+</div>
+
+```astro
+<SplitContainer orientation="vertical">
+  <div slot="panel1">左パネル</div>
+  <div slot="panel2">右パネル</div>
+</SplitContainer>
+```
+
+## 水平分割
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <SplitContainer width={600} height={300} orientation="horizontal" splitPosition={40}>
+    <div slot="panel1">
+      <h4>上パネル</h4>
+    </div>
+    <div slot="panel2">
+      <h4>下パネル</h4>
+    </div>
+  </SplitContainer>
+</div>
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `orientation` | 'horizontal' \| 'vertical' | 'vertical' | 分割方向 |
+| `width` | number | 600 | 幅（px） |
+| `height` | number | 400 | 高さ（px） |
+| `splitPosition` | number | 50 | 分割位置（%） |

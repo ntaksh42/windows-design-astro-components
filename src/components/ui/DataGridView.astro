@@ -1,0 +1,132 @@
+---
+/**
+ * DataGridView - Windows Forms風のデータグリッド
+ */
+interface Props {
+  /** カラムヘッダー */
+  columns?: string[];
+  /** データ行 */
+  rows?: string[][];
+  /** 幅（px） */
+  width?: number;
+  /** 高さ（px） */
+  height?: number;
+}
+
+const {
+  columns = [],
+  rows = [],
+  width = 500,
+  height = 300
+} = Astro.props;
+---
+
+<div
+  class="datagrid"
+  style={`width: ${width}px; height: ${height}px;`}
+>
+  <table class="datagrid-table">
+    <thead class="datagrid-header">
+      <tr>
+        {columns.map((column) => (
+          <th class="datagrid-header-cell">{column}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody class="datagrid-body">
+      {rows.map((row) => (
+        <tr class="datagrid-row">
+          {row.map((cell) => (
+            <td class="datagrid-cell">{cell}</td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <slot />
+</div>
+
+<style>
+  .datagrid {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    border: 1px solid #7f9db9;
+    background: #fff;
+    box-sizing: border-box;
+    overflow: auto;
+  }
+
+  .datagrid-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .datagrid-header {
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .datagrid-header-cell {
+    padding: 4px 8px;
+    border: 1px solid #adadad;
+    text-align: left;
+    font-weight: normal;
+    color: #000;
+    white-space: nowrap;
+  }
+
+  .datagrid-body {
+    background: #fff;
+  }
+
+  .datagrid-row {
+    background: #fff;
+  }
+
+  .datagrid-row:nth-child(even) {
+    background: #f9f9f9;
+  }
+
+  .datagrid-row:hover {
+    background: #e5f3ff;
+  }
+
+  .datagrid-row.datagrid-row-selected {
+    background: #0078d4;
+    color: #fff;
+  }
+
+  .datagrid-cell {
+    padding: 4px 8px;
+    border: 1px solid #e0e0e0;
+    white-space: nowrap;
+  }
+
+  /* スクロールバー（Windows風） */
+  .datagrid::-webkit-scrollbar {
+    width: 17px;
+    height: 17px;
+  }
+
+  .datagrid::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-left: 1px solid #d4d4d4;
+  }
+
+  .datagrid::-webkit-scrollbar-thumb {
+    background: linear-gradient(to right, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+  }
+
+  .datagrid::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to right, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  .datagrid::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(to right, #cce4f7 0%, #b8d6ed 100%);
+    border-color: #2c5f8d;
+  }
+</style>

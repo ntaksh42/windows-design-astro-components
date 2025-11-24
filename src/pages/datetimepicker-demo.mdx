@@ -1,0 +1,260 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風日付時刻選択
+slug: datetimepicker-demo
+---
+import DateTimePicker from '../components/ui/DateTimePicker.astro';
+
+# Windows Forms風日付時刻選択
+
+Windows Formsアプリケーションで使用されるような日付時刻選択コンポーネントです。
+
+## 基本的な日付選択
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <DateTimePicker width={200} />
+</div>
+
+```astro
+<DateTimePicker width={200} />
+```
+
+## フォーマットバリエーション
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">Short（短い形式）</p>
+    <DateTimePicker format="short" width={200} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">Long（長い形式）</p>
+    <DateTimePicker format="long" width={250} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">Time（時刻のみ）</p>
+    <DateTimePicker format="time" width={150} />
+  </div>
+</div>
+
+```astro
+<DateTimePicker format="short" />
+<DateTimePicker format="long" />
+<DateTimePicker format="time" />
+```
+
+## 初期値の設定
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">今日の日付</p>
+    <DateTimePicker value="2025-11-24" width={200} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">特定の日付</p>
+    <DateTimePicker value="2025-12-25" width={200} />
+  </div>
+</div>
+
+```astro
+<DateTimePicker value="2025-11-24" />
+<DateTimePicker value="2025-12-25" />
+```
+
+## 日付範囲の制限
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">最小日付: 2025-01-01</p>
+    <DateTimePicker minDate="2025-01-01" width={200} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">最大日付: 2025-12-31</p>
+    <DateTimePicker maxDate="2025-12-31" width={200} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">範囲制限: 2025-06-01 〜 2025-06-30</p>
+    <DateTimePicker minDate="2025-06-01" maxDate="2025-06-30" width={200} />
+  </div>
+</div>
+
+```astro
+<DateTimePicker minDate="2025-01-01" />
+<DateTimePicker maxDate="2025-12-31" />
+<DateTimePicker minDate="2025-06-01" maxDate="2025-06-30" />
+```
+
+## サイズバリエーション
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">小（150px）</p>
+    <DateTimePicker width={150} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">中（200px）</p>
+    <DateTimePicker width={200} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">大（300px）</p>
+    <DateTimePicker width={300} />
+  </div>
+</div>
+
+```astro
+<DateTimePicker width={150} />
+<DateTimePicker width={200} />
+<DateTimePicker width={300} />
+```
+
+## 無効化状態
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">通常</p>
+    <DateTimePicker width={200} />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">無効</p>
+    <DateTimePicker width={200} disabled />
+  </div>
+</div>
+
+```astro
+<DateTimePicker disabled />
+```
+
+## 実用例：予約フォーム
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">会議室予約</h3>
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <div>
+      <label style="display: block; margin-bottom: 4px; font-size: 13px;">予約日</label>
+      <DateTimePicker format="long" width={250} minDate="2025-11-24" />
+    </div>
+    <div style="display: flex; gap: 1rem;">
+      <div>
+        <label style="display: block; margin-bottom: 4px; font-size: 13px;">開始時刻</label>
+        <DateTimePicker format="time" width={120} />
+      </div>
+      <div>
+        <label style="display: block; margin-bottom: 4px; font-size: 13px;">終了時刻</label>
+        <DateTimePicker format="time" width={120} />
+      </div>
+    </div>
+    <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
+      <button style="padding: 4px 12px; font-size: 13px;">予約する</button>
+      <button style="padding: 4px 12px; font-size: 13px;">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+```astro
+<DateTimePicker format="long" width={250} minDate="2025-11-24" />
+<DateTimePicker format="time" width={120} />
+```
+
+## 実用例：期間選択
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">レポート期間</h3>
+  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+    <div>
+      <label style="display: block; margin-bottom: 4px; font-size: 13px;">開始日</label>
+      <DateTimePicker width={180} />
+    </div>
+    <span style="padding-top: 20px;">〜</span>
+    <div>
+      <label style="display: block; margin-bottom: 4px; font-size: 13px;">終了日</label>
+      <DateTimePicker width={180} />
+    </div>
+    <button style="padding: 4px 12px; font-size: 13px; margin-top: 20px;">検索</button>
+  </div>
+</div>
+
+```astro
+<DateTimePicker width={180} />
+<span>〜</span>
+<DateTimePicker width={180} />
+```
+
+## 実用例：誕生日入力
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">プロフィール登録</h3>
+  <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 300px;">
+    <div>
+      <label style="display: block; margin-bottom: 4px; font-size: 13px;">お名前</label>
+      <input type="text" style="width: 100%; padding: 4px; font-size: 13px; border: 1px solid #7f9db9;" />
+    </div>
+    <div>
+      <label style="display: block; margin-bottom: 4px; font-size: 13px;">生年月日</label>
+      <DateTimePicker width={200} maxDate="2025-11-24" />
+    </div>
+    <div style="margin-top: 1rem;">
+      <button style="padding: 4px 12px; font-size: 13px;">登録</button>
+    </div>
+  </div>
+</div>
+
+```astro
+<DateTimePicker width={200} maxDate="2025-11-24" />
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `format` | 'long' \| 'short' \| 'time' \| 'custom' | 'short' | 表示フォーマット |
+| `value` | string | '' | 初期値（YYYY-MM-DD形式） |
+| `minDate` | string | - | 最小日付（YYYY-MM-DD形式） |
+| `maxDate` | string | - | 最大日付（YYYY-MM-DD形式） |
+| `disabled` | boolean | false | 無効化状態 |
+| `width` | number | 200 | 幅（px） |
+| `name` | string | - | name属性 |
+| `id` | string | - | id属性 |
+
+## フォーマットの説明
+
+- **short**: 短い日付形式（例: 2025/11/24）
+- **long**: 長い日付形式（例: 2025年11月24日）
+- **time**: 時刻のみ（例: 14:30）
+- **custom**: カスタムフォーマット
+
+## 使い方のヒント
+
+### よく使う組み合わせ
+
+**予約日選択:**
+```astro
+<DateTimePicker
+  format="long"
+  width={250}
+  minDate="2025-11-24"
+/>
+```
+
+**時刻選択:**
+```astro
+<DateTimePicker
+  format="time"
+  width={120}
+/>
+```
+
+**期間選択:**
+```astro
+<DateTimePicker width={180} />
+〜
+<DateTimePicker width={180} />
+```
+
+**誕生日入力:**
+```astro
+<DateTimePicker
+  width={200}
+  maxDate="2025-11-24"
+/>
+```
+
+試してみましょう: 上の日付選択をクリックしてカレンダーを開いてみてください！

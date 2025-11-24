@@ -1,0 +1,239 @@
+---
+/**
+ * TrackBar - Windows Forms風のスライダー
+ */
+interface Props {
+  /** 最小値 */
+  min?: number;
+  /** 最大値 */
+  max?: number;
+  /** 初期値 */
+  value?: number;
+  /** 刻み幅 */
+  step?: number;
+  /** 方向 */
+  orientation?: 'horizontal' | 'vertical';
+  /** 無効化 */
+  disabled?: boolean;
+  /** 幅（px）※horizontal時 */
+  width?: number;
+  /** 高さ（px）※vertical時 */
+  height?: number;
+  /** name属性 */
+  name?: string;
+  /** id属性 */
+  id?: string;
+}
+
+const {
+  min = 0,
+  max = 100,
+  value = 50,
+  step = 1,
+  orientation = 'horizontal',
+  disabled = false,
+  width = 200,
+  height = 200,
+  name,
+  id
+} = Astro.props;
+---
+
+<div
+  class={`trackbar trackbar-${orientation} ${disabled ? 'trackbar-disabled' : ''}`}
+  style={orientation === 'horizontal' ? `width: ${width}px;` : `height: ${height}px;`}
+>
+  <input
+    type="range"
+    class="trackbar-input"
+    min={min}
+    max={max}
+    value={value}
+    step={step}
+    disabled={disabled}
+    name={name}
+    id={id}
+    orient={orientation === 'vertical' ? 'vertical' : undefined}
+  />
+  <div class="trackbar-value-display"></div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const trackbars = document.querySelectorAll('.trackbar:not(.trackbar-disabled)');
+
+    trackbars.forEach((trackbar) => {
+      const input = trackbar.querySelector('.trackbar-input') as HTMLInputElement;
+      const display = trackbar.querySelector('.trackbar-value-display');
+
+      if (input && display) {
+        // 初期値を表示
+        display.textContent = input.value;
+
+        // 値が変更されたら表示を更新
+        input.addEventListener('input', () => {
+          display.textContent = input.value;
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  .trackbar {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .trackbar-horizontal {
+    flex-direction: column;
+  }
+
+  .trackbar-vertical {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .trackbar-input {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  /* 水平方向 */
+  .trackbar-horizontal .trackbar-input {
+    width: 100%;
+    height: 24px;
+  }
+
+  /* 垂直方向 */
+  .trackbar-vertical .trackbar-input {
+    width: 24px;
+    height: 100%;
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
+  }
+
+  /* トラック（レール） */
+  .trackbar-input::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to bottom, #e0e0e0 0%, #f0f0f0 100%);
+    border: 1px solid #adadad;
+    border-radius: 2px;
+  }
+
+  .trackbar-input::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to bottom, #e0e0e0 0%, #f0f0f0 100%);
+    border: 1px solid #adadad;
+    border-radius: 2px;
+  }
+
+  /* つまみ（サム） */
+  .trackbar-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 11px;
+    height: 21px;
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+    cursor: pointer;
+    margin-top: -9px;
+  }
+
+  .trackbar-input::-moz-range-thumb {
+    width: 11px;
+    height: 21px;
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+    cursor: pointer;
+    border-radius: 0;
+  }
+
+  /* ホバー */
+  .trackbar:not(.trackbar-disabled) .trackbar-input::-webkit-slider-thumb:hover {
+    background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  .trackbar:not(.trackbar-disabled) .trackbar-input::-moz-range-thumb:hover {
+    background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  /* アクティブ */
+  .trackbar:not(.trackbar-disabled) .trackbar-input::-webkit-slider-thumb:active {
+    background: linear-gradient(to bottom, #cce4f7 0%, #b8d6ed 100%);
+    border-color: #2c5f8d;
+  }
+
+  .trackbar:not(.trackbar-disabled) .trackbar-input::-moz-range-thumb:active {
+    background: linear-gradient(to bottom, #cce4f7 0%, #b8d6ed 100%);
+    border-color: #2c5f8d;
+  }
+
+  /* フォーカス */
+  .trackbar-input:focus {
+    outline: none;
+  }
+
+  .trackbar-input:focus::-webkit-slider-thumb {
+    outline: 1px dotted #000;
+    outline-offset: 2px;
+  }
+
+  .trackbar-input:focus::-moz-range-thumb {
+    outline: 1px dotted #000;
+    outline-offset: 2px;
+  }
+
+  /* 無効化 */
+  .trackbar-disabled .trackbar-input {
+    cursor: not-allowed;
+  }
+
+  .trackbar-disabled .trackbar-input::-webkit-slider-runnable-track {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+  }
+
+  .trackbar-disabled .trackbar-input::-moz-range-track {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+  }
+
+  .trackbar-disabled .trackbar-input::-webkit-slider-thumb {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+    cursor: not-allowed;
+  }
+
+  .trackbar-disabled .trackbar-input::-moz-range-thumb {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+    cursor: not-allowed;
+  }
+
+  /* 値の表示 */
+  .trackbar-value-display {
+    font-size: 13px;
+    color: #000;
+    padding: 2px 8px;
+    background: #fff;
+    border: 1px solid #adadad;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .trackbar-disabled .trackbar-value-display {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+    color: #a0a0a0;
+  }
+</style>

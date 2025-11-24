@@ -1,0 +1,46 @@
+---
+/**
+ * StatusStrip - Windows Forms風のステータスバー
+ */
+interface Props {
+  /** ステータステキスト */
+  text?: string;
+  /** 幅を100%にする */
+  fullWidth?: boolean;
+}
+
+const {
+  text = 'Ready',
+  fullWidth = true
+} = Astro.props;
+---
+
+<div class={`status-strip ${fullWidth ? 'status-strip-full-width' : ''}`}>
+  <div class="status-strip-item">
+    <slot>{text}</slot>
+  </div>
+</div>
+
+<style>
+  .status-strip {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 12px;
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border-top: 1px solid #adadad;
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    height: 22px;
+    box-sizing: border-box;
+  }
+
+  .status-strip-full-width {
+    width: 100%;
+  }
+
+  .status-strip-item {
+    padding: 0 8px;
+    color: #000;
+    line-height: 1.4;
+  }
+</style>

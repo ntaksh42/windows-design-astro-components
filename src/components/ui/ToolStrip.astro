@@ -1,0 +1,35 @@
+---
+/**
+ * ToolStrip - Windows Forms風のツールバー
+ */
+interface Props {
+  /** 幅を100%にする */
+  fullWidth?: boolean;
+}
+
+const {
+  fullWidth = true
+} = Astro.props;
+---
+
+<div class={`tool-strip ${fullWidth ? 'tool-strip-full-width' : ''}`}>
+  <slot />
+</div>
+
+<style>
+  .tool-strip {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border-bottom: 1px solid #adadad;
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    gap: 2px;
+    height: 28px;
+    box-sizing: border-box;
+  }
+
+  .tool-strip-full-width {
+    width: 100%;
+  }
+</style>

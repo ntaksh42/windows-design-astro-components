@@ -1,0 +1,126 @@
+---
+/**
+ * DateTimePicker - Windows Forms風の日付時刻選択
+ */
+interface Props {
+  /** 表示フォーマット */
+  format?: 'long' | 'short' | 'time' | 'custom';
+  /** 初期値 */
+  value?: string;
+  /** 最小日付 */
+  minDate?: string;
+  /** 最大日付 */
+  maxDate?: string;
+  /** 無効化 */
+  disabled?: boolean;
+  /** 幅（px） */
+  width?: number;
+  /** name属性 */
+  name?: string;
+  /** id属性 */
+  id?: string;
+}
+
+const {
+  format = 'short',
+  value = '',
+  minDate,
+  maxDate,
+  disabled = false,
+  width = 200,
+  name,
+  id
+} = Astro.props;
+
+// フォーマット設定
+const inputType = format === 'time' ? 'time' : 'date';
+---
+
+<div class={`datetime-picker ${disabled ? 'datetime-picker-disabled' : ''}`} style={`width: ${width}px;`}>
+  <input
+    type={inputType}
+    class="datetime-picker-input"
+    value={value}
+    min={minDate}
+    max={maxDate}
+    disabled={disabled}
+    name={name}
+    id={id}
+  />
+  <span class="datetime-picker-icon">▼</span>
+</div>
+
+<style>
+  .datetime-picker {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .datetime-picker-input {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    width: 100%;
+    height: 23px;
+    padding: 2px 24px 2px 4px;
+    border: 1px solid #7f9db9;
+    background: #fff;
+    color: #000;
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  .datetime-picker-input:hover:not(:disabled) {
+    border-color: #3c7fb1;
+  }
+
+  .datetime-picker-input:focus {
+    border-color: #0078d4;
+    box-shadow: 0 0 0 1px #0078d4;
+  }
+
+  .datetime-picker-icon {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: #000;
+    pointer-events: none;
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+    user-select: none;
+  }
+
+  /* 無効化 */
+  .datetime-picker-disabled .datetime-picker-input {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+  }
+
+  .datetime-picker-disabled .datetime-picker-icon {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+    color: #a0a0a0;
+  }
+
+  /* カレンダーアイコンのホバー */
+  .datetime-picker:not(.datetime-picker-disabled):hover .datetime-picker-icon {
+    background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  /* カレンダーアイコンのアクティブ */
+  .datetime-picker:not(.datetime-picker-disabled):active .datetime-picker-icon {
+    background: linear-gradient(to bottom, #cce4f7 0%, #b8d6ed 100%);
+    border-color: #2c5f8d;
+  }
+</style>

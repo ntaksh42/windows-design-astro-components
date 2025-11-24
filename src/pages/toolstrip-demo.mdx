@@ -1,0 +1,38 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風ツールバー
+slug: toolstrip-demo
+---
+import ToolStrip from '../components/ui/ToolStrip.astro';
+import Button from '../components/ui/Button.astro';
+
+# Windows Forms風ツールバー
+
+アプリケーションの上部に配置するツールバーコンポーネントです。
+
+## 基本的なツールバー
+
+<div style="margin: 2rem 0; padding: 0; background: #f0f0f0; border: 1px solid #adadad;">
+  <ToolStrip>
+    <Button label="新規" variant="flat" size="small" />
+    <Button label="開く" variant="flat" size="small" />
+    <Button label="保存" variant="flat" size="small" />
+  </ToolStrip>
+  <div style="padding: 2rem;">
+    <p>アプリケーションのコンテンツエリア</p>
+  </div>
+</div>
+
+```astro
+<ToolStrip>
+  <Button label="新規" variant="flat" size="small" />
+  <Button label="開く" variant="flat" size="small" />
+  <Button label="保存" variant="flat" size="small" />
+</ToolStrip>
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `fullWidth` | boolean | true | 幅を100%にする |

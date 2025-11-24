@@ -1,0 +1,136 @@
+---
+/**
+ * RichTextBox - Windows Forms風のリッチテキストボックス
+ */
+interface Props {
+  /** 初期テキスト */
+  value?: string;
+  /** プレースホルダー */
+  placeholder?: string;
+  /** 読み取り専用 */
+  readOnly?: boolean;
+  /** 無効化 */
+  disabled?: boolean;
+  /** 幅（px） */
+  width?: number;
+  /** 高さ（px） */
+  height?: number;
+  /** name属性 */
+  name?: string;
+  /** id属性 */
+  id?: string;
+}
+
+const {
+  value = '',
+  placeholder = '',
+  readOnly = false,
+  disabled = false,
+  width = 300,
+  height = 200,
+  name,
+  id
+} = Astro.props;
+---
+
+<div
+  class={`richtextbox ${disabled ? 'richtextbox-disabled' : ''} ${readOnly ? 'richtextbox-readonly' : ''}`}
+  style={`width: ${width}px; height: ${height}px;`}
+>
+  <textarea
+    class="richtextbox-textarea"
+    placeholder={placeholder}
+    readonly={readOnly}
+    disabled={disabled}
+    name={name}
+    id={id}
+  >{value}</textarea>
+</div>
+
+<style>
+  .richtextbox {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    border: 1px solid #7f9db9;
+    background: #fff;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .richtextbox-textarea {
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    border: none;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 13px;
+    color: #000;
+    background: transparent;
+    resize: none;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .richtextbox-textarea::placeholder {
+    color: #a0a0a0;
+  }
+
+  /* ホバー */
+  .richtextbox:not(.richtextbox-disabled):not(.richtextbox-readonly):hover {
+    border-color: #3c7fb1;
+  }
+
+  /* フォーカス */
+  .richtextbox:has(.richtextbox-textarea:focus) {
+    border-color: #0078d4;
+    box-shadow: 0 0 0 1px #0078d4;
+  }
+
+  /* 読み取り専用 */
+  .richtextbox-readonly {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+  }
+
+  .richtextbox-readonly .richtextbox-textarea {
+    background: transparent;
+    cursor: default;
+  }
+
+  /* 無効化 */
+  .richtextbox-disabled {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+    cursor: not-allowed;
+  }
+
+  .richtextbox-disabled .richtextbox-textarea {
+    color: #a0a0a0;
+    cursor: not-allowed;
+  }
+
+  /* スクロールバー（Windows風） */
+  .richtextbox-textarea::-webkit-scrollbar {
+    width: 17px;
+    height: 17px;
+  }
+
+  .richtextbox-textarea::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-left: 1px solid #d4d4d4;
+  }
+
+  .richtextbox-textarea::-webkit-scrollbar-thumb {
+    background: linear-gradient(to right, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+  }
+
+  .richtextbox-textarea::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to right, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  .richtextbox-textarea::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(to right, #cce4f7 0%, #b8d6ed 100%);
+    border-color: #2c5f8d;
+  }
+</style>

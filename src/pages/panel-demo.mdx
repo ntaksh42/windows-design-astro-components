@@ -1,0 +1,224 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風パネル
+slug: panel-demo
+---
+import Panel from '../components/ui/Panel.astro';
+import Button from '../components/ui/Button.astro';
+import Label from '../components/ui/Label.astro';
+import CheckBox from '../components/ui/CheckBox.astro';
+
+# Windows Forms風パネル
+
+Windows Formsアプリケーションで使用されるようなパネルコンポーネントです。他のコントロールをグループ化するコンテナとして機能します。
+
+## 基本的なパネル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <Panel width={300} height={200} borderStyle="fixed-single" padding={10}>
+    <p>これはパネル内のコンテンツです。</p>
+    <Button label="ボタン" />
+  </Panel>
+</div>
+
+```astro
+<Panel width={300} height={200} borderStyle="fixed-single" padding={10}>
+  <p>これはパネル内のコンテンツです。</p>
+  <Button label="ボタン" />
+</Panel>
+```
+
+## ボーダースタイル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">ボーダーなし</p>
+    <Panel width={200} height={100} borderStyle="none" padding={10} backgroundColor="#fff">
+      <Label text="ボーダーなし" />
+    </Panel>
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">単一線</p>
+    <Panel width={200} height={100} borderStyle="fixed-single" padding={10} backgroundColor="#fff">
+      <Label text="単一線ボーダー" />
+    </Panel>
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">3Dボーダー</p>
+    <Panel width={200} height={100} borderStyle="fixed-3d" padding={10} backgroundColor="#fff">
+      <Label text="3Dボーダー" />
+    </Panel>
+  </div>
+</div>
+
+```astro
+<Panel borderStyle="none">...</Panel>
+<Panel borderStyle="fixed-single">...</Panel>
+<Panel borderStyle="fixed-3d">...</Panel>
+```
+
+## 背景色とパディング
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <Panel width={200} height={120} borderStyle="fixed-single" padding={5} backgroundColor="#e8f4f8">
+    <Label text="パディング: 5px" />
+  </Panel>
+  <Panel width={200} height={120} borderStyle="fixed-single" padding={15} backgroundColor="#f8f0e8">
+    <Label text="パディング: 15px" />
+  </Panel>
+  <Panel width={200} height={120} borderStyle="fixed-single" padding={25} backgroundColor="#f0e8f8">
+    <Label text="パディング: 25px" />
+  </Panel>
+</div>
+
+```astro
+<Panel padding={5} backgroundColor="#e8f4f8">...</Panel>
+<Panel padding={15} backgroundColor="#f8f0e8">...</Panel>
+<Panel padding={25} backgroundColor="#f0e8f8">...</Panel>
+```
+
+## 自動スクロール
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <Panel width={300} height={150} borderStyle="fixed-single" padding={10} autoScroll>
+    <p>このパネルはスクロール可能です。</p>
+    <p>コンテンツが多い場合、自動的にスクロールバーが表示されます。</p>
+    <p>行1</p>
+    <p>行2</p>
+    <p>行3</p>
+    <p>行4</p>
+    <p>行5</p>
+    <p>行6</p>
+    <p>行7</p>
+    <p>行8</p>
+  </Panel>
+</div>
+
+```astro
+<Panel width={300} height={150} autoScroll>
+  <p>長いコンテンツ...</p>
+  ...
+</Panel>
+```
+
+## ネストされたパネル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <Panel width={400} height={250} borderStyle="fixed-3d" padding={10} backgroundColor="#fff">
+    <h3 style="margin-top: 0;">外側のパネル</h3>
+    <Panel width={350} height={150} borderStyle="fixed-single" padding={10} backgroundColor="#f8f8f8">
+      <h4 style="margin-top: 0;">内側のパネル</h4>
+      <p>パネルは入れ子にできます。</p>
+      <Button label="クリック" size="small" />
+    </Panel>
+  </Panel>
+</div>
+
+```astro
+<Panel width={400} height={250} borderStyle="fixed-3d">
+  <Panel width={350} height={150} borderStyle="fixed-single">
+    <p>入れ子のパネル</p>
+  </Panel>
+</Panel>
+```
+
+## 実用例：設定パネル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <Panel width={350} height={200} borderStyle="fixed-3d" padding={15} backgroundColor="#fff">
+    <h3 style="margin-top: 0;">表示設定</h3>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <CheckBox label="自動保存を有効にする" />
+      <CheckBox label="通知を表示" checked />
+      <CheckBox label="ダークモード" />
+    </div>
+    <div style="margin-top: 20px; display: flex; gap: 8px; justify-content: flex-end;">
+      <Button label="適用" variant="primary" size="small" />
+      <Button label="キャンセル" variant="default" size="small" />
+    </div>
+  </Panel>
+</div>
+
+```astro
+<Panel width={350} height={200} borderStyle="fixed-3d" padding={15}>
+  <h3>表示設定</h3>
+  <CheckBox label="自動保存を有効にする" />
+  <CheckBox label="通知を表示" checked />
+  ...
+</Panel>
+```
+
+## 実用例：グループ化されたコントロール
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0;">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+    <Panel width={200} height={150} borderStyle="fixed-single" padding={10} backgroundColor="#fff">
+      <h4 style="margin-top: 0;">グループ A</h4>
+      <Button label="アクション 1" size="small" fullWidth />
+      <div style="margin-top: 8px;">
+        <Button label="アクション 2" size="small" fullWidth />
+      </div>
+    </Panel>
+    <Panel width={200} height={150} borderStyle="fixed-single" padding={10} backgroundColor="#fff">
+      <h4 style="margin-top: 0;">グループ B</h4>
+      <Button label="アクション 3" size="small" fullWidth />
+      <div style="margin-top: 8px;">
+        <Button label="アクション 4" size="small" fullWidth />
+      </div>
+    </Panel>
+  </div>
+</div>
+
+```astro
+<Panel width={200} height={150} borderStyle="fixed-single">
+  <h4>グループ A</h4>
+  <Button label="アクション 1" />
+  <Button label="アクション 2" />
+</Panel>
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `borderStyle` | 'none' \| 'fixed-single' \| 'fixed-3d' | 'none' | ボーダーのスタイル |
+| `width` | number \| string | 'auto' | パネルの幅（数値の場合はpx単位） |
+| `height` | number \| string | 'auto' | パネルの高さ（数値の場合はpx単位） |
+| `padding` | number | 0 | パディング（px） |
+| `backgroundColor` | string | 'transparent' | 背景色 |
+| `autoScroll` | boolean | false | 自動スクロールを有効にする |
+
+## 使い方のヒント
+
+### よく使う組み合わせ
+
+**フォームのセクション分け:**
+```astro
+<Panel width={400} borderStyle="fixed-single" padding={15}>
+  <h3>個人情報</h3>
+  <!-- フォームフィールド -->
+</Panel>
+```
+
+**サイドバーコンテナ:**
+```astro
+<Panel width={250} height="100%" borderStyle="fixed-3d" padding={10}>
+  <!-- サイドバーコンテンツ -->
+</Panel>
+```
+
+**スクロール可能なコンテンツ領域:**
+```astro
+<Panel width={600} height={400} borderStyle="fixed-single" autoScroll>
+  <!-- 長いコンテンツ -->
+</Panel>
+```
+
+## デザインパターン
+
+- **ボーダーなし**: 視覚的なグループ化だけが必要な場合
+- **単一線**: 明確な境界が必要な場合
+- **3Dボーダー**: より立体的な外観が必要な場合
+- **自動スクロール**: コンテンツが固定高さを超える可能性がある場合
+
+試してみましょう: 上のパネルにカーソルを当てたり、スクロール可能なパネルをスクロールしてみてください！

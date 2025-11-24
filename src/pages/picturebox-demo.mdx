@@ -1,0 +1,373 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風ピクチャーボックス
+slug: picturebox-demo
+---
+import PictureBox from '../components/ui/PictureBox.astro';
+
+# Windows Forms風ピクチャーボックス
+
+Windows Formsアプリケーションで使用されるような画像表示コンポーネントです。
+
+## 基本的な画像表示
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <PictureBox
+    src="https://via.placeholder.com/150"
+    alt="サンプル画像"
+    width={150}
+    height={150}
+  />
+</div>
+
+```astro
+<PictureBox
+  src="https://via.placeholder.com/150"
+  alt="サンプル画像"
+  width={150}
+  height={150}
+/>
+```
+
+## サイズモード
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">Normal（通常）</p>
+    <PictureBox
+      src="https://via.placeholder.com/200x100"
+      alt="Normal"
+      width={150}
+      height={150}
+      sizeMode="normal"
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">Stretch（引き伸ばし）</p>
+    <PictureBox
+      src="https://via.placeholder.com/200x100"
+      alt="Stretch"
+      width={150}
+      height={150}
+      sizeMode="stretch"
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">Center（中央配置）</p>
+    <PictureBox
+      src="https://via.placeholder.com/80x80"
+      alt="Center"
+      width={150}
+      height={150}
+      sizeMode="center"
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">Zoom（拡大/縮小）</p>
+    <PictureBox
+      src="https://via.placeholder.com/200x100"
+      alt="Zoom"
+      width={150}
+      height={150}
+      sizeMode="zoom"
+    />
+  </div>
+</div>
+
+```astro
+<PictureBox sizeMode="normal" />    <!-- そのまま表示 -->
+<PictureBox sizeMode="stretch" />   <!-- 引き伸ばし -->
+<PictureBox sizeMode="center" />    <!-- 中央配置 -->
+<PictureBox sizeMode="zoom" />      <!-- アスペクト比保持 -->
+```
+
+## ボーダースタイル
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">ボーダーなし</p>
+    <PictureBox
+      src="https://via.placeholder.com/100"
+      alt="ボーダーなし"
+      width={120}
+      height={120}
+      borderStyle="none"
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">単一線</p>
+    <PictureBox
+      src="https://via.placeholder.com/100"
+      alt="単一線"
+      width={120}
+      height={120}
+      borderStyle="fixed-single"
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">3Dボーダー</p>
+    <PictureBox
+      src="https://via.placeholder.com/100"
+      alt="3Dボーダー"
+      width={120}
+      height={120}
+      borderStyle="fixed-3d"
+    />
+  </div>
+</div>
+
+```astro
+<PictureBox borderStyle="none" />
+<PictureBox borderStyle="fixed-single" />
+<PictureBox borderStyle="fixed-3d" />
+```
+
+## サイズバリエーション
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">小（80x80）</p>
+    <PictureBox
+      src="https://via.placeholder.com/80"
+      alt="小"
+      width={80}
+      height={80}
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">中（150x150）</p>
+    <PictureBox
+      src="https://via.placeholder.com/150"
+      alt="中"
+      width={150}
+      height={150}
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">大（250x250）</p>
+    <PictureBox
+      src="https://via.placeholder.com/250"
+      alt="大"
+      width={250}
+      height={250}
+    />
+  </div>
+</div>
+
+```astro
+<PictureBox width={80} height={80} />
+<PictureBox width={150} height={150} />
+<PictureBox width={250} height={250} />
+```
+
+## 長方形の画像
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">横長</p>
+    <PictureBox
+      src="https://via.placeholder.com/300x150"
+      alt="横長"
+      width={300}
+      height={150}
+      sizeMode="zoom"
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">縦長</p>
+    <PictureBox
+      src="https://via.placeholder.com/150x300"
+      alt="縦長"
+      width={150}
+      height={300}
+      sizeMode="zoom"
+    />
+  </div>
+</div>
+
+```astro
+<PictureBox width={300} height={150} sizeMode="zoom" />
+<PictureBox width={150} height={300} sizeMode="zoom" />
+```
+
+## 実用例：プロフィール画像
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">ユーザープロフィール</h3>
+  <div style="display: flex; gap: 1rem; align-items: center;">
+    <PictureBox
+      src="https://via.placeholder.com/100/0078d4/ffffff?text=User"
+      alt="プロフィール画像"
+      width={100}
+      height={100}
+      sizeMode="zoom"
+      borderStyle="fixed-3d"
+    />
+    <div>
+      <h4 style="margin: 0 0 8px 0;">山田 太郎</h4>
+      <p style="margin: 0; color: #666;">ソフトウェアエンジニア</p>
+      <p style="margin: 4px 0 0 0; color: #666;">東京, 日本</p>
+    </div>
+  </div>
+</div>
+
+```astro
+<PictureBox
+  src="/user-avatar.jpg"
+  width={100}
+  height={100}
+  sizeMode="zoom"
+  borderStyle="fixed-3d"
+/>
+```
+
+## 実用例：画像ギャラリー
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">画像ギャラリー</h3>
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem;">
+    <PictureBox
+      src="https://via.placeholder.com/120/ff6b6b/ffffff?text=1"
+      alt="画像1"
+      width={120}
+      height={120}
+      sizeMode="zoom"
+    />
+    <PictureBox
+      src="https://via.placeholder.com/120/4ecdc4/ffffff?text=2"
+      alt="画像2"
+      width={120}
+      height={120}
+      sizeMode="zoom"
+    />
+    <PictureBox
+      src="https://via.placeholder.com/120/45b7d1/ffffff?text=3"
+      alt="画像3"
+      width={120}
+      height={120}
+      sizeMode="zoom"
+    />
+    <PictureBox
+      src="https://via.placeholder.com/120/f9ca24/ffffff?text=4"
+      alt="画像4"
+      width={120}
+      height={120}
+      sizeMode="zoom"
+    />
+  </div>
+</div>
+
+```astro
+<PictureBox src="/image1.jpg" width={120} height={120} sizeMode="zoom" />
+<PictureBox src="/image2.jpg" width={120} height={120} sizeMode="zoom" />
+<PictureBox src="/image3.jpg" width={120} height={120} sizeMode="zoom" />
+```
+
+## 実用例：サムネイル一覧
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">最近のファイル</h3>
+  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 4px; background: #fff; border: 1px solid #ddd;">
+      <PictureBox
+        src="https://via.placeholder.com/40/0078d4/ffffff?text=Doc"
+        alt="ドキュメント"
+        width={40}
+        height={40}
+        sizeMode="center"
+        borderStyle="none"
+      />
+      <span>report.docx</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 4px; background: #fff; border: 1px solid #ddd;">
+      <PictureBox
+        src="https://via.placeholder.com/40/2ecc71/ffffff?text=XLS"
+        alt="スプレッドシート"
+        width={40}
+        height={40}
+        sizeMode="center"
+        borderStyle="none"
+      />
+      <span>data.xlsx</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 4px; background: #fff; border: 1px solid #ddd;">
+      <PictureBox
+        src="https://via.placeholder.com/40/e74c3c/ffffff?text=PDF"
+        alt="PDF"
+        width={40}
+        height={40}
+        sizeMode="center"
+        borderStyle="none"
+      />
+      <span>presentation.pdf</span>
+    </div>
+  </div>
+</div>
+
+```astro
+<PictureBox
+  src="/icon-doc.png"
+  width={40}
+  height={40}
+  sizeMode="center"
+  borderStyle="none"
+/>
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `src` | string | '' | 画像のURL |
+| `alt` | string | '' | 代替テキスト |
+| `sizeMode` | 'normal' \| 'stretch' \| 'auto-size' \| 'center' \| 'zoom' | 'normal' | 画像のサイズモード |
+| `width` | number | 100 | 幅（px） |
+| `height` | number | 100 | 高さ（px） |
+| `borderStyle` | 'none' \| 'fixed-single' \| 'fixed-3d' | 'fixed-single' | ボーダースタイル |
+
+## サイズモードの説明
+
+- **normal**: 画像をそのままのサイズで表示（はみ出す部分は切り取られる）
+- **stretch**: 画像をボックスに合わせて引き伸ばす（アスペクト比は保持されない）
+- **auto-size**: ボックスを画像サイズに合わせる
+- **center**: 画像を中央に配置（はみ出す部分は切り取られる）
+- **zoom**: アスペクト比を保ったまま、ボックスに収まるように拡大/縮小
+
+## 使い方のヒント
+
+### よく使う組み合わせ
+
+**プロフィール写真:**
+```astro
+<PictureBox
+  src="/profile.jpg"
+  width={100}
+  height={100}
+  sizeMode="zoom"
+  borderStyle="fixed-3d"
+/>
+```
+
+**アイコン表示:**
+```astro
+<PictureBox
+  src="/icon.png"
+  width={32}
+  height={32}
+  sizeMode="center"
+  borderStyle="none"
+/>
+```
+
+**サムネイル:**
+```astro
+<PictureBox
+  src="/thumbnail.jpg"
+  width={120}
+  height={90}
+  sizeMode="zoom"
+  borderStyle="fixed-single"
+/>
+```
+
+試してみましょう: 上の画像にカーソルを当ててみてください！

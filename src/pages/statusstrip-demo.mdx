@@ -1,0 +1,41 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風ステータスバー
+slug: statusstrip-demo
+---
+import StatusStrip from '../components/ui/StatusStrip.astro';
+
+# Windows Forms風ステータスバー
+
+アプリケーションの下部に配置するステータス表示コンポーネントです。
+
+## 基本的なステータスバー
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad; position: relative; min-height: 200px;">
+  <p>アプリケーションのコンテンツエリア</p>
+  <div style="position: absolute; bottom: 0; left: 0; right: 0;">
+    <StatusStrip text="準備完了" />
+  </div>
+</div>
+
+```astro
+<StatusStrip text="準備完了" />
+```
+
+## カスタムコンテンツ
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad; position: relative; min-height: 200px;">
+  <p>アプリケーションのコンテンツエリア</p>
+  <div style="position: absolute; bottom: 0; left: 0; right: 0;">
+    <StatusStrip>
+      ステータス: アクティブ | 行: 42 | 文字数: 1,234
+    </StatusStrip>
+  </div>
+</div>
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `text` | string | 'Ready' | ステータステキスト |
+| `fullWidth` | boolean | true | 幅を100%にする |

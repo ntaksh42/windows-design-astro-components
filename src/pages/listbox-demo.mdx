@@ -1,0 +1,238 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Windows風リストボックス
+slug: listbox-demo
+---
+import ListBox from '../components/ui/ListBox.astro';
+
+# Windows Forms風リストボックス
+
+Windows Formsアプリケーションで使用されるようなリストボックスコンポーネントです。
+
+## 基本的なリストボックス
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <ListBox
+    items={['項目 1', '項目 2', '項目 3', '項目 4', '項目 5']}
+    height={150}
+    width={200}
+  />
+</div>
+
+```astro
+<ListBox
+  items={['項目 1', '項目 2', '項目 3', '項目 4', '項目 5']}
+  height={150}
+  width={200}
+/>
+```
+
+## 長いリスト（スクロール）
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <ListBox
+    items={[
+      'アイテム 1',
+      'アイテム 2',
+      'アイテム 3',
+      'アイテム 4',
+      'アイテム 5',
+      'アイテム 6',
+      'アイテム 7',
+      'アイテム 8',
+      'アイテム 9',
+      'アイテム 10',
+      'アイテム 11',
+      'アイテム 12',
+      'アイテム 13',
+      'アイテム 14',
+      'アイテム 15',
+    ]}
+    height={200}
+    width={250}
+  />
+</div>
+
+```astro
+<ListBox
+  items={['アイテム 1', 'アイテム 2', ...]}
+  height={200}
+  width={250}
+/>
+```
+
+## サイズバリエーション
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">小（150x100）</p>
+    <ListBox
+      items={['小さい 1', '小さい 2', '小さい 3']}
+      height={100}
+      width={150}
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">中（200x150）</p>
+    <ListBox
+      items={['中くらい 1', '中くらい 2', '中くらい 3', '中くらい 4']}
+      height={150}
+      width={200}
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">大（300x200）</p>
+    <ListBox
+      items={['大きい 1', '大きい 2', '大きい 3', '大きい 4', '大きい 5']}
+      height={200}
+      width={300}
+    />
+  </div>
+</div>
+
+```astro
+<ListBox items={[...]} height={100} width={150} />
+<ListBox items={[...]} height={150} width={200} />
+<ListBox items={[...]} height={200} width={300} />
+```
+
+## 無効化状態
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; display: flex; gap: 1rem; flex-wrap: wrap;">
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">通常</p>
+    <ListBox
+      items={['有効 1', '有効 2', '有効 3']}
+      height={120}
+      width={180}
+    />
+  </div>
+  <div>
+    <p style="margin: 0 0 8px 0; font-size: 12px;">無効</p>
+    <ListBox
+      items={['無効 1', '無効 2', '無効 3']}
+      height={120}
+      width={180}
+      disabled
+    />
+  </div>
+</div>
+
+```astro
+<ListBox items={['無効 1', '無効 2', '無効 3']} disabled />
+```
+
+## 実用例：ファイル選択
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">ファイルを選択してください</h3>
+  <ListBox
+    items={[
+      '📄 document.txt',
+      '📄 report.docx',
+      '📊 data.xlsx',
+      '🖼️ image.png',
+      '📁 folder',
+      '📄 readme.md',
+      '💾 backup.zip',
+      '📄 notes.txt',
+    ]}
+    height={180}
+    width={300}
+  />
+  <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+    <button style="padding: 4px 12px; font-size: 13px;">開く</button>
+    <button style="padding: 4px 12px; font-size: 13px;">キャンセル</button>
+  </div>
+</div>
+
+```astro
+<ListBox
+  items={[
+    '📄 document.txt',
+    '📄 report.docx',
+    '📊 data.xlsx',
+    ...
+  ]}
+  height={180}
+  width={300}
+/>
+```
+
+## 実用例：設定項目の選択
+
+<div style="margin: 2rem 0; padding: 2rem; background: #f0f0f0; border: 1px solid #adadad;">
+  <h3 style="margin-top: 0;">言語を選択</h3>
+  <ListBox
+    items={[
+      '日本語',
+      'English',
+      'Español',
+      'Français',
+      'Deutsch',
+      '中文',
+      '한국어',
+    ]}
+    height={150}
+    width={200}
+  />
+</div>
+
+```astro
+<ListBox
+  items={['日本語', 'English', 'Español', ...]}
+  height={150}
+  width={200}
+/>
+```
+
+## プロパティ一覧
+
+| プロパティ | 型 | デフォルト | 説明 |
+|-----------|-----|----------|------|
+| `items` | string[] | [] | リストに表示する項目の配列 |
+| `selectionMode` | 'single' \| 'multiple' | 'single' | 選択モード（現在は単一選択のみ実装） |
+| `height` | number | 200 | リストボックスの高さ（px） |
+| `width` | number | 200 | リストボックスの幅（px） |
+| `disabled` | boolean | false | 無効化状態 |
+| `name` | string | - | name属性 |
+
+## 使い方のヒント
+
+### よく使う組み合わせ
+
+**ファイル選択ダイアログ:**
+```astro
+<ListBox
+  items={fileList}
+  height={300}
+  width={400}
+/>
+```
+
+**設定項目の選択:**
+```astro
+<ListBox
+  items={['オプション1', 'オプション2', 'オプション3']}
+  height={120}
+  width={200}
+/>
+```
+
+**コンパクトなリスト:**
+```astro
+<ListBox
+  items={['A', 'B', 'C']}
+  height={80}
+  width={100}
+/>
+```
+
+## インタラクション
+
+- **クリック**: 項目をクリックすると選択状態になります
+- **ホバー**: 項目の上にマウスを置くとハイライト表示されます
+- **スクロール**: 項目が多い場合は自動的にスクロールバーが表示されます
+- **選択**: 単一選択モードでは、1つの項目のみ選択できます
+
+試してみましょう: 上のリストボックスの項目をクリックして選択してみてください！

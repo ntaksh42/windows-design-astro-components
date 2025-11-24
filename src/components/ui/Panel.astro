@@ -1,0 +1,93 @@
+---
+/**
+ * Panel - Windows Forms風のパネルコンポーネント
+ */
+interface Props {
+  /** ボーダースタイル */
+  borderStyle?: 'none' | 'fixed-single' | 'fixed-3d';
+  /** 幅（px） */
+  width?: number | string;
+  /** 高さ（px） */
+  height?: number | string;
+  /** パディング（px） */
+  padding?: number;
+  /** 背景色 */
+  backgroundColor?: string;
+  /** 自動スクロール */
+  autoScroll?: boolean;
+}
+
+const {
+  borderStyle = 'none',
+  width = 'auto',
+  height = 'auto',
+  padding = 0,
+  backgroundColor = 'transparent',
+  autoScroll = false
+} = Astro.props;
+
+const widthValue = typeof width === 'number' ? `${width}px` : width;
+const heightValue = typeof height === 'number' ? `${height}px` : height;
+---
+
+<div
+  class={`panel panel-${borderStyle} ${autoScroll ? 'panel-auto-scroll' : ''}`}
+  style={`width: ${widthValue}; height: ${heightValue}; padding: ${padding}px; background-color: ${backgroundColor};`}
+>
+  <slot />
+</div>
+
+<style>
+  .panel {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    box-sizing: border-box;
+  }
+
+  /* ボーダースタイル: なし */
+  .panel-none {
+    border: none;
+  }
+
+  /* ボーダースタイル: 単一線 */
+  .panel-fixed-single {
+    border: 1px solid #adadad;
+  }
+
+  /* ボーダースタイル: 3D */
+  .panel-fixed-3d {
+    border: 2px solid;
+    border-color: #f0f0f0 #808080 #808080 #f0f0f0;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 自動スクロール */
+  .panel-auto-scroll {
+    overflow: auto;
+  }
+
+  /* スクロールバー（Windows風） */
+  .panel-auto-scroll::-webkit-scrollbar {
+    width: 17px;
+    height: 17px;
+  }
+
+  .panel-auto-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-left: 1px solid #d4d4d4;
+  }
+
+  .panel-auto-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(to right, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+  }
+
+  .panel-auto-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to right, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  .panel-auto-scroll::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(to right, #cce4f7 0%, #b8d6ed 100%);
+    border-color: #2c5f8d;
+  }
+</style>

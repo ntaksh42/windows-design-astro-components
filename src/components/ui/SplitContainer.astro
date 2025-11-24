@@ -1,0 +1,88 @@
+---
+/**
+ * SplitContainer - Windows Forms風の分割コンテナ
+ */
+interface Props {
+  /** 分割方向 */
+  orientation?: 'horizontal' | 'vertical';
+  /** 幅（px） */
+  width?: number;
+  /** 高さ（px） */
+  height?: number;
+  /** 分割位置（%） */
+  splitPosition?: number;
+}
+
+const {
+  orientation = 'vertical',
+  width = 600,
+  height = 400,
+  splitPosition = 50
+} = Astro.props;
+---
+
+<div
+  class={`split-container split-container-${orientation}`}
+  style={`width: ${width}px; height: ${height}px;`}
+  data-split-position={splitPosition}
+>
+  <div class="split-panel split-panel-1" style={orientation === 'vertical' ? `width: ${splitPosition}%;` : `height: ${splitPosition}%;`}>
+    <slot name="panel1" />
+  </div>
+  <div class="split-divider"></div>
+  <div class="split-panel split-panel-2" style={orientation === 'vertical' ? `width: ${100 - splitPosition}%;` : `height: ${100 - splitPosition}%;`}>
+    <slot name="panel2" />
+  </div>
+</div>
+
+<style>
+  .split-container {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    display: flex;
+    border: 1px solid #adadad;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .split-container-vertical {
+    flex-direction: row;
+  }
+
+  .split-container-horizontal {
+    flex-direction: column;
+  }
+
+  .split-panel {
+    background: #fff;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 8px;
+  }
+
+  .split-divider {
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+    cursor: col-resize;
+    flex-shrink: 0;
+  }
+
+  .split-container-vertical .split-divider {
+    width: 5px;
+    cursor: col-resize;
+  }
+
+  .split-container-horizontal .split-divider {
+    height: 5px;
+    cursor: row-resize;
+  }
+
+  .split-divider:hover {
+    background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  .split-divider:active {
+    background: linear-gradient(to bottom, #cce4f7 0%, #b8d6ed 100%);
+    border-color: #2c5f8d;
+  }
+</style>
