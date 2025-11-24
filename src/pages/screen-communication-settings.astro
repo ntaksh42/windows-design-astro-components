@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Label from '../components/ui/Label.astro';
+import RadioButton from '../components/ui/RadioButton.astro';
+import CheckBox from '../components/ui/CheckBox.astro';
+import FlowLayout from '../components/ui/FlowLayout.astro';
+
+const pageTitle = '通信設定画面';
+---
+
+<BaseLayout title={pageTitle}>
+  <h1>{pageTitle}</h1>
+
+  <div class="screen-description">
+    <p>この画面はキャプチャから再現されました。</p>
+  </div>
+
+  <!-- ダイアログボックス -->
+  <div class="dialog-container">
+    <!-- タイトルバー -->
+    <div class="dialog-titlebar">
+      <span class="dialog-title">通信設定</span>
+      <button class="dialog-close-button">×</button>
+    </div>
+
+    <!-- コンテンツエリア -->
+    <div class="dialog-content">
+      <!-- セクション1: パソコン側通信ポート -->
+      <div class="section">
+        <div class="section-header">
+          <Label text="パソコン側通信ポート" />
+        </div>
+        <FlowLayout direction="horizontal" gap={16} padding={12}>
+          <RadioButton name="port" value="usb" checked={true} label="USB(U)" />
+          <RadioButton name="port" value="ethernet" checked={false} label="イーサネット(E)" />
+          <RadioButton name="port" value="ethernet-tls" checked={false} label="イーサネット(TLS)(W)" />
+        </FlowLayout>
+      </div>
+
+      <!-- セクション2: USB設定 -->
+      <div class="section">
+        <div class="section-header">
+          <Label text="USB設定" />
+        </div>
+        <div class="section-body">
+          <Label text="設定項目はありません。" />
+        </div>
+      </div>
+
+      <!-- セクション3: 自由設定 -->
+      <div class="section">
+        <div class="section-body">
+          <CheckBox label="自由設定(R)" checked={false} />
+
+          <div class="settings-info">
+            <div class="info-line">パソコン側通信ポート：USB</div>
+            <div class="info-line">VT定義：しない</div>
+            <div class="info-line">ネットワーク定義：しない</div>
+            <div class="info-line">接続機種：</div>
+          </div>
+
+          <div style="margin-top: 8px; text-align: right;">
+            <Button disabled={true} size="small">詳細設定(A)...</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ボタンエリア -->
+    <div class="dialog-footer">
+      <FlowLayout direction="horizontal" gap={8} justify="space-between">
+        <Button size="small">接続先一覧(L) ▼</Button>
+        <FlowLayout direction="horizontal" gap={8}>
+          <Button variant="primary" size="small">OK</Button>
+          <Button size="small">キャンセル</Button>
+        </FlowLayout>
+      </FlowLayout>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .screen-description {
+    margin-bottom: 24px;
+    padding: 12px;
+    background: #fffbea;
+    border: 1px solid #f0e68c;
+    border-radius: 4px;
+  }
+
+  .screen-description p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+  }
+
+  /* ダイアログコンテナ */
+  .dialog-container {
+    background: #fff;
+    border: 1px solid #adadad;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+  }
+
+  /* タイトルバー */
+  .dialog-titlebar {
+    background: linear-gradient(to bottom, #fff 0%, #f0f0f0 100%);
+    border-bottom: 1px solid #adadad;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dialog-title {
+    font-size: 13px;
+    font-weight: normal;
+    color: #000;
+  }
+
+  .dialog-close-button {
+    background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%);
+    border: 1px solid #adadad;
+    width: 24px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    color: #000;
+  }
+
+  .dialog-close-button:hover {
+    background: linear-gradient(to bottom, #e5f3ff 0%, #d0e9ff 100%);
+    border-color: #3c7fb1;
+  }
+
+  /* コンテンツエリア */
+  .dialog-content {
+    padding: 16px;
+  }
+
+  /* セクション */
+  .section {
+    margin-bottom: 16px;
+  }
+
+  .section-header {
+    background: #f0f0f0;
+    padding: 6px 12px;
+    margin: -4px -4px 8px -4px;
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .section-header :global(.label) {
+    font-weight: bold;
+    font-size: 13px;
+  }
+
+  .section-body {
+    padding: 12px;
+  }
+
+  /* 設定情報エリア */
+  .settings-info {
+    margin-top: 12px;
+    margin-left: 24px;
+    font-size: 12px;
+    color: #000;
+  }
+
+  .info-line {
+    margin-bottom: 4px;
+    line-height: 1.5;
+  }
+
+  /* ボタンエリア */
+  .dialog-footer {
+    border-top: 1px solid #d9d9d9;
+    padding: 12px 16px;
+    background: #f0f0f0;
+  }
+</style>
